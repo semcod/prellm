@@ -1,3 +1,10 @@
+## [Unreleased]
+
+## [0.4.6] - 2026-03-25
+
+### Test
+- Update tests/test_one_function.py
+
 ## [0.4.5] - 2026-02-16
 
 ### Summary
