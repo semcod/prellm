@@ -1,0 +1,410 @@
+# vallm batch | 133f | 88✓ 45✗
+
+SUMMARY:
+  total: 133
+  passed: 88
+  failed: 45
+  success: 66.2%
+
+FILES:
+  [yaml]
+    ✓ goal.yaml
+      verdict: pass
+      score: 1.00
+    ✓ docker-compose.yaml
+      verdict: pass
+      score: 1.00
+    ✓ rules.yaml
+      verdict: pass
+      score: 1.00
+    ✗ project/toon.yaml
+      verdict: fail
+      score: 0.00
+      issues: 1
+        [error] syntax.tree_sitter: tree-sitter found 1 parse error(s) in yaml
+    ✗ project/toon.toon.yaml
+      verdict: fail
+      score: 0.00
+      issues: 1
+        [error] syntax.tree_sitter: tree-sitter found 1 parse error(s) in yaml
+    ✗ project/duplication.toon.yaml
+      verdict: fail
+      score: 0.00
+      issues: 1
+        [error] syntax.tree_sitter: tree-sitter found 1 parse error(s) in yaml
+    ✗ project/evolution.yaml
+      verdict: fail
+      score: 0.00
+      issues: 1
+        [error] syntax.tree_sitter: tree-sitter found 1 parse error(s) in yaml
+    ✗ project/map.yaml
+      verdict: fail
+      score: 0.00
+      issues: 1
+        [error] syntax.tree_sitter: tree-sitter found 6 parse error(s) in yaml
+    ✗ project/map.toon.yaml
+      verdict: fail
+      score: 0.00
+      issues: 1
+        [error] syntax.tree_sitter: tree-sitter found 6 parse error(s) in yaml
+    ✗ project/evolution.toon.yaml
+      verdict: fail
+      score: 0.00
+      issues: 1
+        [error] syntax.tree_sitter: tree-sitter found 1 parse error(s) in yaml
+    ✓ project/analysis.toon.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/response_schemas.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/sensitive_rules.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/config.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/pipelines.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/prellm_config.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/rules.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/prompts.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/deploy.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/defaults/coding.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/defaults/business.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/defaults/devops.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/defaults/embedded.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/domains/polish_finance.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/domains/devops_k8s.yaml
+      verdict: pass
+      score: 1.00
+    ✓ configs/domains/embedded.yaml
+      verdict: pass
+      score: 1.00
+  [toml]
+    ✓ bumpver.toml
+      verdict: pass
+      score: 1.00
+    ✓ pyproject.toml
+      verdict: pass
+      score: 1.00
+  [bash]
+    ✓ project.sh
+      verdict: pass
+      score: 1.00
+    ✓ examples/cli_examples.sh
+      verdict: pass
+      score: 1.00
+    ✓ examples/curl_api.sh
+      verdict: pass
+      score: 1.00
+  [python]
+    ✓ examples/embedded_refactor.py
+      verdict: pass
+      score: 1.00
+    ✓ examples/providers.py
+      verdict: pass
+      score: 1.00
+    ✓ examples/quick_start.py
+      verdict: pass
+      score: 1.00
+    ✓ examples/python_sdk.py
+      verdict: pass
+      score: 1.00
+    ✓ examples/polish_leasing.py
+      verdict: pass
+      score: 1.00
+    ✓ examples/k8s_debug.py
+      verdict: pass
+      score: 1.00
+    ✗ prellm/env_config.py
+      verdict: fail
+      score: 0.84
+      issues: 4
+        [error] python.import.resolvable: Module 'getv' not found@27
+        [error] python.import.resolvable: Module 'getv.security' not found@28
+        [error] python.import.resolvable: Module 'getv' not found@106
+        [error] python.import.resolvable: Module 'getv.integrations.pydantic_env' not found@107
+    ✓ prellm/cli.py
+      verdict: pass
+      score: 0.93
+      issues: 4
+        [warning] complexity.cyclomatic: query has cyclomatic complexity 27 (max: 15)@35
+        [warning] complexity.maintainability: Low maintainability index: 11.2 (threshold: 20)
+        [warning] complexity.lizard_cc: query: CC=27 exceeds limit 15@35
+        [warning] complexity.lizard_length: query: 101 lines exceeds limit 100@35
+    ✓ prellm/trace.py
+      verdict: pass
+      score: 0.90
+      issues: 5
+        [warning] complexity.cyclomatic: to_markdown has cyclomatic complexity 17 (max: 15)@119
+        [warning] complexity.cyclomatic: to_stdout has cyclomatic complexity 28 (max: 15)@224
+        [warning] complexity.lizard_cc: to_markdown: CC=17 exceeds limit 15@119
+        [warning] complexity.lizard_cc: to_stdout: CC=28 exceeds limit 15@224
+        [warning] complexity.lizard_length: to_stdout: 126 lines exceeds limit 100@224
+    ✓ prellm/model_catalog.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/logging_setup.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/server.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/__init__.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/query_decomposer.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/prompt_registry.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/validators.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/models.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/core.py
+      verdict: pass
+      score: 0.90
+      issues: 6
+        [warning] complexity.cyclomatic: _prepare_context has cyclomatic complexity 21 (max: 15)@346
+        [warning] complexity.cyclomatic: _build_executor_system_prompt has cyclomatic complexity 19 (max: 15)@476
+        [warning] complexity.cyclomatic: _build_decomposition_result has cyclomatic complexity 16 (max: 15)@634
+        [warning] complexity.lizard_cc: _prepare_context: CC=21 exceeds limit 15@346
+        [warning] complexity.lizard_cc: _build_executor_system_prompt: CC=19 exceeds limit 15@476
+        [warning] complexity.lizard_cc: _build_decomposition_result: CC=16 exceeds limit 15@634
+    ✗ prellm/llm_provider.py
+      verdict: fail
+      score: 0.96
+      issues: 1
+        [error] python.import.resolvable: Module 'instructor' not found@160
+    ✓ prellm/pipeline.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/budget.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_v04_context.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_executor_agent.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_preprocessor_agent.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_one_function.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_v04_pipeline.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_server.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_preprocessor_memory.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_decomposer.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_model_catalog.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_folder_compressor.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_env_config.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_budget.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_full_context_pipeline.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_trace.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/__init__.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_validators.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_shell_collector.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_context.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_codebase_indexer.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_user_memory.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_schema_generator.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_structured_output.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_v04_session.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_v2_architecture.py
+      verdict: pass
+      score: 0.98
+      issues: 1
+        [warning] complexity.maintainability: Low maintainability index: 13.4 (threshold: 20)
+    ✓ tests/test_models.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_v3_architecture.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_sensitive_filter.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_integration.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_shipped_configs.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_prompt_registry.py
+      verdict: pass
+      score: 1.00
+    ✓ tests/test_pipeline.py
+      verdict: pass
+      score: 1.00
+    ✓ scripts/config_wizard.py
+      verdict: pass
+      score: 0.93
+      issues: 3
+        [warning] complexity.cyclomatic: main has cyclomatic complexity 30 (max: 15)@250
+        [warning] complexity.lizard_cc: main: CC=29 exceeds limit 15@250
+        [warning] complexity.lizard_length: main: 240 lines exceeds limit 100@250
+    ✓ prellm/chains/__init__.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/chains/process_chain.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/context/folder_compressor.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/context/shell_collector.py
+      verdict: pass
+      score: 1.00
+    ✗ prellm/context/user_memory.py
+      verdict: fail
+      score: 0.96
+      issues: 1
+        [error] python.import.resolvable: Module 'chromadb' not found@83
+    ✓ prellm/context/sensitive_filter.py
+      verdict: pass
+      score: 0.97
+      issues: 2
+        [warning] complexity.cyclomatic: _filter_recursive has cyclomatic complexity 17 (max: 15)@190
+        [warning] complexity.lizard_cc: _filter_recursive: CC=17 exceeds limit 15@190
+    ✓ prellm/context/__init__.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/context/codebase_indexer.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/context/schema_generator.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/analyzers/__init__.py
+      verdict: pass
+      score: 1.00
+    ✗ prellm/analyzers/context_engine.py
+      verdict: fail
+      score: 0.97
+      issues: 1
+        [error] python.import.resolvable: Module 'git' not found@182
+    ✓ prellm/agents/preprocessor.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/agents/__init__.py
+      verdict: pass
+      score: 1.00
+    ✓ prellm/agents/executor.py
+      verdict: pass
+      score: 1.00
+  [json]
+    ✓ .prellm/budget.json
+      verdict: pass
+      score: 1.00
+
+FAILED:
+  ✗ Makefile: Unsupported file type
+  ✗ docker-compose.test.yml: Unsupported file type
+  ✗ VERSION: Unsupported file type
+  ✗ LICENSE: Unsupported file type
+  ✗ list.txt: Unsupported file type
+  ✗ Dockerfile.test: Unsupported file type
+  ✗ CHANGELOG.md: Unsupported file type
+  ✗ Dockerfile: Unsupported file type
+  ✗ ROADMAP.md: Unsupported file type
+  ✗ .env.example: Unsupported file type
+  ✗ README.md: Unsupported file type
+  ✗ docs/persistent-context.md: Unsupported file type
+  ✗ docs/sensitive-data.md: Unsupported file type
+  ✗ docs/flow-graphs.md: Unsupported file type
+  ✗ docs/session-persistence.md: Unsupported file type
+  ✗ docs/README.md: Unsupported file type
+  ✗ prellm/env_config.py: Validation fail
+  ✗ prellm/llm_provider.py: Validation fail
+  ✗ TODO/prellm-tasks-env-context-collection.md: Unsupported file type
+  ✗ .prellm/trace_20260216_101602_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_130144_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_103122_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_111350_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_130755_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_094046_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_120904_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_094128_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_094338_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_092605_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ .prellm/trace_20260216_121925_Zdeployuj_apkę_na_prod.md: Unsupported file type
+  ✗ project/compact_flow.mmd: Unsupported file type
+  ✗ project/toon.yaml: Validation fail
+  ✗ project/calls.mmd: Unsupported file type
+  ✗ project/toon.toon.yaml: Validation fail
+  ✗ project/index.html: Unsupported file type
+  ✗ project/duplication.toon.yaml: Validation fail
+  ✗ project/context.md: Unsupported file type
+  ✗ project/evolution.yaml: Validation fail
+  ✗ project/map.yaml: Validation fail
+  ✗ project/map.toon.yaml: Validation fail
+  ✗ project/flow.mmd: Unsupported file type
+  ✗ project/evolution.toon.yaml: Validation fail
+  ✗ project/README.md: Unsupported file type
+  ✗ prellm/context/user_memory.py: Validation fail
+  ✗ prellm/analyzers/context_engine.py: Validation fail

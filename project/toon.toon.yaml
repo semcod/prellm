@@ -10,23 +10,23 @@ HEALTH[10]:
   🟡 CC    _prepare_context CC=21 (limit:15)
   🟡 CC    _build_executor_system_prompt CC=19 (limit:15)
   🟡 CC    _build_decomposition_result CC=16 (limit:15)
-  🟡 CC    main CC=30 (limit:15)
   🟡 CC    _filter_recursive CC=17 (limit:15)
+  🟡 CC    main CC=30 (limit:15)
 
 REFACTOR[2]:
   1. split 10 high-CC methods  (CC>15)
   2. break 1 circular dependencies
 
 PIPELINES[226]:
-  [1] Src [main]: main → preprocess_and_execute → get_current_trace
+  [1] Src [ollama_local]: ollama_local → run_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [2] Src [main]: main → preprocess_and_execute → get_current_trace
+  [2] Src [ollama_plus_openai]: ollama_plus_openai → run_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [3] Src [main]: main → preprocess_and_execute → get_current_trace
+  [3] Src [ollama_plus_anthropic]: ollama_plus_anthropic → run_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [4] Src [ollama_local]: ollama_local → run_example → preprocess_and_execute → get_current_trace
+  [4] Src [openai_only]: openai_only → run_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [5] Src [ollama_plus_openai]: ollama_plus_openai → run_example → preprocess_and_execute → get_current_trace
+  [5] Src [anthropic_only]: anthropic_only → run_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
 
 LAYERS:

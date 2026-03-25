@@ -1,1724 +1,285 @@
-format: map-toon-yaml
-project: prellm
-timestamp: '2026-03-25'
-stats:
-  files: 31
-  lines: 8900
-  functions: 267
-  languages:
-    python: 30
-    shell: 1
-modules:
-- path: prellm/__init__.py
-  lines: 118
-  imports: []
-  exports: []
-  classes: []
-  functions: []
-- path: prellm/agents/__init__.py
-  lines: 11
-  imports: []
-  exports: []
-  classes: []
-  functions: []
-- path: prellm/agents/executor.py
-  lines: 128
-  imports: []
-  exports:
-  - type: class
-    name: ExecutorResult
-  - type: class
-    name: ExecutorAgent
-  classes:
-  - name: ExecutorResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: ExecutorAgent
-    bases: []
-    methods:
-    - name: __init__
-      arity: 4
-    - name: execute
-      arity: 2
-    - name: _validate_response
-      arity: 1
-  functions: []
-- path: prellm/agents/preprocessor.py
-  lines: 190
-  imports: []
-  exports:
-  - type: class
-    name: PreprocessResult
-  - type: class
-    name: PreprocessorAgent
-  - type: function
-    name: _get_user_memory_class
-  - type: function
-    name: _get_codebase_indexer_class
-  classes:
-  - name: PreprocessResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: PreprocessorAgent
-    bases: []
-    methods:
-    - name: __init__
-      arity: 7
-    - name: preprocess
-      arity: 3
-    - name: _extract_executor_input
-      arity: 1
-    - name: _extract_confidence
-      arity: 0
-  functions:
-  - name: _get_user_memory_class
-    args: []
-    returns: null
-  - name: _get_codebase_indexer_class
-    args: []
-    returns: null
-- path: prellm/analyzers/__init__.py
-  lines: 1
-  imports: []
-  exports: []
-  classes: []
-  functions: []
-- path: prellm/analyzers/context_engine.py
-  lines: 248
-  imports: []
-  exports:
-  - type: class
-    name: ContextEngine
-  classes:
-  - name: ContextEngine
-    bases: []
-    methods:
-    - name: __init__
-      arity: 1
-    - name: gather
-      arity: 0
-    - name: enrich_prompt
-      arity: 2
-    - name: gather_runtime
-      arity: 0
-    - name: _auto_collect_env
-      arity: 0
-    - name: _gather_process
-      arity: -1
-    - name: _gather_locale
-      arity: -1
-    - name: _gather_network
-      arity: -1
-    - name: _gather_env
-      arity: 0
-    - name: _gather_git
-      arity: 0
-    - name: _gather_git_gitpython
-      arity: 0
-    - name: _gather_git_subprocess
-      arity: 0
-    - name: _gather_system
-      arity: 0
-  functions: []
-- path: prellm/budget.py
-  lines: 236
-  imports: []
-  exports:
-  - type: class
-    name: BudgetExceededError
-  - type: class
-    name: UsageEntry
-  - type: class
-    name: BudgetTracker
-  - type: function
-    name: _current_month_key
-  - type: function
-    name: get_budget_tracker
-  - type: function
-    name: reset_budget_tracker
-  classes:
-  - name: BudgetExceededError
-    bases:
-    - Exception
-    methods:
-    - name: __init__
-      arity: 3
-  - name: UsageEntry
-    bases: []
-    methods: []
-  - name: BudgetTracker
-    bases: []
-    methods:
-    - name: _ensure_loaded
-      arity: 0
-    - name: check
-      arity: 1
-    - name: record
-      arity: 4
-    - name: record_from_response
-      arity: 2
-    - name: summary
-      arity: 0
-    - name: _persist
-      arity: 0
-    - name: reset
-      arity: 0
-  functions:
-  - name: _current_month_key
-    args: []
-    returns: null
-  - name: get_budget_tracker
-    args:
-    - monthly_limit
-    - persist_path
-    returns: null
-  - name: reset_budget_tracker
-    args: []
-    returns: null
-- path: prellm/chains/__init__.py
-  lines: 0
-  imports: []
-  exports: []
-  classes: []
-  functions: []
-- path: prellm/chains/process_chain.py
-  lines: 275
-  imports: []
-  exports:
-  - type: class
-    name: ProcessChain
-  classes:
-  - name: ProcessChain
-    bases: []
-    methods:
-    - name: __init__
-      arity: 5
-    - name: execute
-      arity: 3
-    - name: _execute_step
-      arity: 4
-    - name: _check_dependencies
-      arity: 1
-    - name: _handle_approval
-      arity: 4
-    - name: _run_dry_run
-      arity: 4
-    - name: _run_engine
-      arity: 4
-    - name: get_audit_log
-      arity: 0
-    - name: _audit_step
-      arity: 3
-    - name: _load_process_config
-      arity: 0
-  functions: []
-- path: prellm/cli.py
-  lines: 999
-  imports: []
-  exports:
-  - type: function
-    name: _init_logging
-  - type: function
-    name: query
-  - type: function
-    name: context
-  - type: function
-    name: process
-  - type: function
-    name: decompose
-  - type: function
-    name: init
-  - type: function
-    name: serve
-  - type: function
-    name: _doctor_check_config
-  - type: function
-    name: _doctor_check_providers
-  - type: function
-    name: _doctor_check_files
-  - type: function
-    name: doctor
-  - type: function
-    name: config_set_cmd
-  - type: function
-    name: config_get_cmd
-  - type: function
-    name: _format_config_sections
-  - type: function
-    name: config_list_cmd
-  - type: function
-    name: config_show_cmd
-  - type: function
-    name: config_init_env
-  - type: function
-    name: budget
-  - type: function
-    name: models
-  - type: function
-    name: context_show_cmd
-  - type: function
-    name: session_list_cmd
-  - type: function
-    name: session_export_cmd
-  - type: function
-    name: session_import_cmd
-  - type: function
-    name: session_clear_cmd
-  classes: []
-  functions:
-  - name: _init_logging
-    args: []
-    returns: null
-  - name: query
-    args:
-    - prompt
-    - small
-    - large
-    - strategy
-    - context
-    - config
-    - memory
-    - codebase
-    - collect_env
-    - compress_folder
-    - no_sanitize
-    - show_schema
-    - show_blocked
-    - json_output
-    - trace
-    - trace_dir
-    - env_file
-    returns: null
-  - name: context
-    args:
-    - json_output
-    - schema
-    - blocked
-    - folder
-    returns: null
-  - name: process
-    args:
-    - config
-    - guard_config
-    - dry_run
-    - json_output
-    - env
-    returns: null
-  - name: decompose
-    args:
-    - query
-    - config
-    - strategy
-    - json_output
-    returns: null
-  - name: init
-    args:
-    - output
-    - devops
-    returns: null
-  - name: serve
-    args:
-    - host
-    - port
-    - small
-    - large
-    - strategy
-    - config
-    - env_file
-    - reload
-    returns: null
-  - name: _doctor_check_config
-    args:
-    - env
-    returns: null
-  - name: _doctor_check_providers
-    args:
-    - env
-    - live
-    returns: null
-  - name: _doctor_check_files
-    args:
-    - env_file
-    returns: null
-  - name: doctor
-    args:
-    - env_file
-    - live
-    returns: null
-  - name: config_set_cmd
-    args:
-    - key
-    - value
-    - global_
-    returns: null
-  - name: config_get_cmd
-    args:
-    - key
-    - raw
-    returns: null
-  - name: _format_config_sections
-    args:
-    - entries
-    returns: null
-  - name: config_list_cmd
-    args:
-    - raw
-    returns: null
-  - name: config_show_cmd
-    args: []
-    returns: null
-  - name: config_init_env
-    args:
-    - global_
-    - force
-    returns: null
-  - name: budget
-    args:
-    - reset
-    - json_output
-    returns: null
-  - name: models
-    args:
-    - provider
-    - search
-    returns: null
-  - name: context_show_cmd
-    args:
-    - json_output
-    - blocked
-    - codebase
-    returns: null
-  - name: session_list_cmd
-    args:
-    - memory
-    returns: null
-  - name: session_export_cmd
-    args:
-    - output
-    - memory
-    - session_id
-    returns: null
-  - name: session_import_cmd
-    args:
-    - input_file
-    - memory
-    returns: null
-  - name: session_clear_cmd
-    args:
-    - memory
-    - force
-    returns: null
-- path: prellm/context/__init__.py
-  lines: 17
-  imports: []
-  exports: []
-  classes: []
-  functions: []
-- path: prellm/context/codebase_indexer.py
-  lines: 418
-  imports: []
-  exports:
-  - type: class
-    name: CodeSymbol
-  - type: class
-    name: FileIndex
-  - type: class
-    name: CodebaseIndex
-  - type: class
-    name: CodebaseIndexer
-  classes:
-  - name: CodeSymbol
-    bases: []
-    methods: []
-  - name: FileIndex
-    bases: []
-    methods: []
-  - name: CodebaseIndex
-    bases: []
-    methods: []
-  - name: CodebaseIndexer
-    bases: []
-    methods:
-    - name: __init__
-      arity: 1
-    - name: _check_tree_sitter
-      arity: -1
-    - name: index_directory
-      arity: 3
-    - name: _index_file
-      arity: 2
-    - name: _extract_with_tree_sitter
-      arity: 3
-    - name: _get_parser
-      arity: 1
-    - name: _walk_tree
-      arity: 4
-    - name: _get_line
-      arity: 1
-    - name: _extract_with_regex
-      arity: 2
-    - name: _extract_imports
-      arity: 1
-    - name: search
-      arity: 3
-    - name: get_context_for_query
-      arity: 3
-    - name: get_compressed_context
-      arity: 3
-    - name: estimate_tokens
-      arity: 0
-  functions: []
-- path: prellm/context/folder_compressor.py
-  lines: 224
-  imports: []
-  exports:
-  - type: class
-    name: FolderCompressor
-  - type: function
-    name: _relative_path
-  - type: function
-    name: _path_to_module
-  - type: function
-    name: _extract_module_from_import
-  - type: function
-    name: _extract_module_docstring
-  classes:
-  - name: FolderCompressor
-    bases: []
-    methods:
-    - name: __init__
-      arity: 1
-    - name: compress
-      arity: 3
-    - name: to_toon
-      arity: 1
-    - name: to_dependency_graph
-      arity: 1
-    - name: to_summary
-      arity: 1
-    - name: estimate_token_count
-      arity: 0
-  functions:
-  - name: _relative_path
-    args:
-    - path
-    - root
-    returns: null
-  - name: _path_to_module
-    args:
-    - rel_path
-    returns: null
-  - name: _extract_module_from_import
-    args:
-    - import_line
-    - project_name
-    returns: null
-  - name: _extract_module_docstring
-    args:
-    - path
-    returns: null
-- path: prellm/context/schema_generator.py
-  lines: 211
-  imports: []
-  exports:
-  - type: class
-    name: ContextSchemaGenerator
-  classes:
-  - name: ContextSchemaGenerator
-    bases: []
-    methods:
-    - name: generate
-      arity: 5
-    - name: to_prompt_section
-      arity: 1
-    - name: estimate_relevance
-      arity: 2
-    - name: _detect_execution_env
-      arity: 0
-    - name: _detect_tools
-      arity: -1
-    - name: _detect_project_type
-      arity: 0
-    - name: _build_project_summary
-      arity: 0
-    - name: _summarize_history
-      arity: 0
-    - name: _estimate_token_cost
-      arity: 0
-  functions: []
-- path: prellm/context/sensitive_filter.py
-  lines: 238
-  imports: []
-  exports:
-  - type: class
-    name: SensitiveDataFilter
-  classes:
-  - name: SensitiveDataFilter
-    bases: []
-    methods:
-    - name: __init__
-      arity: 3
-    - name: _load_rules
-      arity: 1
-    - name: classify_key
-      arity: 1
-    - name: classify_value
-      arity: 1
-    - name: filter_dict
-      arity: 2
-    - name: filter_context_for_large_llm
-      arity: 1
-    - name: sanitize_text
-      arity: 1
-    - name: get_filter_report
-      arity: 0
-    - name: _filter_recursive
-      arity: 1
-    - name: _looks_like_env_var
-      arity: 0
-    - name: _mask_value
-      arity: 0
-  functions: []
-- path: prellm/context/shell_collector.py
-  lines: 169
-  imports: []
-  exports:
-  - type: class
-    name: ShellContextCollector
-  classes:
-  - name: ShellContextCollector
-    bases: []
-    methods:
-    - name: __init__
-      arity: 1
-    - name: collect_env_vars
-      arity: 1
-    - name: collect_process_info
-      arity: 0
-    - name: collect_locale_info
-      arity: 0
-    - name: collect_shell_info
-      arity: 0
-    - name: collect_network_context
-      arity: 0
-    - name: collect_all
-      arity: 1
-    - name: _is_safe_key
-      arity: 1
-  functions: []
-- path: prellm/context/user_memory.py
-  lines: 361
-  imports: []
-  exports:
-  - type: class
-    name: UserMemory
-  classes:
-  - name: UserMemory
-    bases: []
-    methods:
-    - name: __init__
-      arity: 2
-    - name: _init_sqlite
-      arity: 0
-    - name: _init_chromadb
-      arity: 0
-    - name: add_interaction
-      arity: 3
-    - name: get_recent_context
-      arity: 2
-    - name: get_user_preferences
-      arity: 0
-    - name: set_preference
-      arity: 2
-    - name: clear
-      arity: 0
-    - name: export_session
-      arity: 1
-    - name: import_session
-      arity: 1
-    - name: get_relevant_context
-      arity: 2
-    - name: auto_inject_context
-      arity: 2
-    - name: learn_preference_from_interaction
-      arity: 2
-    - name: _get_all_interactions
-      arity: 1
-    - name: close
-      arity: 0
-  functions: []
-- path: prellm/core.py
-  lines: 893
-  imports: []
-  exports:
-  - type: class
-    name: PreLLM
-  - type: function
-    name: preprocess_and_execute
-  - type: function
-    name: preprocess_and_execute_sync
-  - type: function
-    name: _execute_v3_pipeline
-  - type: function
-    name: _prepare_context
-  - type: function
-    name: _build_pipeline_context
-  - type: function
-    name: _run_preprocessing
-  - type: function
-    name: _build_executor_system_prompt
-  - type: function
-    name: _run_execution
-  - type: function
-    name: _persist_session
-  - type: function
-    name: _record_trace
-  - type: function
-    name: _build_decomposition_result
-  classes:
-  - name: PreLLM
-    bases: []
-    methods:
-    - name: __init__
-      arity: 2
-    - name: __call__
-      arity: 3
-    - name: decompose_only
-      arity: 3
-    - name: get_audit_log
-      arity: 0
-    - name: _audit
-      arity: 3
-    - name: _load_config
-      arity: 0
-  functions:
-  - name: preprocess_and_execute
-    args:
-    - query
-    - small_llm
-    - large_llm
-    - strategy
-    - user_context
-    - config_path
-    - domain_rules
-    - pipeline
-    - prompts_path
-    - pipelines_path
-    - schemas_path
-    - memory_path
-    - codebase_path
-    - collect_env
-    - collect_runtime
-    - session_path
-    - compress_folder
-    - sanitize
-    - sensitive_rules
-    returns: null
-  - name: preprocess_and_execute_sync
-    args:
-    - query
-    - small_llm
-    - large_llm
-    - strategy
-    - user_context
-    - config_path
-    - domain_rules
-    - pipeline
-    - prompts_path
-    - pipelines_path
-    - schemas_path
-    returns: null
-  - name: _execute_v3_pipeline
-    args:
-    - query
-    - small_llm
-    - large_llm
-    - pipeline
-    - user_context
-    - domain_rules
-    - prompts_path
-    - pipelines_path
-    - schemas_path
-    - memory_path
-    - codebase_path
-    - collect_env
-    - compress_folder
-    - sanitize
-    - sensitive_rules
-    returns: null
-  - name: _prepare_context
-    args:
-    - user_context
-    - domain_rules
-    - collect_env
-    - compress_folder
-    - codebase_path
-    - sanitize
-    - sensitive_rules
-    - memory_path
-    returns: null
-  - name: _build_pipeline_context
-    args:
-    - extra_context
-    returns: null
-  - name: _run_preprocessing
-    args:
-    - preprocessor
-    - query
-    - extra_context
-    - pipeline
-    returns: null
-  - name: _build_executor_system_prompt
-    args:
-    - prep_result
-    - extra_context
-    returns: null
-  - name: _run_execution
-    args:
-    - executor
-    - executor_input
-    - system_prompt
-    returns: null
-  - name: _persist_session
-    args:
-    - user_memory
-    - query
-    - exec_result
-    returns: null
-  - name: _record_trace
-    args:
-    - trace
-    - pipeline
-    - small_llm
-    - large_llm
-    - query
-    - extra_context
-    - prep_result
-    - exec_result
-    - prep_duration_ms
-    - exec_duration_ms
-    returns: null
-  - name: _build_decomposition_result
-    args:
-    - query
-    - pipeline_name
-    - prep_result
-    returns: null
-- path: prellm/env_config.py
-  lines: 481
-  imports: []
-  exports:
-  - type: class
-    name: EnvConfig
-  - type: function
-    name: load_dotenv_if_available
-  - type: function
-    name: get_env_config
-  - type: function
-    name: check_providers
-  - type: function
-    name: _resolve_config_path
-  - type: function
-    name: _read_env_file
-  - type: function
-    name: _write_env_file
-  - type: function
-    name: resolve_alias
-  - type: function
-    name: mask_value
-  - type: function
-    name: config_set
-  - type: function
-    name: config_get
-  - type: function
-    name: config_list
-  - type: function
-    name: check_providers_live
-  classes:
-  - name: EnvConfig
-    bases: []
-    methods: []
-  functions:
-  - name: load_dotenv_if_available
-    args:
-    - path
-    returns: null
-  - name: get_env_config
-    args:
-    - dotenv_path
-    returns: null
-  - name: check_providers
-    args:
-    - env
-    returns: null
-  - name: _resolve_config_path
-    args:
-    - global_
-    returns: null
-  - name: _read_env_file
-    args:
-    - path
-    returns: null
-  - name: _write_env_file
-    args:
-    - path
-    - entries
-    - comments
-    returns: null
-  - name: resolve_alias
-    args:
-    - key
-    returns: null
-  - name: mask_value
-    args:
-    - key
-    - value
-    returns: null
-  - name: config_set
-    args:
-    - key
-    - value
-    - global_
-    returns: null
-  - name: config_get
-    args:
-    - key
-    - global_
-    returns: null
-  - name: config_list
-    args:
-    - global_
-    - show_secrets
-    returns: null
-  - name: check_providers_live
-    args:
-    - env
-    returns: null
-- path: prellm/llm_provider.py
-  lines: 236
-  imports: []
-  exports:
-  - type: class
-    name: LLMProvider
-  classes:
-  - name: LLMProvider
-    bases: []
-    methods:
-    - name: __init__
-      arity: 1
-    - name: _get_budget
-      arity: 0
-    - name: complete
-      arity: 3
-    - name: complete_json
-      arity: 2
-    - name: complete_structured
-      arity: 4
-    - name: _parse_json
-      arity: 0
-  functions: []
-- path: prellm/logging_setup.py
-  lines: 106
-  imports: []
-  exports:
-  - type: function
-    name: setup_logging
-  - type: function
-    name: get_logger
-  - type: function
-    name: _get_version
-  classes: []
-  functions:
-  - name: setup_logging
-    args:
-    - level
-    - markdown_file
-    - terminal_format
-    returns: null
-  - name: get_logger
-    args:
-    - name
-    returns: null
-  - name: _get_version
-    args: []
-    returns: null
-- path: prellm/model_catalog.py
-  lines: 78
-  imports: []
-  exports:
-  - type: function
-    name: list_model_pairs
-  - type: function
-    name: list_openrouter_models
-  classes: []
-  functions:
-  - name: list_model_pairs
-    args:
-    - provider
-    - search
-    returns: null
-  - name: list_openrouter_models
-    args:
-    - provider
-    - search
-    returns: null
-- path: prellm/models.py
-  lines: 434
-  imports: []
-  exports:
-  - type: class
-    name: SensitivityLevel
-  - type: class
-    name: ProcessInfo
-  - type: class
-    name: LocaleInfo
-  - type: class
-    name: ShellInfo
-  - type: class
-    name: NetworkContext
-  - type: class
-    name: ShellContext
-  - type: class
-    name: ContextSchema
-  - type: class
-    name: FilterReport
-  - type: class
-    name: CompressedFolder
-  - type: class
-    name: RuntimeContext
-  - type: class
-    name: SessionSnapshot
-  - type: class
-    name: Policy
-  - type: class
-    name: ApprovalMode
-  - type: class
-    name: StepStatus
-  - type: class
-    name: DecompositionStrategy
-  - type: class
-    name: BiasPattern
-  - type: class
-    name: ModelConfig
-  - type: class
-    name: GuardConfig
-  - type: class
-    name: AnalysisResult
-  - type: class
-    name: GuardResponse
-  - type: class
-    name: DomainRule
-  - type: class
-    name: LLMProviderConfig
-  - type: class
-    name: DecompositionPrompts
-  - type: class
-    name: PreLLMConfig
-  - type: class
-    name: ClassificationResult
-  - type: class
-    name: StructureResult
-  - type: class
-    name: DecompositionResult
-  - type: class
-    name: PreLLMResponse
-  - type: class
-    name: ProcessStep
-  - type: class
-    name: ProcessConfig
-  - type: class
-    name: StepResult
-  - type: class
-    name: ProcessResult
-  - type: class
-    name: AuditEntry
-  classes:
-  - name: SensitivityLevel
-    bases:
-    - str
-    - enum.Enum
-    methods: []
-  - name: ProcessInfo
-    bases:
-    - BaseModel
-    methods: []
-  - name: LocaleInfo
-    bases:
-    - BaseModel
-    methods: []
-  - name: ShellInfo
-    bases:
-    - BaseModel
-    methods: []
-  - name: NetworkContext
-    bases:
-    - BaseModel
-    methods: []
-  - name: ShellContext
-    bases:
-    - BaseModel
-    methods: []
-  - name: ContextSchema
-    bases:
-    - BaseModel
-    methods: []
-  - name: FilterReport
-    bases:
-    - BaseModel
-    methods: []
-  - name: CompressedFolder
-    bases:
-    - BaseModel
-    methods: []
-  - name: RuntimeContext
-    bases:
-    - BaseModel
-    methods: []
-  - name: SessionSnapshot
-    bases:
-    - BaseModel
-    methods:
-    - name: to_file
-      arity: 1
-    - name: from_file
-      arity: 1
-  - name: Policy
-    bases:
-    - str
-    - enum.Enum
-    methods: []
-  - name: ApprovalMode
-    bases:
-    - str
-    - enum.Enum
-    methods: []
-  - name: StepStatus
-    bases:
-    - str
-    - enum.Enum
-    methods: []
-  - name: DecompositionStrategy
-    bases:
-    - str
-    - enum.Enum
-    methods: []
-  - name: BiasPattern
-    bases:
-    - BaseModel
-    methods: []
-  - name: ModelConfig
-    bases:
-    - BaseModel
-    methods: []
-  - name: GuardConfig
-    bases:
-    - BaseModel
-    methods: []
-  - name: AnalysisResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: GuardResponse
-    bases:
-    - BaseModel
-    methods: []
-  - name: DomainRule
-    bases:
-    - BaseModel
-    methods: []
-  - name: LLMProviderConfig
-    bases:
-    - BaseModel
-    methods: []
-  - name: DecompositionPrompts
-    bases:
-    - BaseModel
-    methods: []
-  - name: PreLLMConfig
-    bases:
-    - BaseModel
-    methods: []
-  - name: ClassificationResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: StructureResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: DecompositionResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: PreLLMResponse
-    bases:
-    - BaseModel
-    methods: []
-  - name: ProcessStep
-    bases:
-    - BaseModel
-    methods: []
-  - name: ProcessConfig
-    bases:
-    - BaseModel
-    methods: []
-  - name: StepResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: ProcessResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: AuditEntry
-    bases:
-    - BaseModel
-    methods: []
-  functions: []
-- path: prellm/pipeline.py
-  lines: 483
-  imports: []
-  exports:
-  - type: class
-    name: PipelineStep
-  - type: class
-    name: PipelineConfig
-  - type: class
-    name: StepExecutionResult
-  - type: class
-    name: PipelineResult
-  - type: class
-    name: PromptPipeline
-  classes:
-  - name: PipelineStep
-    bases:
-    - BaseModel
-    methods: []
-  - name: PipelineConfig
-    bases:
-    - BaseModel
-    methods: []
-  - name: StepExecutionResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: PipelineResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: PromptPipeline
-    bases: []
-    methods:
-    - name: __init__
-      arity: 4
-    - name: from_yaml
-      arity: 5
-    - name: execute
-      arity: 2
-    - name: _execute_llm_step
-      arity: 2
-    - name: _execute_algo_step
-      arity: 2
-    - name: _gather_inputs
-      arity: 2
-    - name: _build_user_message
-      arity: 2
-    - name: _evaluate_condition
-      arity: 2
-    - name: register_algo_handler
-      arity: 2
-    - name: _algo_domain_rule_matcher
-      arity: 2
-    - name: _algo_field_validator
-      arity: 2
-    - name: _algo_yaml_formatter
-      arity: 2
-    - name: _algo_runtime_collector
-      arity: 2
-    - name: _algo_sensitive_filter
-      arity: 2
-    - name: _algo_session_injector
-      arity: 2
-    - name: _algo_shell_context_collector
-      arity: 2
-    - name: _algo_folder_compressor
-      arity: 2
-    - name: _algo_context_schema_generator
-      arity: 2
-  functions: []
-- path: prellm/prompt_registry.py
-  lines: 185
-  imports: []
-  exports:
-  - type: class
-    name: PromptNotFoundError
-  - type: class
-    name: PromptRenderError
-  - type: class
-    name: PromptEntry
-  - type: class
-    name: PromptRegistry
-  - type: class
-    name: _StrictUndefined
-  classes:
-  - name: PromptNotFoundError
-    bases:
-    - KeyError
-    methods: []
-  - name: PromptRenderError
-    bases:
-    - ValueError
-    methods: []
-  - name: PromptEntry
-    bases: []
-    methods:
-    - name: __init__
-      arity: 4
-    - name: __repr__
-      arity: 0
-  - name: PromptRegistry
-    bases: []
-    methods:
-    - name: __init__
-      arity: 1
-    - name: _ensure_loaded
-      arity: 0
-    - name: _load
-      arity: 0
-    - name: get
-      arity: 1
-    - name: get_entry
-      arity: 1
-    - name: list_prompts
-      arity: 0
-    - name: validate
-      arity: 0
-    - name: register
-      arity: 4
-    - name: _render
-      arity: 2
-  - name: _StrictUndefined
-    bases: []
-    methods: []
-  functions: []
-- path: prellm/query_decomposer.py
-  lines: 330
-  imports: []
-  exports:
-  - type: class
-    name: QueryDecomposer
-  classes:
-  - name: QueryDecomposer
-    bases: []
-    methods:
-    - name: __init__
-      arity: 3
-    - name: decompose
-      arity: 4
-    - name: _classify
-      arity: 1
-    - name: _structure
-      arity: 1
-    - name: _split
-      arity: 1
-    - name: _enrich
-      arity: 3
-    - name: _compose
-      arity: 3
-    - name: _match_domain_rule
-      arity: 2
-    - name: _auto_select_strategy
-      arity: 2
-    - name: _find_missing_fields
-      arity: 2
-  functions: []
-- path: prellm/server.py
-  lines: 447
-  imports: []
-  exports:
-  - type: class
-    name: ChatMessage
-  - type: class
-    name: PreLLMExtras
-  - type: class
-    name: ChatCompletionRequest
-  - type: class
-    name: ChatCompletionChoice
-  - type: class
-    name: UsageInfo
-  - type: class
-    name: PreLLMMeta
-  - type: class
-    name: ChatCompletionResponse
-  - type: class
-    name: BatchItem
-  - type: class
-    name: HealthResponse
-  - type: class
-    name: AuthMiddleware
-  - type: function
-    name: _parse_model_pair
-  - type: function
-    name: _build_prellm_meta
-  - type: function
-    name: health
-  - type: function
-    name: list_models
-  - type: function
-    name: chat_completions
-  - type: function
-    name: _stream_response
-  - type: function
-    name: batch_process
-  - type: function
-    name: create_app
-  classes:
-  - name: ChatMessage
-    bases:
-    - BaseModel
-    methods: []
-  - name: PreLLMExtras
-    bases:
-    - BaseModel
-    methods: []
-  - name: ChatCompletionRequest
-    bases:
-    - BaseModel
-    methods: []
-  - name: ChatCompletionChoice
-    bases:
-    - BaseModel
-    methods: []
-  - name: UsageInfo
-    bases:
-    - BaseModel
-    methods: []
-  - name: PreLLMMeta
-    bases:
-    - BaseModel
-    methods: []
-  - name: ChatCompletionResponse
-    bases:
-    - BaseModel
-    methods: []
-  - name: BatchItem
-    bases:
-    - BaseModel
-    methods: []
-  - name: HealthResponse
-    bases:
-    - BaseModel
-    methods: []
-  - name: AuthMiddleware
-    bases:
-    - BaseHTTPMiddleware
-    methods:
-    - name: dispatch
-      arity: 2
-  functions:
-  - name: _parse_model_pair
-    args:
-    - model_str
-    returns: null
-  - name: _build_prellm_meta
-    args:
-    - result
-    - strategy
-    returns: null
-  - name: health
-    args: []
-    returns: null
-  - name: list_models
-    args: []
-    returns: null
-  - name: chat_completions
-    args:
-    - req
-    returns: null
-  - name: _stream_response
-    args:
-    - query
-    - small
-    - large
-    - strategy
-    - extras
-    returns: null
-  - name: batch_process
-    args:
-    - items
-    returns: null
-  - name: create_app
-    args:
-    - small_model
-    - large_model
-    - strategy
-    - config_path
-    - master_key
-    - dotenv_path
-    returns: null
-- path: prellm/trace.py
-  lines: 509
-  imports: []
-  exports:
-  - type: class
-    name: TraceStep
-  - type: class
-    name: TraceRecorder
-  - type: function
-    name: get_current_trace
-  - type: function
-    name: set_current_trace
-  - type: function
-    name: _step_icon
-  - type: function
-    name: _safe_json
-  - type: function
-    name: _sanitize
-  - type: function
-    name: _compact_value
-  - type: function
-    name: _format_tree_value
-  - type: function
-    name: _extract_prompt_text
-  - type: function
-    name: _wrap_text
-  classes:
-  - name: TraceStep
-    bases: []
-    methods: []
-  - name: TraceRecorder
-    bases: []
-    methods:
-    - name: start
-      arity: 1
-    - name: stop
-      arity: 0
-    - name: step
-      arity: 9
-    - name: set_result
-      arity: 0
-    - name: to_markdown
-      arity: 0
-    - name: to_stdout
-      arity: 0
-    - name: save
-      arity: 1
-  functions:
-  - name: get_current_trace
-    args: []
-    returns: null
-  - name: set_current_trace
-    args:
-    - trace
-    returns: null
-  - name: _step_icon
-    args:
-    - status
-    returns: null
-  - name: _safe_json
-    args:
-    - obj
-    - max_len
-    returns: null
-  - name: _sanitize
-    args:
-    - obj
-    - depth
-    returns: null
-  - name: _compact_value
-    args:
-    - val
-    - max_len
-    returns: null
-  - name: _format_tree_value
-    args:
-    - val
-    returns: null
-  - name: _extract_prompt_text
-    args:
-    - composed
-    returns: null
-  - name: _wrap_text
-    args:
-    - text
-    - width
-    returns: null
-- path: prellm/validators.py
-  lines: 213
-  imports: []
-  exports:
-  - type: class
-    name: ValidationResult
-  - type: class
-    name: SchemaDefinition
-  - type: class
-    name: ResponseValidator
-  classes:
-  - name: ValidationResult
-    bases:
-    - BaseModel
-    methods: []
-  - name: SchemaDefinition
-    bases:
-    - BaseModel
-    methods: []
-  - name: ResponseValidator
-    bases: []
-    methods:
-    - name: __init__
-      arity: 1
-    - name: _ensure_loaded
-      arity: 0
-    - name: _load
-      arity: 0
-    - name: list_schemas
-      arity: 0
-    - name: validate
-      arity: 2
-    - name: validate_or_retry
-      arity: 4
-    - name: _check_type
-      arity: 2
-    - name: _check_constraints
-      arity: 2
-  functions: []
-- path: project.sh
-  lines: 21
-  imports: []
-  exports: []
-  classes: []
-  functions: []
-- path: scripts/config_wizard.py
-  lines: 640
-  imports: []
-  exports:
-  - type: function
-    name: ok
-  - type: function
-    name: warn
-  - type: function
-    name: fail
-  - type: function
-    name: info
-  - type: function
-    name: ask
-  - type: function
-    name: ask_yn
-  - type: function
-    name: ask_choice
-  - type: function
-    name: check_ollama
-  - type: function
-    name: fetch_ollama_models
-  - type: function
-    name: to_ollama_full
-  - type: function
-    name: strip_ollama_prefix
-  - type: function
-    name: build_ollama_options
-  - type: function
-    name: option_index_for_value
-  - type: function
-    name: install_ollama_model
-  - type: function
-    name: validate_ollama_model
-  - type: function
-    name: check_api_key_format
-  - type: function
-    name: check_port_available
-  - type: function
-    name: mask_key
-  - type: function
-    name: main
-  classes: []
-  functions:
-  - name: ok
-    args:
-    - msg
-    returns: null
-  - name: warn
-    args:
-    - msg
-    returns: null
-  - name: fail
-    args:
-    - msg
-    returns: null
-  - name: info
-    args:
-    - msg
-    returns: null
-  - name: ask
-    args:
-    - question
-    - default
-    - required
-    returns: null
-  - name: ask_yn
-    args:
-    - question
-    - default
-    returns: null
-  - name: ask_choice
-    args:
-    - question
-    - options
-    - default
-    returns: null
-  - name: check_ollama
-    args:
-    - base_url
-    returns: null
-  - name: fetch_ollama_models
-    args:
-    - base_url
-    returns: null
-  - name: to_ollama_full
-    args:
-    - name
-    returns: null
-  - name: strip_ollama_prefix
-    args:
-    - name
-    returns: null
-  - name: build_ollama_options
-    args:
-    - installed_raw
-    - recommended
-    returns: null
-  - name: option_index_for_value
-    args:
-    - options
-    - value
-    - default
-    returns: null
-  - name: install_ollama_model
-    args:
-    - raw
-    returns: null
-  - name: validate_ollama_model
-    args:
-    - base_url
-    - model
-    - installed_raw
-    - reachable
-    returns: null
-  - name: check_api_key_format
-    args:
-    - provider
-    - key
-    returns: null
-  - name: check_port_available
-    args:
-    - host
-    - port
-    returns: null
-  - name: mask_key
-    args:
-    - key
-    returns: null
-  - name: main
-    args: []
-    returns: null
+# prellm | 31f 8900L | python:30,shell:1 | 2026-03-25
+# stats: 267 func | 0 cls | 31 mod | CC̄=5.0 | critical:10 | cycles:0
+# alerts[5]: CC main=30; fan-out query=30; CC TraceRecorder.to_stdout=28; fan-out main=28; CC query=27
+# hotspots[5]: query fan=30; main fan=28; _execute_v3_pipeline fan=23; TraceRecorder.to_stdout fan=22; context fan=19
+# evolution: baseline
+# Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
+M[31]:
+  prellm/__init__.py,118
+  prellm/agents/__init__.py,11
+  prellm/agents/executor.py,128
+  prellm/agents/preprocessor.py,190
+  prellm/analyzers/__init__.py,1
+  prellm/analyzers/context_engine.py,248
+  prellm/budget.py,236
+  prellm/chains/__init__.py,0
+  prellm/chains/process_chain.py,275
+  prellm/cli.py,999
+  prellm/context/__init__.py,17
+  prellm/context/codebase_indexer.py,418
+  prellm/context/folder_compressor.py,224
+  prellm/context/schema_generator.py,211
+  prellm/context/sensitive_filter.py,238
+  prellm/context/shell_collector.py,169
+  prellm/context/user_memory.py,361
+  prellm/core.py,893
+  prellm/env_config.py,481
+  prellm/llm_provider.py,236
+  prellm/logging_setup.py,106
+  prellm/model_catalog.py,78
+  prellm/models.py,434
+  prellm/pipeline.py,483
+  prellm/prompt_registry.py,185
+  prellm/query_decomposer.py,330
+  prellm/server.py,447
+  prellm/trace.py,509
+  prellm/validators.py,213
+  project.sh,21
+  scripts/config_wizard.py,640
+D:
+  scripts/config_wizard.py:
+    e: ok,warn,fail,info,ask,ask_yn,ask_choice,check_ollama,fetch_ollama_models,to_ollama_full,strip_ollama_prefix,build_ollama_options,option_index_for_value,install_ollama_model,validate_ollama_model,check_api_key_format,check_port_available,mask_key,main
+    ok(msg)
+    warn(msg)
+    fail(msg)
+    info(msg)
+    ask(question;default;required)
+    ask_yn(question;default)
+    ask_choice(question;options;default)
+    check_ollama(base_url)
+    fetch_ollama_models(base_url)
+    to_ollama_full(name)
+    strip_ollama_prefix(name)
+    build_ollama_options(installed_raw;recommended)
+    option_index_for_value(options;value;default)
+    install_ollama_model(raw)
+    validate_ollama_model(base_url;model;installed_raw;reachable)
+    check_api_key_format(provider;key)
+    check_port_available(host;port)
+    mask_key(key)
+    main()
+  prellm/trace.py:
+    e: TraceStep,TraceRecorder,get_current_trace,set_current_trace,_step_icon,_safe_json,_sanitize,_compact_value,_format_tree_value,_extract_prompt_text,_wrap_text
+    TraceStep:  # A single recorded step in the execution trace...
+    TraceRecorder: start(1),stop(0),step(9),set_result(0),to_markdown(0),to_stdout(0),save(1)  # Records execution trace and generates markdown documentation...
+    get_current_trace()
+    set_current_trace(trace)
+    _step_icon(status)
+    _safe_json(obj;max_len)
+    _sanitize(obj;depth)
+    _compact_value(val;max_len)
+    _format_tree_value(val)
+    _extract_prompt_text(composed)
+    _wrap_text(text;width)
+  prellm/cli.py:
+    e: _init_logging,query,context,process,decompose,init,serve,_doctor_check_config,_doctor_check_providers,_doctor_check_files,doctor,config_set_cmd,config_get_cmd,_format_config_sections,config_list_cmd,config_show_cmd,config_init_env,budget,models,context_show_cmd,session_list_cmd,session_export_cmd,session_import_cmd,session_clear_cmd
+    _init_logging()
+    query(prompt;small;large;strategy;context;config;memory;codebase;collect_env;compress_folder;no_sanitize;show_schema;show_blocked;json_output;trace;trace_dir;env_file)
+    context(json_output;schema;blocked;folder)
+    process(config;guard_config;dry_run;json_output;env)
+    decompose(query;config;strategy;json_output)
+    init(output;devops)
+    serve(host;port;small;large;strategy;config;env_file;reload)
+    _doctor_check_config(env)
+    _doctor_check_providers(env;live)
+    _doctor_check_files(env_file)
+    doctor(env_file;live)
+    config_set_cmd(key;value;global_)
+    config_get_cmd(key;raw)
+    _format_config_sections(entries)
+    config_list_cmd(raw)
+    config_show_cmd()
+    config_init_env(global_;force)
+    budget(reset;json_output)
+    models(provider;search)
+    context_show_cmd(json_output;blocked;codebase)
+    session_list_cmd(memory)
+    session_export_cmd(output;memory;session_id)
+    session_import_cmd(input_file;memory)
+    session_clear_cmd(memory;force)
+  prellm/core.py:
+    e: PreLLM,preprocess_and_execute,preprocess_and_execute_sync,_execute_v3_pipeline,_prepare_context,_build_pipeline_context,_run_preprocessing,_build_executor_system_prompt,_run_execution,_persist_session,_record_trace,_build_decomposition_result
+    PreLLM: __init__(2),__call__(3),decompose_only(3),get_audit_log(0),_audit(3),_load_config(0)  # preLLM v0.2/v0.3 — small LLM decomposition before large LLM ...
+    preprocess_and_execute(query;small_llm;large_llm;strategy;user_context;config_path;domain_rules;pipeline;prompts_path;pipelines_path;schemas_path;memory_path;codebase_path;collect_env;collect_runtime;session_path;compress_folder;sanitize;sensitive_rules)
+    preprocess_and_execute_sync(query;small_llm;large_llm;strategy;user_context;config_path;domain_rules;pipeline;prompts_path;pipelines_path;schemas_path)
+    _execute_v3_pipeline(query;small_llm;large_llm;pipeline;user_context;domain_rules;prompts_path;pipelines_path;schemas_path;memory_path;codebase_path;collect_env;compress_folder;sanitize;sensitive_rules)
+    _prepare_context(user_context;domain_rules;collect_env;compress_folder;codebase_path;sanitize;sensitive_rules;memory_path)
+    _build_pipeline_context(extra_context)
+    _run_preprocessing(preprocessor;query;extra_context;pipeline)
+    _build_executor_system_prompt(prep_result;extra_context)
+    _run_execution(executor;executor_input;system_prompt)
+    _persist_session(user_memory;query;exec_result)
+    _record_trace(trace;pipeline;small_llm;large_llm;query;extra_context;prep_result;exec_result;prep_duration_ms;exec_duration_ms)
+    _build_decomposition_result(query;pipeline_name;prep_result)
+  prellm/env_config.py:
+    e: EnvConfig,load_dotenv_if_available,get_env_config,check_providers,_resolve_config_path,_read_env_file,_write_env_file,resolve_alias,mask_value,config_set,config_get,config_list,check_providers_live
+    EnvConfig:  # Resolved environment configuration...
+    load_dotenv_if_available(path)
+    get_env_config(dotenv_path)
+    check_providers(env)
+    _resolve_config_path(global_)
+    _read_env_file(path)
+    _write_env_file(path;entries;comments)
+    resolve_alias(key)
+    mask_value(key;value)
+    config_set(key;value;global_)
+    config_get(key;global_)
+    config_list(global_;show_secrets)
+    check_providers_live(env)
+  prellm/context/sensitive_filter.py:
+    e: SensitiveDataFilter
+    SensitiveDataFilter: __init__(3),_load_rules(1),classify_key(1),classify_value(1),filter_dict(2),filter_context_for_large_llm(1),sanitize_text(1),get_filter_report(0),_filter_recursive(1),_looks_like_env_var(0),_mask_value(0)  # Classifies and filters sensitive data from context before LL...
+  prellm/validators.py:
+    e: ValidationResult,SchemaDefinition,ResponseValidator
+    ValidationResult(BaseModel):  # Result of validating data against a schema...
+    SchemaDefinition(BaseModel):  # Parsed schema definition from YAML...
+    ResponseValidator: __init__(1),_ensure_loaded(0),_load(0),list_schemas(0),validate(2),validate_or_retry(4),_check_type(2),_check_constraints(2)  # Validates LLM responses against YAML-defined schemas.
+
+Usage...
+  prellm/llm_provider.py:
+    e: LLMProvider
+    LLMProvider: __init__(1),_get_budget(0),complete(3),complete_json(2),complete_structured(4),_parse_json(0)  # Unified LLM caller with retry and fallback support.
+
+Usage:
+...
+  prellm/analyzers/context_engine.py:
+    e: ContextEngine
+    ContextEngine: __init__(1),gather(0),enrich_prompt(2),gather_runtime(0),_auto_collect_env(0),_gather_process(-1),_gather_locale(-1),_gather_network(-1),_gather_env(0),_gather_git(0),_gather_git_gitpython(0),_gather_git_subprocess(0),_gather_system(0)  # Collects context from environment, git, and system for promp...
+  prellm/agents/preprocessor.py:
+    e: PreprocessResult,PreprocessorAgent,_get_user_memory_class,_get_codebase_indexer_class
+    PreprocessResult(BaseModel):  # Output of the PreprocessorAgent — structured input for the E...
+    PreprocessorAgent: __init__(7),preprocess(3),_extract_executor_input(1),_extract_confidence(0)  # Agent preprocessing — small LLM (≤24B) analyzes and structur...
+    _get_user_memory_class()
+    _get_codebase_indexer_class()
+  prellm/server.py:
+    e: ChatMessage,PreLLMExtras,ChatCompletionRequest,ChatCompletionChoice,UsageInfo,PreLLMMeta,ChatCompletionResponse,BatchItem,HealthResponse,AuthMiddleware,_parse_model_pair,_build_prellm_meta,health,list_models,chat_completions,_stream_response,batch_process,create_app
+    ChatMessage(BaseModel):
+    PreLLMExtras(BaseModel):  # preLLM-specific extensions in the request body...
+    ChatCompletionRequest(BaseModel):
+    ChatCompletionChoice(BaseModel):
+    UsageInfo(BaseModel):
+    PreLLMMeta(BaseModel):  # preLLM metadata in the response...
+    ChatCompletionResponse(BaseModel):
+    BatchItem(BaseModel):
+    HealthResponse(BaseModel):
+    AuthMiddleware(BaseHTTPMiddleware): dispatch(2)  # Bearer token auth using LITELLM_MASTER_KEY. Skips auth if ke...
+    _parse_model_pair(model_str)
+    _build_prellm_meta(result;strategy)
+    health()
+    list_models()
+    chat_completions(req)
+    _stream_response(query;small;large;strategy;extras)
+    batch_process(items)
+    create_app(small_model;large_model;strategy;config_path;master_key;dotenv_path)
+  prellm/context/user_memory.py:
+    e: UserMemory
+    UserMemory: __init__(2),_init_sqlite(0),_init_chromadb(0),add_interaction(3),get_recent_context(2),get_user_preferences(0),set_preference(2),clear(0),export_session(1),import_session(1),get_relevant_context(2),auto_inject_context(2),learn_preference_from_interaction(2),_get_all_interactions(1),close(0)  # Stores user query history and learned preferences.
+
+Usage:
+ ...
+  prellm/context/folder_compressor.py:
+    e: FolderCompressor,_relative_path,_path_to_module,_extract_module_from_import,_extract_module_docstring
+    FolderCompressor: __init__(1),compress(3),to_toon(1),to_dependency_graph(1),to_summary(1),estimate_token_count(0)  # Compresses a project folder into a lightweight representatio...
+    _relative_path(path;root)
+    _path_to_module(rel_path)
+    _extract_module_from_import(import_line;project_name)
+    _extract_module_docstring(path)
+  prellm/context/codebase_indexer.py:
+    e: CodeSymbol,FileIndex,CodebaseIndex,CodebaseIndexer
+    CodeSymbol:  # A code symbol extracted from source...
+    FileIndex:  # Index of a single source file...
+    CodebaseIndex:  # Full codebase index...
+    CodebaseIndexer: __init__(1),_check_tree_sitter(-1),index_directory(3),_index_file(2),_extract_with_tree_sitter(3),_get_parser(1),_walk_tree(4),_get_line(1),_extract_with_regex(2),_extract_imports(1),search(3),get_context_for_query(3),get_compressed_context(3),estimate_tokens(0)  # Index a codebase using tree-sitter for AST-based symbol extr...
+  prellm/context/schema_generator.py:
+    e: ContextSchemaGenerator
+    ContextSchemaGenerator: generate(5),to_prompt_section(1),estimate_relevance(2),_detect_execution_env(0),_detect_tools(-1),_detect_project_type(0),_build_project_summary(0),_summarize_history(0),_estimate_token_cost(0)  # Generates a structured context schema from available context...
+  prellm/pipeline.py:
+    e: PipelineStep,PipelineConfig,StepExecutionResult,PipelineResult,PromptPipeline
+    PipelineStep(BaseModel):  # Configuration for a single pipeline step...
+    PipelineConfig(BaseModel):  # Configuration for a complete pipeline...
+    StepExecutionResult(BaseModel):  # Result of executing a single pipeline step...
+    PipelineResult(BaseModel):  # Result of executing a full pipeline...
+    PromptPipeline: __init__(4),from_yaml(5),execute(2),_execute_llm_step(2),_execute_algo_step(2),_gather_inputs(2),_build_user_message(2),_evaluate_condition(2),register_algo_handler(2),_algo_domain_rule_matcher(2),_algo_field_validator(2),_algo_yaml_formatter(2),_algo_runtime_collector(2),_algo_sensitive_filter(2),_algo_session_injector(2),_algo_shell_context_collector(2),_algo_folder_compressor(2),_algo_context_schema_generator(2)  # Generic pipeline — executes a sequence of LLM + algorithmic ...
+  prellm/query_decomposer.py:
+    e: QueryDecomposer
+    QueryDecomposer: __init__(3),decompose(4),_classify(1),_structure(1),_split(1),_enrich(3),_compose(3),_match_domain_rule(2),_auto_select_strategy(2),_find_missing_fields(2)  # Decomposes user queries using a small LLM before routing to ...
+  prellm/model_catalog.py:
+    e: list_model_pairs,list_openrouter_models
+    list_model_pairs(provider;search)
+    list_openrouter_models(provider;search)
+  prellm/agents/executor.py:
+    e: ExecutorResult,ExecutorAgent
+    ExecutorResult(BaseModel):  # Output of the ExecutorAgent...
+    ExecutorAgent: __init__(4),execute(2),_validate_response(1)  # Agent execution — large LLM (>24B) executes structured tasks...
+  prellm/chains/process_chain.py:
+    e: ProcessChain
+    ProcessChain: __init__(5),execute(3),_execute_step(4),_check_dependencies(1),_handle_approval(4),_run_dry_run(4),_run_engine(4),get_audit_log(0),_audit_step(3),_load_process_config(0)  # Execute multi-step DevOps workflows with preLLM validation a...
+  prellm/prompt_registry.py:
+    e: PromptNotFoundError,PromptRenderError,PromptEntry,PromptRegistry,_StrictUndefined
+    PromptNotFoundError(KeyError):  # Raised when a prompt name is not found in the registry...
+    PromptRenderError(ValueError):  # Raised when a prompt template fails to render...
+    PromptEntry: __init__(4),__repr__(0)  # Single prompt entry with template, max_tokens, and temperatu...
+    PromptRegistry: __init__(1),_ensure_loaded(0),_load(0),get(1),get_entry(1),list_prompts(0),validate(0),register(4),_render(2)  # Loads prompts from YAML, caches, validates placeholders.
+
+Us...
+    _StrictUndefined:  # Custom undefined that allows `default` filter but raises on ...
+  prellm/budget.py:
+    e: BudgetExceededError,UsageEntry,BudgetTracker,_current_month_key,get_budget_tracker,reset_budget_tracker
+    BudgetExceededError(Exception): __init__(3)  # Raised when the monthly budget limit has been reached...
+    UsageEntry:  # Single API call cost record...
+    BudgetTracker: _ensure_loaded(0),check(1),record(4),record_from_response(2),summary(0),_persist(0),reset(0)  # Tracks LLM API spend against a monthly budget.
+
+Usage:
+    t...
+    _current_month_key()
+    get_budget_tracker(monthly_limit;persist_path)
+    reset_budget_tracker()
+  prellm/context/shell_collector.py:
+    e: ShellContextCollector
+    ShellContextCollector: __init__(1),collect_env_vars(1),collect_process_info(0),collect_locale_info(0),collect_shell_info(0),collect_network_context(0),collect_all(1),_is_safe_key(1)  # Collects full shell environment context for LLM prompt enric...
+  prellm/logging_setup.py:
+    e: setup_logging,get_logger,_get_version
+    setup_logging(level;markdown_file;terminal_format)
+    get_logger(name)
+    _get_version()
+  prellm/models.py:
+    e: SensitivityLevel,ProcessInfo,LocaleInfo,ShellInfo,NetworkContext,ShellContext,ContextSchema,FilterReport,CompressedFolder,RuntimeContext,SessionSnapshot,Policy,ApprovalMode,StepStatus,DecompositionStrategy,BiasPattern,ModelConfig,GuardConfig,AnalysisResult,GuardResponse,DomainRule,LLMProviderConfig,DecompositionPrompts,PreLLMConfig,ClassificationResult,StructureResult,DecompositionResult,PreLLMResponse,ProcessStep,ProcessConfig,StepResult,ProcessResult,AuditEntry
+    SensitivityLevel(str,enum.Enum):
+    ProcessInfo(BaseModel):
+    LocaleInfo(BaseModel):
+    ShellInfo(BaseModel):
+    NetworkContext(BaseModel):
+    ShellContext(BaseModel):
+    ContextSchema(BaseModel):
+    FilterReport(BaseModel):
+    CompressedFolder(BaseModel):
+    RuntimeContext(BaseModel):  # Full runtime snapshot — env, process, locale, network, git, ...
+    SessionSnapshot(BaseModel): to_file(1),from_file(1)  # Exportable session snapshot — enables persistent context acr...
+    Policy(str,enum.Enum):
+    ApprovalMode(str,enum.Enum):
+    StepStatus(str,enum.Enum):
+    DecompositionStrategy(str,enum.Enum):  # Strategy for how the small LLM preprocesses a query...
+    BiasPattern(BaseModel):
+    ModelConfig(BaseModel):
+    GuardConfig(BaseModel):  # Top-level YAML config model (v0.1 compat)...
+    AnalysisResult(BaseModel):  # Result of query analysis (v0.1 compat)...
+    GuardResponse(BaseModel):  # Response from Prellm (v0.1 compat)...
+    DomainRule(BaseModel):  # Configurable domain rule — keywords, intent, required fields...
+    LLMProviderConfig(BaseModel):  # Configuration for a single LLM provider (small or large)...
+    DecompositionPrompts(BaseModel):  # System prompts for each decomposition step — all configurabl...
+    PreLLMConfig(BaseModel):  # Top-level config for preLLM v0.2 — fully YAML-driven...
+    ClassificationResult(BaseModel):  # Output of the CLASSIFY step...
+    StructureResult(BaseModel):  # Output of the STRUCTURE step...
+    DecompositionResult(BaseModel):  # Full result of the small LLM decomposition pipeline...
+    PreLLMResponse(BaseModel):  # Response from preLLM v0.2 — includes decomposition + large L...
+    ProcessStep(BaseModel):
+    ProcessConfig(BaseModel):
+    StepResult(BaseModel):  # Result of a single process chain step...
+    ProcessResult(BaseModel):  # Result of a full process chain execution...
+    AuditEntry(BaseModel):  # Single audit log entry for traceability...
+  prellm/__init__.py:
+  prellm/chains/__init__.py:
+  prellm/context/__init__.py:
+  prellm/analyzers/__init__.py:
+  prellm/agents/__init__.py:
+  project.sh:
