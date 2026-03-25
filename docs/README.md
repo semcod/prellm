@@ -141,7 +141,7 @@ Content outside the markers is preserved when regenerating. Enable this with `sy
 
 ```
 prellm/
-    ├── embedded_refactor    ├── quick_start    ├── polish_leasing    ├── k8s_debug    ├── providers    ├── python_sdk    ├── model_catalog    ├── env_config    ├── cli├── prellm/    ├── trace    ├── prompt_registry    ├── query_decomposer    ├── models    ├── core    ├── llm_provider    ├── server    ├── pipeline    ├── config_wizard    ├── chains/    ├── validators        ├── process_chain        ├── folder_compressor        ├── shell_collector    ├── budget    ├── context/        ├── codebase_indexer        ├── user_memory    ├── analyzers/        ├── context_engine        ├── preprocessor    ├── agents/        ├── executor├── project    ├── cli_examples    ├── curl_api        ├── sensitive_filter        ├── schema_generator    ├── logging_setup```
+    ├── quick_start    ├── polish_leasing    ├── k8s_debug    ├── providers    ├── python_sdk    ├── embedded_refactor    ├── model_catalog    ├── env_config    ├── cli├── prellm/    ├── trace    ├── prompt_registry    ├── query_decomposer    ├── models    ├── core    ├── llm_provider    ├── pipeline    ├── validators    ├── server    ├── chains/    ├── config_wizard        ├── folder_compressor        ├── process_chain        ├── shell_collector        ├── sensitive_filter    ├── context/        ├── user_memory        ├── schema_generator    ├── analyzers/        ├── codebase_indexer        ├── context_engine    ├── agents/        ├── preprocessor├── project    ├── cli_examples    ├── curl_api        ├── executor    ├── budget    ├── logging_setup```
 
 ## API Overview
 
@@ -190,6 +190,14 @@ prellm/
 - **`AuditEntry`** — Single audit log entry for traceability.
 - **`PreLLM`** — preLLM v0.2/v0.3 — small LLM decomposition before large LLM routing.
 - **`LLMProvider`** — Unified LLM caller with retry and fallback support.
+- **`PipelineStep`** — Configuration for a single pipeline step.
+- **`PipelineConfig`** — Configuration for a complete pipeline.
+- **`StepExecutionResult`** — Result of executing a single pipeline step.
+- **`PipelineResult`** — Result of executing a full pipeline.
+- **`PromptPipeline`** — Generic pipeline — executes a sequence of LLM + algorithmic steps.
+- **`ValidationResult`** — Result of validating data against a schema.
+- **`SchemaDefinition`** — Parsed schema definition from YAML.
+- **`ResponseValidator`** — Validates LLM responses against YAML-defined schemas.
 - **`ChatMessage`** — —
 - **`PreLLMExtras`** — preLLM-specific extensions in the request body.
 - **`ChatCompletionRequest`** — —
@@ -200,36 +208,27 @@ prellm/
 - **`BatchItem`** — —
 - **`HealthResponse`** — —
 - **`AuthMiddleware`** — Bearer token auth using LITELLM_MASTER_KEY. Skips auth if key is not set.
-- **`PipelineStep`** — Configuration for a single pipeline step.
-- **`PipelineConfig`** — Configuration for a complete pipeline.
-- **`StepExecutionResult`** — Result of executing a single pipeline step.
-- **`PipelineResult`** — Result of executing a full pipeline.
-- **`PromptPipeline`** — Generic pipeline — executes a sequence of LLM + algorithmic steps.
-- **`ValidationResult`** — Result of validating data against a schema.
-- **`SchemaDefinition`** — Parsed schema definition from YAML.
-- **`ResponseValidator`** — Validates LLM responses against YAML-defined schemas.
-- **`ProcessChain`** — Execute multi-step DevOps workflows with preLLM validation at each step.
 - **`FolderCompressor`** — Compresses a project folder into a lightweight representation for LLM context.
+- **`ProcessChain`** — Execute multi-step DevOps workflows with preLLM validation at each step.
 - **`ShellContextCollector`** — Collects full shell environment context for LLM prompt enrichment.
-- **`BudgetExceededError`** — Raised when the monthly budget limit has been reached.
-- **`UsageEntry`** — Single API call cost record.
-- **`BudgetTracker`** — Tracks LLM API spend against a monthly budget.
+- **`SensitiveDataFilter`** — Classifies and filters sensitive data from context before LLM calls.
+- **`UserMemory`** — Stores user query history and learned preferences.
+- **`ContextSchemaGenerator`** — Generates a structured context schema from available context sources.
 - **`CodeSymbol`** — A code symbol extracted from source.
 - **`FileIndex`** — Index of a single source file.
 - **`CodebaseIndex`** — Full codebase index.
 - **`CodebaseIndexer`** — Index a codebase using tree-sitter for AST-based symbol extraction.
-- **`UserMemory`** — Stores user query history and learned preferences.
 - **`ContextEngine`** — Collects context from environment, git, and system for prompt enrichment.
 - **`PreprocessResult`** — Output of the PreprocessorAgent — structured input for the ExecutorAgent.
 - **`PreprocessorAgent`** — Agent preprocessing — small LLM (≤24B) analyzes and structures queries.
 - **`ExecutorResult`** — Output of the ExecutorAgent.
 - **`ExecutorAgent`** — Agent execution — large LLM (>24B) executes structured tasks.
-- **`SensitiveDataFilter`** — Classifies and filters sensitive data from context before LLM calls.
-- **`ContextSchemaGenerator`** — Generates a structured context schema from available context sources.
+- **`BudgetExceededError`** — Raised when the monthly budget limit has been reached.
+- **`UsageEntry`** — Single API call cost record.
+- **`BudgetTracker`** — Tracks LLM API spend against a monthly budget.
 
 ### Functions
 
-- `main()` — —
 - `example_zero_config()` — Simplest possible usage — one line, default models.
 - `example_strategy()` — Strategy-based preprocessing (classify, structure, split, enrich).
 - `example_pipeline()` — Named pipeline — 4-step preprocessing for maximum quality.
@@ -271,6 +270,7 @@ prellm/
 - `example_custom_pipeline()` — Build a pipeline from components for maximum flexibility.
 - `example_openai_sdk()` — Use preLLM as an OpenAI drop-in replacement.
 - `example_strategies()` — Demonstrate all 5 decomposition strategies.
+- `main()` — —
 - `main()` — —
 - `list_model_pairs(provider, search)` — Filter model pairs by provider and/or search term. Pure function — no IO.
 - `list_openrouter_models(provider, search)` — Filter OpenRouter models by provider and/or search term. Pure function — no IO.
