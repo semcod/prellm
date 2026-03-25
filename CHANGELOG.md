@@ -1,5 +1,18 @@
 ## [Unreleased]
 
+## [0.4.7] - 2026-03-25
+
+### Docs
+- Update docs/README.md
+- Update project/context.md
+
+### Other
+- Update project/calls.mmd
+- Update project/calls.png
+- Update project/compact_flow.mmd
+- Update project/compact_flow.png
+- Update project/index.html
+
 ## [0.4.6] - 2026-03-25
 
 ### Test

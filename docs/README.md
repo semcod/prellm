@@ -141,7 +141,7 @@ Content outside the markers is preserved when regenerating. Enable this with `sy
 
 ```
 prellm/
-    ├── quick_start    ├── polish_leasing    ├── k8s_debug    ├── providers    ├── embedded_refactor    ├── python_sdk    ├── model_catalog    ├── cli    ├── env_config├── prellm/    ├── trace    ├── prompt_registry    ├── query_decomposer    ├── models    ├── core    ├── llm_provider    ├── pipeline    ├── validators    ├── config_wizard    ├── chains/    ├── server        ├── process_chain        ├── shell_collector        ├── folder_compressor        ├── sensitive_filter    ├── context/        ├── user_memory    ├── budget    ├── analyzers/        ├── schema_generator        ├── context_engine    ├── agents/        ├── preprocessor├── project    ├── cli_examples    ├── curl_api        ├── executor        ├── codebase_indexer    ├── logging_setup```
+    ├── quick_start    ├── polish_leasing    ├── k8s_debug    ├── embedded_refactor    ├── providers    ├── python_sdk    ├── model_catalog    ├── cli    ├── env_config├── prellm/    ├── trace    ├── prompt_registry    ├── query_decomposer    ├── models    ├── core    ├── llm_provider    ├── pipeline    ├── validators    ├── server    ├── chains/    ├── config_wizard        ├── process_chain        ├── shell_collector        ├── folder_compressor        ├── user_memory    ├── context/        ├── sensitive_filter        ├── codebase_indexer    ├── analyzers/        ├── context_engine        ├── preprocessor    ├── agents/        ├── executor├── project    ├── cli_examples    ├── curl_api        ├── schema_generator    ├── budget    ├── logging_setup```
 
 ## API Overview
 
@@ -211,21 +211,21 @@ prellm/
 - **`ProcessChain`** — Execute multi-step DevOps workflows with preLLM validation at each step.
 - **`ShellContextCollector`** — Collects full shell environment context for LLM prompt enrichment.
 - **`FolderCompressor`** — Compresses a project folder into a lightweight representation for LLM context.
-- **`SensitiveDataFilter`** — Classifies and filters sensitive data from context before LLM calls.
 - **`UserMemory`** — Stores user query history and learned preferences.
-- **`BudgetExceededError`** — Raised when the monthly budget limit has been reached.
-- **`UsageEntry`** — Single API call cost record.
-- **`BudgetTracker`** — Tracks LLM API spend against a monthly budget.
-- **`ContextSchemaGenerator`** — Generates a structured context schema from available context sources.
+- **`SensitiveDataFilter`** — Classifies and filters sensitive data from context before LLM calls.
+- **`CodeSymbol`** — A code symbol extracted from source.
+- **`FileIndex`** — Index of a single source file.
+- **`CodebaseIndex`** — Full codebase index.
+- **`CodebaseIndexer`** — Index a codebase using tree-sitter for AST-based symbol extraction.
 - **`ContextEngine`** — Collects context from environment, git, and system for prompt enrichment.
 - **`PreprocessResult`** — Output of the PreprocessorAgent — structured input for the ExecutorAgent.
 - **`PreprocessorAgent`** — Agent preprocessing — small LLM (≤24B) analyzes and structures queries.
 - **`ExecutorResult`** — Output of the ExecutorAgent.
 - **`ExecutorAgent`** — Agent execution — large LLM (>24B) executes structured tasks.
-- **`CodeSymbol`** — A code symbol extracted from source.
-- **`FileIndex`** — Index of a single source file.
-- **`CodebaseIndex`** — Full codebase index.
-- **`CodebaseIndexer`** — Index a codebase using tree-sitter for AST-based symbol extraction.
+- **`ContextSchemaGenerator`** — Generates a structured context schema from available context sources.
+- **`BudgetExceededError`** — Raised when the monthly budget limit has been reached.
+- **`UsageEntry`** — Single API call cost record.
+- **`BudgetTracker`** — Tracks LLM API spend against a monthly budget.
 
 ### Functions
 
@@ -241,6 +241,7 @@ prellm/
 - `example_sync()` — Synchronous version — for scripts, notebooks, non-async code.
 - `example_openai_sdk_client()` — Use preLLM server from any OpenAI SDK client.
 - `main()` — Run all examples (requires LLM providers to be configured).
+- `main()` — —
 - `main()` — —
 - `main()` — —
 - `run_example(name, small_llm, large_llm)` — Run a single provider example.
@@ -259,7 +260,6 @@ prellm/
 - `openrouter_kimi()` — OpenRouter — access many providers through one API. Kimi K2.5 for strong reasoning.
 - `mixed_providers_pipeline()` — Pipeline with mixed providers.
 - `print_env_setup()` — Print required environment variables for each provider.
-- `main()` — —
 - `main()` — —
 - `example_one_function()` — The simplest way to use preLLM — like litellm.completion().
 - `example_domain_rules()` — Inline domain rules for safety checks.
@@ -306,6 +306,11 @@ prellm/
 - `set_current_trace(trace)` — Set the active trace recorder for the current execution context.
 - `preprocess_and_execute(query, small_llm, large_llm, strategy)` — One function to preprocess and execute — like litellm.completion() but with small LLM decomposition.
 - `preprocess_and_execute_sync(query, small_llm, large_llm, strategy)` — Synchronous version of preprocess_and_execute() — runs the async function in an event loop.
+- `health()` — —
+- `list_models()` — List available model pairs.
+- `chat_completions(req)` — OpenAI-compatible chat completions with preLLM preprocessing.
+- `batch_process(items)` — Process multiple queries in parallel.
+- `create_app(small_model, large_model, strategy, config_path)` — Factory function to create a configured preLLM API server.
 - `ok(msg)` — —
 - `warn(msg)` — —
 - `fail(msg)` — —
@@ -325,11 +330,6 @@ prellm/
 - `check_port_available(host, port)` — Check if port is available for the server.
 - `mask_key(key)` — Mask API key for display.
 - `main()` — —
-- `health()` — —
-- `list_models()` — List available model pairs.
-- `chat_completions(req)` — OpenAI-compatible chat completions with preLLM preprocessing.
-- `batch_process(items)` — Process multiple queries in parallel.
-- `create_app(small_model, large_model, strategy, config_path)` — Factory function to create a configured preLLM API server.
 - `get_budget_tracker(monthly_limit, persist_path)` — Get or create the global budget tracker singleton.
 - `reset_budget_tracker()` — Reset the global tracker (for testing).
 - `setup_logging(level, markdown_file, terminal_format)` — Initialize nfo logging for the entire preLLM project.
