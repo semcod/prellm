@@ -13,6 +13,8 @@ import asyncio
 import tempfile
 from pathlib import Path
 
+from examples.utils.example_helpers import run_quick_start_example
+
 
 async def example_zero_config():
     """Simplest possible usage — one line, default models."""
@@ -43,54 +45,46 @@ async def example_strategy():
 
 async def example_pipeline():
     """Named pipeline — 4-step preprocessing for maximum quality."""
-    from prellm import preprocess_and_execute
-
-    result = await preprocess_and_execute(
+    await run_quick_start_example(
         query="Deploy backend v2.3 to production with rollback",
         small_llm="ollama/qwen2.5:7b",
         large_llm="gpt-4o-mini",
+        example_name="pipeline=dual_agent_full",
         pipeline="dual_agent_full",
     )
-    print(f"[pipeline=dual_agent_full] {result.content[:100]}...")
 
 
 async def example_ollama_local():
     """Both models run locally via Ollama — $0.00 cost."""
-    from prellm import preprocess_and_execute
-
-    result = await preprocess_and_execute(
+    await run_quick_start_example(
         query="Explain Python decorators with examples",
         small_llm="ollama/qwen2.5:7b",
         large_llm="ollama/llama3:latest",
+        example_name="ollama local",
         strategy="classify",
     )
-    print(f"[ollama local] {result.content[:100]}...")
 
 
 async def example_hybrid_ollama_openai():
     """Hybrid: local preprocessing + cloud execution."""
-    from prellm import preprocess_and_execute
-
-    result = await preprocess_and_execute(
+    await run_quick_start_example(
         query="Review this Python function for security issues",
         small_llm="ollama/qwen2.5:7b",
         large_llm="gpt-4o-mini",
+        example_name="hybrid ollama→openai",
         strategy="enrich",
     )
-    print(f"[hybrid ollama→openai] {result.content[:100]}...")
 
 
 async def example_hybrid_ollama_anthropic():
     """Hybrid: local preprocessing + Anthropic execution."""
-    from prellm import preprocess_and_execute
-
-    result = await preprocess_and_execute(
+    await run_quick_start_example(
         query="Write Kubernetes deployment manifest for a Python app",
         small_llm="ollama/phi:latest",
         large_llm="anthropic/claude-sonnet-4-20250514",
+        example_name="hybrid ollama→anthropic",
         strategy="structure",
     )
-    print(f"[hybrid ollama→anthropic] {result.content[:100]}...")
 
 
 async def example_domain_rules():

@@ -221,6 +221,46 @@ class TraceRecorder:
 
         return "\n".join(lines)
 
+    def _collect_trace_data(self) -> dict:
+        """Collect and organize data from trace steps for visualization."""
+        classification = None
+        matched_rule = None
+        composed_prompt = None
+        executor_input = None
+        final_content = self.result_summary.get("content", "")
+        prep_ms = 0.0
+        exec_ms = 0.0
+
+        pipeline_steps: list[TraceStep] = []
+        for s in self.steps:
+            if s.step_type == "config":
+                continue
+            if s.name.startswith("Pipeline:"):
+                pipeline_steps.append(s)
+                out = s.outputs
+                if "classification" in out:
+                    classification = out["classification"]
+                if "matched_rule" in out:
+                    matched_rule = out["matched_rule"]
+                if "composed_prompt" in out:
+                    composed_prompt = out["composed_prompt"]
+            elif s.step_type == "agent":
+                prep_ms = s.duration_ms
+                executor_input = s.outputs.get("executor_input", "")
+            elif s.name.startswith("ExecutorAgent"):
+                exec_ms = s.duration_ms
+
+        return {
+            "classification": classification,
+            "matched_rule": matched_rule,
+            "composed_prompt": composed_prompt,
+            "executor_input": executor_input,
+            "final_content": final_content,
+            "prep_ms": prep_ms,
+            "exec_ms": exec_ms,
+            "pipeline_steps": pipeline_steps,
+        }
+
     def to_stdout(self) -> str:
         """Generate rich terminal trace with decision tree visualization."""
         W = min(shutil.get_terminal_size(fallback=(100, 24)).columns, 120)
@@ -248,32 +288,15 @@ class TraceRecorder:
         lines.append("")
 
         # Collect data from steps for the tree
-        classification = None
-        matched_rule = None
-        composed_prompt = None
-        executor_input = None
-        final_content = self.result_summary.get("content", "")
-        prep_ms = 0.0
-        exec_ms = 0.0
-
-        pipeline_steps: list[TraceStep] = []
-        for s in self.steps:
-            if s.step_type == "config":
-                continue
-            if s.name.startswith("Pipeline:"):
-                pipeline_steps.append(s)
-                out = s.outputs
-                if "classification" in out:
-                    classification = out["classification"]
-                if "matched_rule" in out:
-                    matched_rule = out["matched_rule"]
-                if "composed_prompt" in out:
-                    composed_prompt = out["composed_prompt"]
-            elif s.step_type == "agent":
-                prep_ms = s.duration_ms
-                executor_input = s.outputs.get("executor_input", "")
-            elif s.name.startswith("ExecutorAgent"):
-                exec_ms = s.duration_ms
+        data = self._collect_trace_data()
+        classification = data["classification"]
+        matched_rule = data["matched_rule"]
+        composed_prompt = data["composed_prompt"]
+        executor_input = data["executor_input"]
+        final_content = data["final_content"]
+        prep_ms = data["prep_ms"]
+        exec_ms = data["exec_ms"]
+        pipeline_steps = data["pipeline_steps"]
 
         # USER node
         lines.append(f"  👤 USER")

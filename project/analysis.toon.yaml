@@ -1,9 +1,8 @@
-# code2llm | 31f 8900L | python:30,shell:1 | 2026-03-25
-# CC̄=5.0 | critical:10/310 | dups:0 | cycles:1
+# code2llm | 33f 9000L | python:32,shell:1 | 2026-03-25
+# CC̄=4.9 | critical:9/317 | dups:0 | cycles:1
 
-HEALTH[10]:
+HEALTH[9]:
   🟡 CC    load_dotenv_if_available CC=20 (limit:15)
-  🟡 CC    query CC=27 (limit:15)
   🟡 CC    to_markdown CC=17 (limit:15)
   🟡 CC    to_stdout CC=28 (limit:15)
   🟡 CC    preprocess_and_execute CC=15 (limit:15)
@@ -14,25 +13,25 @@ HEALTH[10]:
   🟡 CC    _filter_recursive CC=17 (limit:15)
 
 REFACTOR[2]:
-  1. split 10 high-CC methods  (CC>15)
+  1. split 9 high-CC methods  (CC>15)
   2. break 1 circular dependencies
 
-PIPELINES[226]:
-  [1] Src [main]: main → preprocess_and_execute → get_current_trace
+PIPELINES[229]:
+  [1] Src [ollama_local]: ollama_local → run_provider_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [2] Src [main]: main → preprocess_and_execute → get_current_trace
+  [2] Src [ollama_plus_openai]: ollama_plus_openai → run_provider_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [3] Src [main]: main → preprocess_and_execute → get_current_trace
+  [3] Src [ollama_plus_anthropic]: ollama_plus_anthropic → run_provider_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [4] Src [ollama_local]: ollama_local → run_example → preprocess_and_execute → get_current_trace
+  [4] Src [openai_only]: openai_only → run_provider_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [5] Src [ollama_plus_openai]: ollama_plus_openai → run_example → preprocess_and_execute → get_current_trace
+  [5] Src [anthropic_only]: anthropic_only → run_provider_example → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
 
 LAYERS:
-  prellm/                         CC̄=5.1    ←in:1  →out:0
-  │ !! cli                        999L  0C   24m  CC=27     ←0
-  │ !! core                       893L  1C   17m  CC=21     ←9
+  prellm/                         CC̄=5.0    ←in:1  →out:0
+  │ !! cli                       1076L  0C   28m  CC=13     ←0
+  │ !! core                       893L  1C   17m  CC=21     ←10
   │ !! trace                      509L  2C   16m  CC=28     ←1
   │ pipeline                   483L  5C   18m  CC=9      ←2
   │ !! env_config                 481L  1C   12m  CC=20     ←2
@@ -47,17 +46,19 @@ LAYERS:
   │ llm_provider               236L  1C    6m  CC=13     ←0
   │ budget                     236L  3C   11m  CC=6      ←2
   │ folder_compressor          224L  1C   10m  CC=11     ←0
-  │ validators                 213L  3C    8m  CC=14     ←0
+  │ validators                 212L  3C    7m  CC=14     ←0
   │ schema_generator           211L  1C    9m  CC=11     ←0
-  │ preprocessor               190L  2C    6m  CC=13     ←0
+  │ preprocessor               188L  2C    6m  CC=13     ←0
   │ prompt_registry            185L  5C   11m  CC=6      ←0
   │ shell_collector            169L  1C    8m  CC=5      ←0
   │ executor                   128L  2C    3m  CC=8      ←0
   │ __init__                   118L  0C    0m  CC=0.0    ←0
   │ logging_setup              106L  0C    3m  CC=5      ←1
   │ model_catalog               78L  0C    2m  CC=8      ←1
+  │ lazy_loader                 20L  1C    3m  CC=2      ←0
   │ __init__                    17L  0C    0m  CC=0.0    ←0
   │ __init__                    11L  0C    0m  CC=0.0    ←0
+  │ __init__                     6L  0C    0m  CC=0.0    ←0
   │ __init__                     1L  0C    0m  CC=0.0    ←0
   │ __init__                     0L  0C    0m  CC=0.0    ←0
   │

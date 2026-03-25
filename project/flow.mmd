@@ -5,6 +5,10 @@ flowchart TD
 
     subgraph CLI
         prellm__cli___init_logging["_init_logging"]
+        prellm__cli___handle_query_options["_handle_query_options"]
+        prellm__cli___show_debug_info["_show_debug_info"]
+        prellm__cli___initialize_execution["_initialize_execution"]
+        prellm__cli___execute_and_format_result["_execute_and_format_result"]
         prellm__cli__query["query"]
         prellm__cli__context["context"]
         prellm__cli__process["process"]
@@ -15,11 +19,7 @@ flowchart TD
         prellm__cli___doctor_check_providers["_doctor_check_providers"]
         prellm__cli___doctor_check_files["_doctor_check_files"]
         prellm__cli__doctor["doctor"]
-        prellm__cli__config_set_cmd["config_set_cmd"]
-        prellm__cli__config_get_cmd["config_get_cmd"]
-        prellm__cli___format_config_sections["_format_config_sections"]
-        prellm__cli__config_list_cmd["config_list_cmd"]
-        ...["+9 more"]
+        ...["+13 more"]
     end
 
     subgraph Core
@@ -38,11 +38,11 @@ flowchart TD
         prellm__prompt_registry__PromptEntry____repr__["__repr__"]
         prellm__prompt_registry__PromptRegistry___ensure_loaded["_ensure_loaded"]
         prellm__prompt_registry__PromptRegistry___load["_load"]
-        ...["+154 more"]
+        ...["+155 more"]
     end
 
     subgraph Exporters
         prellm__context__user_memory__UserMemory__export_session["export_session"]
     end
 
-    class prellm__cli___init_logging,prellm__cli__query,prellm__cli__context,prellm__cli__process,prellm__cli__decompose,prellm__cli__init,prellm__cli__serve,prellm__cli___doctor_check_config,prellm__cli___doctor_check_providers,prellm__cli___doctor_check_files entry
+    class prellm__cli___init_logging,prellm__cli___handle_query_options,prellm__cli___show_debug_info,prellm__cli___initialize_execution,prellm__cli___execute_and_format_result,prellm__cli__query,prellm__cli__context,prellm__cli__process,prellm__cli__decompose,prellm__cli__init entry

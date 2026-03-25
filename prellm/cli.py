@@ -31,58 +31,67 @@ def _init_logging() -> None:
     setup_logging(level=env.log_level)
 
 
-@app.command()
-def query(
-    prompt: str = typer.Argument(..., help="The prompt/query to preprocess and execute"),
-    small: Optional[str] = typer.Option(None, "--small", "-s", help="Small LLM for preprocessing (default: from .env)"),
-    large: Optional[str] = typer.Option(None, "--large", "-l", help="Large LLM for execution (default: from .env)"),
-    strategy: Optional[str] = typer.Option(None, "--strategy", "-S", help="Strategy: classify|structure|split|enrich|passthrough (default: from .env)"),
-    context: Optional[str] = typer.Option(None, "--context", "-C", help="User context tag (e.g. 'gdansk_embedded_python')"),
-    config: Optional[Path] = typer.Option(None, "--config", "-c", help="Optional YAML config file"),
-    memory: Optional[Path] = typer.Option(None, "--memory", "-m", help="Path to UserMemory database"),
-    codebase: Optional[Path] = typer.Option(None, "--codebase", help="Path to codebase root for context indexing"),
-    collect_env: bool = typer.Option(False, "--collect-env", help="Collect full shell environment context"),
-    compress_folder: Optional[Path] = typer.Option(None, "--compress-folder", help="Compress folder for context (path)"),
-    no_sanitize: bool = typer.Option(False, "--no-sanitize", help="Disable sensitive data filtering (dev only)"),
-    show_schema: bool = typer.Option(False, "--show-schema", help="Show generated context schema (debug)"),
-    show_blocked: bool = typer.Option(False, "--show-blocked", help="Show blocked sensitive fields"),
-    json_output: bool = typer.Option(False, "--json", "-j", help="Output as JSON"),
-    trace: bool = typer.Option(False, "--trace", "-t", help="Generate markdown execution trace (.prellm/)"),
-    trace_dir: Optional[Path] = typer.Option(None, "--trace-dir", help="Trace output directory (default: .prellm)"),
-    env_file: Optional[Path] = typer.Option(None, "--env-file", help="Path to .env file (default: .env)"),
-):
-    """Preprocess a query with small LLM, then execute with large LLM."""
-    from prellm.core import preprocess_and_execute
+def _handle_query_options(
+    prompt: str,
+    small: Optional[str],
+    large: Optional[str], 
+    strategy: Optional[str],
+    context: Optional[str],
+    config: Optional[Path],
+    memory: Optional[Path],
+    codebase: Optional[Path],
+    collect_env: bool,
+    compress_folder: Optional[Path],
+    no_sanitize: bool,
+    show_schema: bool,
+    show_blocked: bool,
+    json_output: bool,
+    trace: bool,
+    trace_dir: Optional[Path],
+    env_file: Optional[Path],
+) -> dict:
+    """Process and validate CLI query options."""
     from prellm.env_config import get_env_config
-    from prellm.trace import TraceRecorder
-    from prellm.budget import get_budget_tracker
-
-    _init_logging()
-
+    
     env = get_env_config(str(env_file) if env_file else None)
     effective_small = small or env.small_model
     effective_large = large or env.large_model
     effective_strategy = strategy or env.strategy
-
-    # Initialize budget tracker if configured
-    if env.monthly_budget:
-        get_budget_tracker(monthly_limit=env.monthly_budget)
-
-    # Start trace if requested
-    recorder = None
-    if trace:
-        recorder = TraceRecorder(output_dir=Path(trace_dir) if trace_dir else Path(".prellm"))
-        recorder.start(
-            query=prompt,
-            small_llm=effective_small,
-            large_llm=effective_large,
-            strategy=effective_strategy,
-        )
-
+    
     effective_codebase = str(codebase) if codebase else (str(compress_folder) if compress_folder else None)
     do_sanitize = not no_sanitize
     do_compress = compress_folder is not None
+    
+    return {
+        "prompt": prompt,
+        "small_llm": effective_small,
+        "large_llm": effective_large,
+        "strategy": effective_strategy,
+        "user_context": context,
+        "config_path": str(config) if config else None,
+        "memory_path": str(memory) if memory else None,
+        "codebase_path": effective_codebase,
+        "collect_env": collect_env,
+        "compress_folder": do_compress,
+        "sanitize": do_sanitize,
+        "trace": trace,
+        "trace_dir": trace_dir,
+        "json_output": json_output,
+        "show_schema": show_schema,
+        "show_blocked": show_blocked,
+        "compress_folder_path": compress_folder,
+        "env": env,
+    }
 
+
+def _show_debug_info(options: dict) -> None:
+    """Show schema and blocked sensitive fields if requested."""
+    collect_env = options["collect_env"]
+    compress_folder = options["compress_folder_path"]
+    show_schema = options["show_schema"]
+    show_blocked = options["show_blocked"]
+    do_compress = options["compress_folder"]
+    
     # Show schema before execution if requested
     if show_schema and (collect_env or do_compress):
         from prellm.context.shell_collector import ShellContextCollector
@@ -112,18 +121,50 @@ def query(
         typer.echo(f"   Safe:     {len(report.safe_keys)}")
         typer.echo("")
 
+
+def _initialize_execution(options: dict) -> Optional["TraceRecorder"]:
+    """Initialize budget tracker and trace recorder."""
+    from prellm.trace import TraceRecorder
+    from prellm.budget import get_budget_tracker
+    
+    env = options["env"]
+    trace = options["trace"]
+    trace_dir = options["trace_dir"]
+    
+    # Initialize budget tracker if configured
+    if env.monthly_budget:
+        get_budget_tracker(monthly_limit=env.monthly_budget)
+
+    # Start trace if requested
+    recorder = None
+    if trace:
+        recorder = TraceRecorder(output_dir=Path(trace_dir) if trace_dir else Path(".prellm"))
+        recorder.start(
+            query=options["prompt"],
+            small_llm=options["small_llm"],
+            large_llm=options["large_llm"],
+            strategy=options["strategy"],
+        )
+    
+    return recorder
+
+
+def _execute_and_format_result(options: dict, recorder: Optional["TraceRecorder"]) -> None:
+    """Execute the query and format output."""
+    from prellm.core import preprocess_and_execute
+    
     result = asyncio.run(preprocess_and_execute(
-        query=prompt,
-        small_llm=effective_small,
-        large_llm=effective_large,
-        strategy=effective_strategy,
-        user_context=context,
-        config_path=str(config) if config else None,
-        memory_path=str(memory) if memory else None,
-        codebase_path=effective_codebase,
-        collect_env=collect_env,
-        compress_folder=do_compress,
-        sanitize=do_sanitize,
+        query=options["prompt"],
+        small_llm=options["small_llm"],
+        large_llm=options["large_llm"],
+        strategy=options["strategy"],
+        user_context=options["user_context"],
+        config_path=options["config_path"],
+        memory_path=options["memory_path"],
+        codebase_path=options["codebase_path"],
+        collect_env=options["collect_env"],
+        compress_folder=options["compress_folder"],
+        sanitize=options["sanitize"],
     ))
 
     # Stop trace and output
@@ -135,11 +176,11 @@ def query(
         filepath = recorder.save()
         typer.echo(f"📄 Trace saved: {filepath}")
 
-    if json_output:
+    if options["json_output"]:
         typer.echo(result.model_dump_json(indent=2))
     else:
         typer.echo(f"\n{'='*60}")
-        typer.echo(f"\U0001f9e0 preLLM [{effective_small} \u2192 {effective_large}]")
+        typer.echo(f"\U0001f9e0 preLLM [{options['small_llm']} \u2192 {options['large_llm']}]")
         typer.echo(f"{'='*60}")
         if result.decomposition and result.decomposition.classification:
             c = result.decomposition.classification
@@ -147,12 +188,48 @@ def query(
         if result.decomposition and result.decomposition.matched_rule:
             typer.echo(f"   Rule: {result.decomposition.matched_rule}")
         if result.decomposition and result.decomposition.missing_fields:
-            typer.echo(f"   \u26a0\ufe0f  Missing: {', '.join(result.decomposition.missing_fields)}")
+            typer.echo(f"   ⚠️  Missing: {', '.join(result.decomposition.missing_fields)}")
         typer.echo(f"{'='*60}")
         typer.echo(f"\n{result.content}")
         typer.echo(f"\n{'='*60}")
         typer.echo(f"   Small: {result.small_model_used} | Large: {result.model_used} | Retries: {result.retries}")
         typer.echo(f"{'='*60}")
+
+
+@app.command()
+def query(
+    prompt: str = typer.Argument(..., help="The prompt/query to preprocess and execute"),
+    small: Optional[str] = typer.Option(None, "--small", "-s", help="Small LLM for preprocessing (default: from .env)"),
+    large: Optional[str] = typer.Option(None, "--large", "-l", help="Large LLM for execution (default: from .env)"),
+    strategy: Optional[str] = typer.Option(None, "--strategy", "-S", help="Strategy: classify|structure|split|enrich|passthrough (default: from .env)"),
+    context: Optional[str] = typer.Option(None, "--context", "-C", help="User context tag (e.g. 'gdansk_embedded_python')"),
+    config: Optional[Path] = typer.Option(None, "--config", "-c", help="Optional YAML config file"),
+    memory: Optional[Path] = typer.Option(None, "--memory", "-m", help="Path to UserMemory database"),
+    codebase: Optional[Path] = typer.Option(None, "--codebase", help="Path to codebase root for context indexing"),
+    collect_env: bool = typer.Option(False, "--collect-env", help="Collect full shell environment context"),
+    compress_folder: Optional[Path] = typer.Option(None, "--compress-folder", help="Compress folder for context (path)"),
+    no_sanitize: bool = typer.Option(False, "--no-sanitize", help="Disable sensitive data filtering (dev only)"),
+    show_schema: bool = typer.Option(False, "--show-schema", help="Show generated context schema (debug)"),
+    show_blocked: bool = typer.Option(False, "--show-blocked", help="Show blocked sensitive fields"),
+    json_output: bool = typer.Option(False, "--json", "-j", help="Output as JSON"),
+    trace: bool = typer.Option(False, "--trace", "-t", help="Generate markdown execution trace (.prellm/)"),
+    trace_dir: Optional[Path] = typer.Option(None, "--trace-dir", help="Trace output directory (default: .prellm)"),
+    env_file: Optional[Path] = typer.Option(None, "--env-file", help="Path to .env file (default: .env)"),
+):
+    """Preprocess a query with small LLM, then execute with large LLM."""
+    _init_logging()
+    
+    options = _handle_query_options(
+        prompt, small, large, strategy, context, config, memory, codebase,
+        collect_env, compress_folder, no_sanitize, show_schema, show_blocked,
+        json_output, trace, trace_dir, env_file
+    )
+    
+    _show_debug_info(options)
+    
+    recorder = _initialize_execution(options)
+    
+    _execute_and_format_result(options, recorder)
 
 
 @app.command()

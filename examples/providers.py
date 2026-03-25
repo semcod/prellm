@@ -13,34 +13,7 @@ from __future__ import annotations
 import asyncio
 import os
 
-
-# ============================================================
-# Helper
-# ============================================================
-
-async def run_example(name: str, small_llm: str, large_llm: str, **kwargs):
-    """Run a single provider example."""
-    from prellm import preprocess_and_execute
-
-    print(f"\n{'='*60}")
-    print(f"  {name}")
-    print(f"  small: {small_llm}")
-    print(f"  large: {large_llm}")
-    print(f"{'='*60}")
-
-    try:
-        result = await preprocess_and_execute(
-            query="Explain how to deploy a Python app to Kubernetes",
-            small_llm=small_llm,
-            large_llm=large_llm,
-            strategy="classify",
-            **kwargs,
-        )
-        print(f"  Status: OK")
-        print(f"  Model used: {result.model_used}")
-        print(f"  Response: {result.content[:150]}...")
-    except Exception as e:
-        print(f"  Status: SKIPPED ({type(e).__name__}: {e})")
+from examples.utils.example_helpers import run_provider_example
 
 
 # ============================================================
@@ -49,7 +22,7 @@ async def run_example(name: str, small_llm: str, large_llm: str, **kwargs):
 
 async def ollama_local():
     """Both models local via Ollama. Cost: $0.00"""
-    await run_example(
+    await run_provider_example(
         "Ollama (both local)",
         small_llm="ollama/qwen2.5:3b",
         large_llm="ollama/llama3:8b",
@@ -58,7 +31,7 @@ async def ollama_local():
 
 async def ollama_plus_openai():
     """Local preprocessing, OpenAI execution. Cost: ~$0.15"""
-    await run_example(
+    await run_provider_example(
         "Ollama + OpenAI (hybrid)",
         small_llm="ollama/qwen2.5:3b",
         large_llm="gpt-4o-mini",
@@ -67,7 +40,7 @@ async def ollama_plus_openai():
 
 async def ollama_plus_anthropic():
     """Local preprocessing, Anthropic execution."""
-    await run_example(
+    await run_provider_example(
         "Ollama + Anthropic (hybrid)",
         small_llm="ollama/qwen2.5:3b",
         large_llm="anthropic/claude-sonnet-4-20250514",
@@ -76,7 +49,7 @@ async def ollama_plus_anthropic():
 
 async def openai_only():
     """Both models on OpenAI. Cost: ~$0.20"""
-    await run_example(
+    await run_provider_example(
         "OpenAI only",
         small_llm="gpt-4o-mini",
         large_llm="gpt-4o",
@@ -85,7 +58,7 @@ async def openai_only():
 
 async def anthropic_only():
     """Both models on Anthropic."""
-    await run_example(
+    await run_provider_example(
         "Anthropic only",
         small_llm="anthropic/claude-haiku",
         large_llm="anthropic/claude-sonnet-4-20250514",
@@ -94,7 +67,7 @@ async def anthropic_only():
 
 async def groq_fast():
     """Groq for ultra-fast inference. Cost: very low."""
-    await run_example(
+    await run_provider_example(
         "Groq (fast inference)",
         small_llm="groq/llama-3.1-8b-instant",
         large_llm="groq/llama-3.3-70b-versatile",
@@ -103,7 +76,7 @@ async def groq_fast():
 
 async def mistral_cloud():
     """Mistral AI cloud models."""
-    await run_example(
+    await run_provider_example(
         "Mistral AI",
         small_llm="mistral/mistral-small-latest",
         large_llm="mistral/mistral-large-latest",
@@ -113,7 +86,7 @@ async def mistral_cloud():
 async def azure_openai():
     """Azure OpenAI deployments."""
     # Requires: AZURE_API_KEY, AZURE_API_BASE, AZURE_API_VERSION
-    await run_example(
+    await run_provider_example(
         "Azure OpenAI",
         small_llm="azure/gpt-4o-mini-deployment",
         large_llm="azure/gpt-4o-deployment",
@@ -123,7 +96,7 @@ async def azure_openai():
 async def aws_bedrock():
     """AWS Bedrock models."""
     # Requires: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION_NAME
-    await run_example(
+    await run_provider_example(
         "AWS Bedrock",
         small_llm="bedrock/anthropic.claude-3-haiku-20240307-v1:0",
         large_llm="bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0",
@@ -133,7 +106,7 @@ async def aws_bedrock():
 async def google_gemini():
     """Google Gemini models."""
     # Requires: GEMINI_API_KEY
-    await run_example(
+    await run_provider_example(
         "Google Gemini",
         small_llm="gemini/gemini-2.0-flash",
         large_llm="gemini/gemini-2.5-pro-preview-06-05",
@@ -143,7 +116,7 @@ async def google_gemini():
 async def together_ai():
     """Together AI hosted models."""
     # Requires: TOGETHER_API_KEY
-    await run_example(
+    await run_provider_example(
         "Together AI",
         small_llm="together_ai/Qwen/Qwen2.5-7B-Instruct-Turbo",
         large_llm="together_ai/meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo",
@@ -153,7 +126,7 @@ async def together_ai():
 async def deepseek():
     """DeepSeek models."""
     # Requires: DEEPSEEK_API_KEY
-    await run_example(
+    await run_provider_example(
         "DeepSeek",
         small_llm="deepseek/deepseek-chat",
         large_llm="deepseek/deepseek-reasoner",
@@ -163,7 +136,7 @@ async def deepseek():
 async def openrouter_kimi():
     """OpenRouter — access many providers through one API. Kimi K2.5 for strong reasoning."""
     # Requires: OPENROUTER_API_KEY
-    await run_example(
+    await run_provider_example(
         "OpenRouter (Kimi K2.5)",
         small_llm="ollama/qwen2.5:3b",
         large_llm="openrouter/moonshotai/kimi-k2.5",

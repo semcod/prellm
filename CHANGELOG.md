@@ -1,5 +1,27 @@
 ## [Unreleased]
 
+## [0.4.15] - 2026-03-25
+
+### Docs
+- Update ROADMAP.md
+- Update docs/README.md
+- Update docs/refactoring-plan.md
+- Update project/README.md
+- Update project/context.md
+
+### Other
+- Update examples/providers.py
+- Update examples/quick_start.py
+- Update examples/utils/example_helpers.py
+- Update prellm/__init__.py
+- Update prellm/agents/preprocessor.py
+- Update prellm/cli.py
+- Update prellm/trace.py
+- Update prellm/utils/__init__.py
+- Update prellm/utils/lazy_loader.py
+- Update prellm/validators.py
+- ... and 14 more files
+
 ## [0.4.14] - 2026-03-25
 
 ### Docs

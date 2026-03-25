@@ -11,7 +11,7 @@ Usage:
     print(result.content)
 """
 
-__version__ = "0.4.14"
+__version__ = "0.4.15"
 
 # 1-function API — the primary interface (always uses v0.3 pipeline internally)
 from prellm.core import preprocess_and_execute, preprocess_and_execute_sync
@@ -45,13 +45,17 @@ from prellm.models import (
 )
 
 # Components
-from prellm.chains.process_chain import ProcessChain
 from prellm.analyzers.context_engine import ContextEngine
 from prellm.context.user_memory import UserMemory
 from prellm.context.sensitive_filter import SensitiveDataFilter
 from prellm.context.shell_collector import ShellContextCollector
 from prellm.context.folder_compressor import FolderCompressor
 from prellm.context.schema_generator import ContextSchemaGenerator
+
+# ProcessChain - lazy loaded to avoid circular dependency
+def _get_process_chain():
+    from prellm.chains.process_chain import ProcessChain
+    return ProcessChain
 
 # Logging
 from prellm.logging_setup import setup_logging, get_logger
@@ -98,7 +102,6 @@ __all__ = [
     "SensitivityLevel",
     "ShellContext",
     # Components
-    "ProcessChain",
     "ContextEngine",
     "UserMemory",
     "SensitiveDataFilter",

@@ -4,17 +4,17 @@
 
 - **Project**: /home/tom/github/wronai/prellm
 - **Primary Language**: python
-- **Languages**: python: 36, shell: 3
+- **Languages**: python: 39, shell: 3
 - **Analysis Mode**: static
-- **Total Functions**: 310
-- **Total Classes**: 80
-- **Modules**: 39
-- **Entry Points**: 238
+- **Total Functions**: 317
+- **Total Classes**: 81
+- **Modules**: 42
+- **Entry Points**: 240
 
 ## Architecture by Module
 
 ### prellm.cli
-- **Functions**: 24
+- **Functions**: 28
 - **File**: `cli.py`
 
 ### scripts.config_wizard
@@ -26,14 +26,14 @@
 - **Classes**: 5
 - **File**: `pipeline.py`
 
-### examples.providers
-- **Functions**: 17
-- **File**: `providers.py`
-
 ### prellm.core
 - **Functions**: 17
 - **Classes**: 1
 - **File**: `core.py`
+
+### examples.providers
+- **Functions**: 16
+- **File**: `providers.py`
 
 ### prellm.trace
 - **Functions**: 16
@@ -73,30 +73,30 @@
 - **Classes**: 5
 - **File**: `prompt_registry.py`
 
-### prellm.budget
-- **Functions**: 11
-- **Classes**: 3
-- **File**: `budget.py`
-
 ### prellm.context.sensitive_filter
 - **Functions**: 11
 - **Classes**: 1
 - **File**: `sensitive_filter.py`
+
+### prellm.budget
+- **Functions**: 11
+- **Classes**: 3
+- **File**: `budget.py`
 
 ### prellm.query_decomposer
 - **Functions**: 10
 - **Classes**: 1
 - **File**: `query_decomposer.py`
 
-### prellm.context.folder_compressor
-- **Functions**: 10
-- **Classes**: 1
-- **File**: `folder_compressor.py`
-
 ### prellm.chains.process_chain
 - **Functions**: 10
 - **Classes**: 1
 - **File**: `process_chain.py`
+
+### prellm.context.folder_compressor
+- **Functions**: 10
+- **Classes**: 1
+- **File**: `folder_compressor.py`
 
 ### prellm.server
 - **Functions**: 9
@@ -118,10 +118,6 @@ Main execution flows into the system:
 ### prellm.trace.TraceRecorder.to_stdout
 > Generate rich terminal trace with decision tree visualization.
 - **Calls**: min, self.config.get, self.config.get, self.config.get, lines.append, lines.append, lines.append, lines.append
-
-### prellm.cli.query
-> Preprocess a query with small LLM, then execute with large LLM.
-- **Calls**: app.command, typer.Argument, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option
 
 ### prellm.trace.TraceRecorder.to_markdown
 > Generate full markdown trace document.
@@ -163,6 +159,10 @@ Example:
 > Fallback: extract symbols using regex patterns.
 - **Calls**: content.splitlines, enumerate, re.match, re.match, enumerate, len, symbols.append, symbols.append
 
+### prellm.cli.query
+> Preprocess a query with small LLM, then execute with large LLM.
+- **Calls**: app.command, typer.Argument, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option
+
 ### prellm.cli.serve
 > Start the OpenAI-compatible API server.
 
@@ -173,6 +173,10 @@ Example:
  
 - **Calls**: app.command, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option
 
+### prellm.server.chat_completions
+> OpenAI-compatible chat completions with preLLM preprocessing.
+- **Calls**: app.post, reversed, prellm.server._parse_model_pair, prellm.server._build_prellm_meta, ChatCompletionResponse, HTTPException, HTTPException, PreLLMExtras
+
 ### prellm.pipeline.PromptPipeline.from_yaml
 > Load a named pipeline from a YAML file.
 
@@ -180,10 +184,6 @@ Args:
     pipelines_path: Path to pipelines.yaml (or None for default).
     pipeline_name: Name of the pipeli
 - **Calls**: raw.get, pipe_data.get, PipelineConfig, cls, Path, open, sorted, KeyError
-
-### prellm.server.chat_completions
-> OpenAI-compatible chat completions with preLLM preprocessing.
-- **Calls**: app.post, reversed, prellm.server._parse_model_pair, prellm.server._build_prellm_meta, ChatCompletionResponse, HTTPException, HTTPException, PreLLMExtras
 
 ### prellm.context.sensitive_filter.SensitiveDataFilter._filter_recursive
 > Recursively filter a data structure.
@@ -244,10 +244,10 @@ Args:
 > Load custom sensitive rules from YAML.
 - **Calls**: None.get, None.get, None.get, raw.get, open, self._sensitive_key_patterns.append, self._masked_patterns.append, self._safe_keys.add
 
-### examples.embedded_refactor.main
+### examples.k8s_debug.main
 - **Calls**: print, print, print, print, print, print, print, print
 
-### examples.k8s_debug.main
+### examples.embedded_refactor.main
 - **Calls**: print, print, print, print, print, print, print, print
 
 ### examples.polish_leasing.main
@@ -279,22 +279,17 @@ main [scripts.config_wizard]
 to_stdout [prellm.trace.TraceRecorder]
 ```
 
-### Flow 3: query
-```
-query [prellm.cli]
-```
-
-### Flow 4: to_markdown
+### Flow 3: to_markdown
 ```
 to_markdown [prellm.trace.TraceRecorder]
 ```
 
-### Flow 5: context
+### Flow 4: context
 ```
 context [prellm.cli]
 ```
 
-### Flow 6: context_show_cmd
+### Flow 5: context_show_cmd
 ```
 context_show_cmd [prellm.cli]
   └─> _init_logging
@@ -303,12 +298,12 @@ context_show_cmd [prellm.cli]
       └─ →> setup_logging
 ```
 
-### Flow 7: decompose
+### Flow 6: decompose
 ```
 decompose [prellm.cli]
 ```
 
-### Flow 8: budget
+### Flow 7: budget
 ```
 budget [prellm.cli]
   └─ →> get_env_config
@@ -316,16 +311,21 @@ budget [prellm.cli]
   └─ →> get_budget_tracker
 ```
 
-### Flow 9: config_show_cmd
+### Flow 8: config_show_cmd
 ```
 config_show_cmd [prellm.cli]
   └─ →> get_env_config
       └─> load_dotenv_if_available
 ```
 
-### Flow 10: _load_config
+### Flow 9: _load_config
 ```
 _load_config [prellm.core.PreLLM]
+```
+
+### Flow 10: _extract_with_regex
+```
+_extract_with_regex [prellm.context.codebase_indexer.CodebaseIndexer]
 ```
 
 ## Key Classes
@@ -375,14 +375,6 @@ Supports 5 strategies:
 - **Methods**: 10
 - **Key Methods**: prellm.query_decomposer.QueryDecomposer.__init__, prellm.query_decomposer.QueryDecomposer.decompose, prellm.query_decomposer.QueryDecomposer._classify, prellm.query_decomposer.QueryDecomposer._structure, prellm.query_decomposer.QueryDecomposer._split, prellm.query_decomposer.QueryDecomposer._enrich, prellm.query_decomposer.QueryDecomposer._compose, prellm.query_decomposer.QueryDecomposer._match_domain_rule, prellm.query_decomposer.QueryDecomposer._auto_select_strategy, prellm.query_decomposer.QueryDecomposer._find_missing_fields
 
-### prellm.budget.BudgetTracker
-> Tracks LLM API spend against a monthly budget.
-
-Usage:
-    tracker = BudgetTracker(monthly_limit=50.
-- **Methods**: 10
-- **Key Methods**: prellm.budget.BudgetTracker._ensure_loaded, prellm.budget.BudgetTracker.check, prellm.budget.BudgetTracker.record, prellm.budget.BudgetTracker.record_from_response, prellm.budget.BudgetTracker.total_cost, prellm.budget.BudgetTracker.remaining, prellm.budget.BudgetTracker.entries, prellm.budget.BudgetTracker.summary, prellm.budget.BudgetTracker._persist, prellm.budget.BudgetTracker.reset
-
 ### prellm.chains.process_chain.ProcessChain
 > Execute multi-step DevOps workflows with preLLM validation at each step.
 
@@ -390,6 +382,14 @@ Usage:
     from prellm.cor
 - **Methods**: 10
 - **Key Methods**: prellm.chains.process_chain.ProcessChain.__init__, prellm.chains.process_chain.ProcessChain.execute, prellm.chains.process_chain.ProcessChain._execute_step, prellm.chains.process_chain.ProcessChain._check_dependencies, prellm.chains.process_chain.ProcessChain._handle_approval, prellm.chains.process_chain.ProcessChain._run_dry_run, prellm.chains.process_chain.ProcessChain._run_engine, prellm.chains.process_chain.ProcessChain.get_audit_log, prellm.chains.process_chain.ProcessChain._audit_step, prellm.chains.process_chain.ProcessChain._load_process_config
+
+### prellm.budget.BudgetTracker
+> Tracks LLM API spend against a monthly budget.
+
+Usage:
+    tracker = BudgetTracker(monthly_limit=50.
+- **Methods**: 10
+- **Key Methods**: prellm.budget.BudgetTracker._ensure_loaded, prellm.budget.BudgetTracker.check, prellm.budget.BudgetTracker.record, prellm.budget.BudgetTracker.record_from_response, prellm.budget.BudgetTracker.total_cost, prellm.budget.BudgetTracker.remaining, prellm.budget.BudgetTracker.entries, prellm.budget.BudgetTracker.summary, prellm.budget.BudgetTracker._persist, prellm.budget.BudgetTracker.reset
 
 ### prellm.prompt_registry.PromptRegistry
 > Loads prompts from YAML, caches, validates placeholders.
@@ -410,27 +410,20 @@ Usage:
 - **Methods**: 8
 - **Key Methods**: prellm.trace.TraceRecorder.start, prellm.trace.TraceRecorder.stop, prellm.trace.TraceRecorder.step, prellm.trace.TraceRecorder.set_result, prellm.trace.TraceRecorder.total_duration_ms, prellm.trace.TraceRecorder.to_markdown, prellm.trace.TraceRecorder.to_stdout, prellm.trace.TraceRecorder.save
 
+### prellm.context.shell_collector.ShellContextCollector
+> Collects full shell environment context for LLM prompt enrichment.
+- **Methods**: 8
+- **Key Methods**: prellm.context.shell_collector.ShellContextCollector.__init__, prellm.context.shell_collector.ShellContextCollector.collect_env_vars, prellm.context.shell_collector.ShellContextCollector.collect_process_info, prellm.context.shell_collector.ShellContextCollector.collect_locale_info, prellm.context.shell_collector.ShellContextCollector.collect_shell_info, prellm.context.shell_collector.ShellContextCollector.collect_network_context, prellm.context.shell_collector.ShellContextCollector.collect_all, prellm.context.shell_collector.ShellContextCollector._is_safe_key
+
 ### prellm.validators.ResponseValidator
 > Validates LLM responses against YAML-defined schemas.
 
 Usage:
     validator = ResponseValidator()
   
-- **Methods**: 8
-- **Key Methods**: prellm.validators.ResponseValidator.__init__, prellm.validators.ResponseValidator._ensure_loaded, prellm.validators.ResponseValidator._load, prellm.validators.ResponseValidator.list_schemas, prellm.validators.ResponseValidator.validate, prellm.validators.ResponseValidator.validate_or_retry, prellm.validators.ResponseValidator._check_type, prellm.validators.ResponseValidator._check_constraints
-
-### prellm.context.shell_collector.ShellContextCollector
-> Collects full shell environment context for LLM prompt enrichment.
-- **Methods**: 8
-- **Key Methods**: prellm.context.shell_collector.ShellContextCollector.__init__, prellm.context.shell_collector.ShellContextCollector.collect_env_vars, prellm.context.shell_collector.ShellContextCollector.collect_process_info, prellm.context.shell_collector.ShellContextCollector.collect_locale_info, prellm.context.shell_collector.ShellContextCollector.collect_shell_info, prellm.context.shell_collector.ShellContextCollector.collect_network_context, prellm.context.shell_collector.ShellContextCollector.collect_all, prellm.context.shell_collector.ShellContextCollector._is_safe_key
-
-### prellm.core.PreLLM
-> preLLM v0.2/v0.3 — small LLM decomposition before large LLM routing.
-
-Usage:
-    engine = PreLLM("pr
-- **Methods**: 6
-- **Key Methods**: prellm.core.PreLLM.__init__, prellm.core.PreLLM.__call__, prellm.core.PreLLM.decompose_only, prellm.core.PreLLM.get_audit_log, prellm.core.PreLLM._audit, prellm.core.PreLLM._load_config
+- **Methods**: 7
+- **Key Methods**: prellm.validators.ResponseValidator.__init__, prellm.validators.ResponseValidator._load, prellm.validators.ResponseValidator.list_schemas, prellm.validators.ResponseValidator.validate, prellm.validators.ResponseValidator.validate_or_retry, prellm.validators.ResponseValidator._check_type, prellm.validators.ResponseValidator._check_constraints
+- **Inherits**: LazyLoader
 
 ### prellm.llm_provider.LLMProvider
 > Unified LLM caller with retry and fallback support.
@@ -439,6 +432,14 @@ Usage:
     provider = LLMProvider(LLMProviderCo
 - **Methods**: 6
 - **Key Methods**: prellm.llm_provider.LLMProvider.__init__, prellm.llm_provider.LLMProvider._get_budget, prellm.llm_provider.LLMProvider.complete, prellm.llm_provider.LLMProvider.complete_json, prellm.llm_provider.LLMProvider.complete_structured, prellm.llm_provider.LLMProvider._parse_json
+
+### prellm.core.PreLLM
+> preLLM v0.2/v0.3 — small LLM decomposition before large LLM routing.
+
+Usage:
+    engine = PreLLM("pr
+- **Methods**: 6
+- **Key Methods**: prellm.core.PreLLM.__init__, prellm.core.PreLLM.__call__, prellm.core.PreLLM.decompose_only, prellm.core.PreLLM.get_audit_log, prellm.core.PreLLM._audit, prellm.core.PreLLM._load_config
 
 ### prellm.context.folder_compressor.FolderCompressor
 > Compresses a project folder into a lightweight representation for LLM context.
@@ -452,6 +453,11 @@ Usage:
     agent = Preproce
 - **Methods**: 4
 - **Key Methods**: prellm.agents.preprocessor.PreprocessorAgent.__init__, prellm.agents.preprocessor.PreprocessorAgent.preprocess, prellm.agents.preprocessor.PreprocessorAgent._extract_executor_input, prellm.agents.preprocessor.PreprocessorAgent._extract_confidence
+
+### prellm.utils.lazy_loader.LazyLoader
+> Base class for components that need lazy loading of resources.
+- **Methods**: 3
+- **Key Methods**: prellm.utils.lazy_loader.LazyLoader.__init__, prellm.utils.lazy_loader.LazyLoader._ensure_loaded, prellm.utils.lazy_loader.LazyLoader._load
 
 ### prellm.agents.executor.ExecutorAgent
 > Agent execution — large LLM (>24B) executes structured tasks.
@@ -467,17 +473,13 @@ Usage:
 - **Methods**: 2
 - **Key Methods**: prellm.prompt_registry.PromptEntry.__init__, prellm.prompt_registry.PromptEntry.__repr__
 
-### prellm.models.SessionSnapshot
-> Exportable session snapshot — enables persistent context across restarts.
-
-Equivalent to LM Studio '
-- **Methods**: 2
-- **Key Methods**: prellm.models.SessionSnapshot.to_file, prellm.models.SessionSnapshot.from_file
-- **Inherits**: BaseModel
-
 ## Data Transformation Functions
 
 Key functions that process and transform data:
+
+### prellm.cli._execute_and_format_result
+> Execute the query and format output.
+- **Output to**: asyncio.run, prellm.core.preprocess_and_execute, recorder.stop, typer.echo, recorder.save
 
 ### prellm.cli.process
 > Execute a DevOps process chain.
@@ -495,6 +497,20 @@ Key functions that process and transform data:
 > Validate that all prompts have non-empty templates. Returns list of error messages.
 - **Output to**: self._ensure_loaded, set, self._entries.items, self._entries.keys, errors.append
 
+### prellm.server._parse_model_pair
+> Parse 'prellm:qwen→claude' or 'prellm:small→large' into (small, large) model strings.
+
+Special cases
+- **Output to**: model_str.split, None.lower, pair.split, len, pair.split
+
+### prellm.server.batch_process
+> Process multiple queries in parallel.
+- **Output to**: app.post, HTTPException, asyncio.gather, list, prellm.core.preprocess_and_execute
+
+### prellm.llm_provider.LLMProvider._parse_json
+> Best-effort JSON extraction from LLM output.
+- **Output to**: text.strip, logger.warning, json.loads, text.split, text.find
+
 ### prellm.core.preprocess_and_execute
 > One function to preprocess and execute — like litellm.completion() but with small LLM decomposition.
 - **Output to**: logger.info, prellm.trace.get_current_trace, PreLLM._load_config, trace.step, prellm.core._execute_v3_pipeline
@@ -510,23 +526,9 @@ Usage:
 > Run the small-LLM preprocessing step. Returns (prep_result, duration_ms).
 - **Output to**: time.time, preprocessor.preprocess, time.time
 
-### prellm.llm_provider.LLMProvider._parse_json
-> Best-effort JSON extraction from LLM output.
-- **Output to**: text.strip, logger.warning, json.loads, text.split, text.find
-
 ### prellm.pipeline.PromptPipeline._algo_yaml_formatter
 > Format pipeline state into structured executor input.
 - **Output to**: inputs.get, state.get, state.get, isinstance, str
-
-### prellm.server._parse_model_pair
-> Parse 'prellm:qwen→claude' or 'prellm:small→large' into (small, large) model strings.
-
-Special cases
-- **Output to**: model_str.split, None.lower, pair.split, len, pair.split
-
-### prellm.server.batch_process
-> Process multiple queries in parallel.
-- **Output to**: app.post, HTTPException, asyncio.gather, list, prellm.core.preprocess_and_execute
 
 ### scripts.config_wizard.validate_ollama_model
 - **Output to**: scripts.config_wizard.strip_ollama_prefix, scripts.config_wizard.warn, scripts.config_wizard.info, scripts.config_wizard.ask_yn, scripts.config_wizard.ask_yn
@@ -534,6 +536,9 @@ Special cases
 ### scripts.config_wizard.check_api_key_format
 > Validate API key format.
 - **Output to**: patterns.get, re.match, scripts.config_wizard.ok, scripts.config_wizard.warn
+
+### prellm.chains.process_chain.ProcessChain._load_process_config
+- **Output to**: raw.get, ProcessConfig, open, steps.append, yaml.safe_load
 
 ### prellm.validators.ResponseValidator.validate
 > Validate a dict against a named schema.
@@ -558,17 +563,6 @@ Args:
 > Get or create a tree-sitter parser for the given language.
 - **Output to**: __import__, tree_sitter.Language, tree_sitter.Parser, lang_module.language, logger.debug
 
-### prellm.analyzers.context_engine.ContextEngine._gather_process
-> PID, CWD, user, parent PID, TTY.
-- **Output to**: os.getpid, os.getcwd, os.environ.get, hasattr, os.ttyname
-
-### prellm.analyzers.context_engine.ContextEngine._gather_git_subprocess
-> Fallback: gather git info using subprocess calls.
-- **Output to**: git_commands.get, subprocess.run, out.stdout.strip
-
-### prellm.chains.process_chain.ProcessChain._load_process_config
-- **Output to**: raw.get, ProcessConfig, open, steps.append, yaml.safe_load
-
 ### prellm.agents.preprocessor.PreprocessorAgent.preprocess
 > Preprocess a query and return structured input for the Executor.
 
@@ -579,6 +573,14 @@ Args:
 ### prellm.agents.executor.ExecutorAgent._validate_response
 > Validate response content against the configured schema.
 - **Output to**: self.response_validator.validate, json.loads, isinstance, self.response_validator.validate
+
+### prellm.analyzers.context_engine.ContextEngine._gather_process
+> PID, CWD, user, parent PID, TTY.
+- **Output to**: os.getpid, os.getcwd, os.environ.get, hasattr, os.ttyname
+
+### prellm.analyzers.context_engine.ContextEngine._gather_git_subprocess
+> Fallback: gather git info using subprocess calls.
+- **Output to**: git_commands.get, subprocess.run, out.stdout.strip
 
 ## Behavioral Patterns
 
@@ -593,7 +595,6 @@ Functions exposed as public API (no underscore prefix):
 
 - `scripts.config_wizard.main` - 144 calls
 - `prellm.trace.TraceRecorder.to_stdout` - 91 calls
-- `prellm.cli.query` - 76 calls
 - `prellm.trace.TraceRecorder.to_markdown` - 75 calls
 - `prellm.cli.context` - 50 calls
 - `prellm.cli.context_show_cmd` - 44 calls
@@ -601,9 +602,10 @@ Functions exposed as public API (no underscore prefix):
 - `prellm.env_config.get_env_config` - 27 calls
 - `prellm.cli.budget` - 26 calls
 - `prellm.cli.config_show_cmd` - 25 calls
+- `prellm.cli.query` - 23 calls
 - `prellm.cli.serve` - 22 calls
-- `prellm.pipeline.PromptPipeline.from_yaml` - 22 calls
 - `prellm.server.chat_completions` - 22 calls
+- `prellm.pipeline.PromptPipeline.from_yaml` - 22 calls
 - `prellm.context.codebase_indexer.CodebaseIndexer.get_compressed_context` - 21 calls
 - `prellm.cli.process` - 20 calls
 - `prellm.env_config.load_dotenv_if_available` - 18 calls
@@ -614,21 +616,21 @@ Functions exposed as public API (no underscore prefix):
 - `prellm.cli.session_export_cmd` - 17 calls
 - `prellm.query_decomposer.QueryDecomposer.decompose` - 17 calls
 - `prellm.context.folder_compressor.FolderCompressor.to_toon` - 17 calls
-- `examples.embedded_refactor.main` - 16 calls
 - `examples.k8s_debug.main` - 16 calls
+- `examples.embedded_refactor.main` - 16 calls
 - `examples.polish_leasing.main` - 15 calls
 - `examples.python_sdk.example_custom_pipeline` - 15 calls
 - `prellm.cli.session_import_cmd` - 14 calls
 - `prellm.pipeline.PromptPipeline.execute` - 14 calls
 - `prellm.context.folder_compressor.FolderCompressor.to_dependency_graph` - 14 calls
-- `prellm.context.user_memory.UserMemory.get_recent_context` - 14 calls
 - `prellm.context.codebase_indexer.CodebaseIndexer.index_directory` - 14 calls
+- `prellm.context.user_memory.UserMemory.get_recent_context` - 14 calls
 - `prellm.analyzers.context_engine.ContextEngine.gather_runtime` - 14 calls
 - `prellm.env_config.check_providers_live` - 13 calls
 - `prellm.cli.config_list_cmd` - 13 calls
 - `scripts.config_wizard.ask_choice` - 13 calls
-- `prellm.validators.ResponseValidator.validate` - 13 calls
 - `prellm.chains.process_chain.ProcessChain.execute` - 13 calls
+- `prellm.validators.ResponseValidator.validate` - 13 calls
 - `prellm.agents.preprocessor.PreprocessorAgent.preprocess` - 13 calls
 - `examples.python_sdk.example_one_function` - 12 calls
 
@@ -642,9 +644,6 @@ graph TD
     to_stdout --> min
     to_stdout --> get
     to_stdout --> append
-    query --> command
-    query --> Argument
-    query --> Option
     to_markdown --> strftime
     to_markdown --> append
     context --> command
@@ -666,6 +665,9 @@ graph TD
     _extract_with_regex --> splitlines
     _extract_with_regex --> enumerate
     _extract_with_regex --> match
+    query --> command
+    query --> Argument
+    query --> Option
     serve --> command
     serve --> Option
 ```

@@ -1,10 +1,10 @@
-# vallm batch | 132f | 87✓ 45✗
+# vallm batch | 134f | 89✓ 45✗
 
 SUMMARY:
-  total: 132
-  passed: 87
+  total: 134
+  passed: 89
   failed: 45
-  success: 65.9%
+  success: 66.4%
 
 FILES:
   [yaml]
@@ -17,16 +17,6 @@ FILES:
     ✓ rules.yaml
       verdict: pass
       score: 1.00
-    ✗ project/toon.yaml
-      verdict: fail
-      score: 0.00
-      issues: 1
-        [error] syntax.tree_sitter: tree-sitter found 1 parse error(s) in yaml
-    ✗ project/toon.toon.yaml
-      verdict: fail
-      score: 0.00
-      issues: 1
-        [error] syntax.tree_sitter: tree-sitter found 1 parse error(s) in yaml
     ✗ project/duplication.toon.yaml
       verdict: fail
       score: 0.00
@@ -41,7 +31,7 @@ FILES:
       verdict: fail
       score: 0.00
       issues: 1
-        [error] syntax.tree_sitter: tree-sitter found 6 parse error(s) in yaml
+        [error] syntax.tree_sitter: tree-sitter found 5 parse error(s) in yaml
     ✗ project/evolution.toon.yaml
       verdict: fail
       score: 0.00
@@ -143,21 +133,18 @@ FILES:
         [error] python.import.resolvable: Module 'getv.integrations.pydantic_env' not found@107
     ✓ prellm/cli.py
       verdict: pass
-      score: 0.93
-      issues: 4
-        [warning] complexity.cyclomatic: query has cyclomatic complexity 27 (max: 15)@35
-        [warning] complexity.maintainability: Low maintainability index: 11.2 (threshold: 20)
-        [warning] complexity.lizard_cc: query: CC=27 exceeds limit 15@35
-        [warning] complexity.lizard_length: query: 101 lines exceeds limit 100@35
+      score: 0.98
+      issues: 1
+        [warning] complexity.maintainability: Low maintainability index: 10.4 (threshold: 20)
     ✓ prellm/trace.py
       verdict: pass
       score: 0.90
       issues: 5
         [warning] complexity.cyclomatic: to_markdown has cyclomatic complexity 17 (max: 15)@119
-        [warning] complexity.cyclomatic: to_stdout has cyclomatic complexity 28 (max: 15)@224
+        [warning] complexity.cyclomatic: to_stdout has cyclomatic complexity 20 (max: 15)@264
         [warning] complexity.lizard_cc: to_markdown: CC=17 exceeds limit 15@119
-        [warning] complexity.lizard_cc: to_stdout: CC=28 exceeds limit 15@224
-        [warning] complexity.lizard_length: to_stdout: 126 lines exceeds limit 100@224
+        [warning] complexity.lizard_cc: to_stdout: CC=20 exceeds limit 15@264
+        [warning] complexity.lizard_length: to_stdout: 110 lines exceeds limit 100@264
     ✓ prellm/model_catalog.py
       verdict: pass
       score: 1.00
@@ -311,6 +298,15 @@ FILES:
     ✓ prellm/chains/process_chain.py
       verdict: pass
       score: 1.00
+    ✗ prellm/utils/__init__.py
+      verdict: fail
+      score: 0.57
+      issues: 2
+        [error] python.import.resolvable: Module 'lazy_imports' not found@3
+        [error] python.import.resolvable: Module 'lazy_loader' not found@4
+    ✓ prellm/utils/lazy_loader.py
+      verdict: pass
+      score: 1.00
     ✓ prellm/context/folder_compressor.py
       verdict: pass
       score: 1.00
@@ -354,6 +350,9 @@ FILES:
     ✓ prellm/agents/executor.py
       verdict: pass
       score: 1.00
+    ✓ examples/utils/example_helpers.py
+      verdict: pass
+      score: 1.00
   [json]
     ✓ .prellm/budget.json
       verdict: pass
@@ -376,6 +375,7 @@ FAILED:
   ✗ docs/flow-graphs.md: Unsupported file type
   ✗ docs/session-persistence.md: Unsupported file type
   ✗ docs/README.md: Unsupported file type
+  ✗ docs/refactoring-plan.md: Unsupported file type
   ✗ prellm/env_config.py: Validation fail
   ✗ prellm/llm_provider.py: Validation fail
   ✗ TODO/prellm-tasks-env-context-collection.md: Unsupported file type
@@ -391,9 +391,7 @@ FAILED:
   ✗ .prellm/trace_20260216_092605_Zdeployuj_apkę_na_prod.md: Unsupported file type
   ✗ .prellm/trace_20260216_121925_Zdeployuj_apkę_na_prod.md: Unsupported file type
   ✗ project/compact_flow.mmd: Unsupported file type
-  ✗ project/toon.yaml: Validation fail
   ✗ project/calls.mmd: Unsupported file type
-  ✗ project/toon.toon.yaml: Validation fail
   ✗ project/index.html: Unsupported file type
   ✗ project/duplication.toon.yaml: Validation fail
   ✗ project/context.md: Unsupported file type
@@ -403,5 +401,6 @@ FAILED:
   ✗ project/evolution.toon.yaml: Validation fail
   ✗ project/README.md: Unsupported file type
   ✗ project/analysis.toon.yaml: Validation fail
+  ✗ prellm/utils/__init__.py: Validation fail
   ✗ prellm/context/user_memory.py: Validation fail
   ✗ prellm/analyzers/context_engine.py: Validation fail

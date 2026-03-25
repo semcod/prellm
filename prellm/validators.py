@@ -13,6 +13,8 @@ from typing import Any, Callable
 import yaml
 from pydantic import BaseModel, Field
 
+from prellm.utils.lazy_loader import LazyLoader
+
 logger = logging.getLogger("prellm.validators")
 
 _DEFAULT_SCHEMAS_PATH = Path(__file__).parent.parent / "configs" / "response_schemas.yaml"
@@ -34,7 +36,7 @@ class SchemaDefinition(BaseModel):
     constraints: dict[str, dict[str, Any]] = Field(default_factory=dict)
 
 
-class ResponseValidator:
+class ResponseValidator(LazyLoader):
     """Validates LLM responses against YAML-defined schemas.
 
     Usage:
@@ -44,13 +46,9 @@ class ResponseValidator:
     """
 
     def __init__(self, schemas_path: Path | str | None = None):
+        super().__init__()
         self._path = Path(schemas_path) if schemas_path else _DEFAULT_SCHEMAS_PATH
         self._schemas: dict[str, SchemaDefinition] = {}
-        self._loaded = False
-
-    def _ensure_loaded(self) -> None:
-        if not self._loaded:
-            self._load()
 
     def _load(self) -> None:
         """Load schemas from YAML file."""
@@ -62,13 +60,14 @@ class ResponseValidator:
         with open(self._path) as f:
             raw = yaml.safe_load(f) or {}
 
-        for name, schema_raw in raw.get("schemas", {}).items():
-            if isinstance(schema_raw, dict):
+        schemas_raw = raw.get("schemas", {})
+        for name, schema_dict in schemas_raw.items():
+            if isinstance(schema_dict, dict):
                 self._schemas[name] = SchemaDefinition(
                     name=name,
-                    required_fields=schema_raw.get("required_fields", []),
-                    types=schema_raw.get("types", {}),
-                    constraints=schema_raw.get("constraints", {}),
+                    required_fields=schema_dict.get("required_fields", []),
+                    types=schema_dict.get("types", {}),
+                    constraints=schema_dict.get("constraints", {}),
                 )
 
         self._loaded = True

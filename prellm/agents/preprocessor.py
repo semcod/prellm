@@ -28,19 +28,17 @@ logger = logging.getLogger("prellm.agents.preprocessor")
 _UserMemory = None
 _CodebaseIndexer = None
 
+
 def _get_user_memory_class():
-    global _UserMemory
-    if _UserMemory is None:
-        from prellm.context.user_memory import UserMemory
-        _UserMemory = UserMemory
-    return _UserMemory
+    """Lazy import UserMemory class."""
+    from prellm.utils.lazy_imports import lazy_import_global
+    return lazy_import_global('_UserMemory', 'prellm.context.user_memory.UserMemory', globals())
+
 
 def _get_codebase_indexer_class():
-    global _CodebaseIndexer
-    if _CodebaseIndexer is None:
-        from prellm.context.codebase_indexer import CodebaseIndexer
-        _CodebaseIndexer = CodebaseIndexer
-    return _CodebaseIndexer
+    """Lazy import CodebaseIndexer class."""
+    from prellm.utils.lazy_imports import lazy_import_global
+    return lazy_import_global('_CodebaseIndexer', 'prellm.context.codebase_indexer.CodebaseIndexer', globals())
 
 
 class PreprocessResult(BaseModel):
