@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [0.4.17] - 2026-03-25
+
+### Docs
+- Update docs/README.md
+
+### Other
+- Update project/duplication.toon.yaml
+
 ## [0.4.16] - 2026-03-25
 
 ### Docs

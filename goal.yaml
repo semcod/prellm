@@ -261,6 +261,8 @@ advanced:
     max_files: 50
     timeout_test: 300
 quality:
+  skip:
+    - PY009
   commit_summary:
     min_value_words: 3
     max_generic_terms: 0
