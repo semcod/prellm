@@ -1,0 +1,285 @@
+# prellm | 31f 8900L | python:30,shell:1 | 2026-03-25
+# stats: 267 func | 0 cls | 31 mod | CC̄=5.0 | critical:10 | cycles:0
+# alerts[5]: CC main=30; fan-out query=30; CC TraceRecorder.to_stdout=28; fan-out main=28; CC query=27
+# hotspots[5]: query fan=30; main fan=28; _execute_v3_pipeline fan=23; TraceRecorder.to_stdout fan=22; context fan=19
+# evolution: baseline
+# Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
+M[31]:
+  prellm/__init__.py,118
+  prellm/agents/__init__.py,11
+  prellm/agents/executor.py,128
+  prellm/agents/preprocessor.py,190
+  prellm/analyzers/__init__.py,1
+  prellm/analyzers/context_engine.py,248
+  prellm/budget.py,236
+  prellm/chains/__init__.py,0
+  prellm/chains/process_chain.py,275
+  prellm/cli.py,999
+  prellm/context/__init__.py,17
+  prellm/context/codebase_indexer.py,418
+  prellm/context/folder_compressor.py,224
+  prellm/context/schema_generator.py,211
+  prellm/context/sensitive_filter.py,238
+  prellm/context/shell_collector.py,169
+  prellm/context/user_memory.py,361
+  prellm/core.py,893
+  prellm/env_config.py,481
+  prellm/llm_provider.py,236
+  prellm/logging_setup.py,106
+  prellm/model_catalog.py,78
+  prellm/models.py,434
+  prellm/pipeline.py,483
+  prellm/prompt_registry.py,185
+  prellm/query_decomposer.py,330
+  prellm/server.py,447
+  prellm/trace.py,509
+  prellm/validators.py,213
+  project.sh,21
+  scripts/config_wizard.py,640
+D:
+  scripts/config_wizard.py:
+    e: ok,warn,fail,info,ask,ask_yn,ask_choice,check_ollama,fetch_ollama_models,to_ollama_full,strip_ollama_prefix,build_ollama_options,option_index_for_value,install_ollama_model,validate_ollama_model,check_api_key_format,check_port_available,mask_key,main
+    ok(msg)
+    warn(msg)
+    fail(msg)
+    info(msg)
+    ask(question;default;required)
+    ask_yn(question;default)
+    ask_choice(question;options;default)
+    check_ollama(base_url)
+    fetch_ollama_models(base_url)
+    to_ollama_full(name)
+    strip_ollama_prefix(name)
+    build_ollama_options(installed_raw;recommended)
+    option_index_for_value(options;value;default)
+    install_ollama_model(raw)
+    validate_ollama_model(base_url;model;installed_raw;reachable)
+    check_api_key_format(provider;key)
+    check_port_available(host;port)
+    mask_key(key)
+    main()
+  prellm/trace.py:
+    e: TraceStep,TraceRecorder,get_current_trace,set_current_trace,_step_icon,_safe_json,_sanitize,_compact_value,_format_tree_value,_extract_prompt_text,_wrap_text
+    TraceStep:  # A single recorded step in the execution trace...
+    TraceRecorder: start(1),stop(0),step(9),set_result(0),to_markdown(0),to_stdout(0),save(1)  # Records execution trace and generates markdown documentation...
+    get_current_trace()
+    set_current_trace(trace)
+    _step_icon(status)
+    _safe_json(obj;max_len)
+    _sanitize(obj;depth)
+    _compact_value(val;max_len)
+    _format_tree_value(val)
+    _extract_prompt_text(composed)
+    _wrap_text(text;width)
+  prellm/cli.py:
+    e: _init_logging,query,context,process,decompose,init,serve,_doctor_check_config,_doctor_check_providers,_doctor_check_files,doctor,config_set_cmd,config_get_cmd,_format_config_sections,config_list_cmd,config_show_cmd,config_init_env,budget,models,context_show_cmd,session_list_cmd,session_export_cmd,session_import_cmd,session_clear_cmd
+    _init_logging()
+    query(prompt;small;large;strategy;context;config;memory;codebase;collect_env;compress_folder;no_sanitize;show_schema;show_blocked;json_output;trace;trace_dir;env_file)
+    context(json_output;schema;blocked;folder)
+    process(config;guard_config;dry_run;json_output;env)
+    decompose(query;config;strategy;json_output)
+    init(output;devops)
+    serve(host;port;small;large;strategy;config;env_file;reload)
+    _doctor_check_config(env)
+    _doctor_check_providers(env;live)
+    _doctor_check_files(env_file)
+    doctor(env_file;live)
+    config_set_cmd(key;value;global_)
+    config_get_cmd(key;raw)
+    _format_config_sections(entries)
+    config_list_cmd(raw)
+    config_show_cmd()
+    config_init_env(global_;force)
+    budget(reset;json_output)
+    models(provider;search)
+    context_show_cmd(json_output;blocked;codebase)
+    session_list_cmd(memory)
+    session_export_cmd(output;memory;session_id)
+    session_import_cmd(input_file;memory)
+    session_clear_cmd(memory;force)
+  prellm/core.py:
+    e: PreLLM,preprocess_and_execute,preprocess_and_execute_sync,_execute_v3_pipeline,_prepare_context,_build_pipeline_context,_run_preprocessing,_build_executor_system_prompt,_run_execution,_persist_session,_record_trace,_build_decomposition_result
+    PreLLM: __init__(2),__call__(3),decompose_only(3),get_audit_log(0),_audit(3),_load_config(0)  # preLLM v0.2/v0.3 — small LLM decomposition before large LLM ...
+    preprocess_and_execute(query;small_llm;large_llm;strategy;user_context;config_path;domain_rules;pipeline;prompts_path;pipelines_path;schemas_path;memory_path;codebase_path;collect_env;collect_runtime;session_path;compress_folder;sanitize;sensitive_rules)
+    preprocess_and_execute_sync(query;small_llm;large_llm;strategy;user_context;config_path;domain_rules;pipeline;prompts_path;pipelines_path;schemas_path)
+    _execute_v3_pipeline(query;small_llm;large_llm;pipeline;user_context;domain_rules;prompts_path;pipelines_path;schemas_path;memory_path;codebase_path;collect_env;compress_folder;sanitize;sensitive_rules)
+    _prepare_context(user_context;domain_rules;collect_env;compress_folder;codebase_path;sanitize;sensitive_rules;memory_path)
+    _build_pipeline_context(extra_context)
+    _run_preprocessing(preprocessor;query;extra_context;pipeline)
+    _build_executor_system_prompt(prep_result;extra_context)
+    _run_execution(executor;executor_input;system_prompt)
+    _persist_session(user_memory;query;exec_result)
+    _record_trace(trace;pipeline;small_llm;large_llm;query;extra_context;prep_result;exec_result;prep_duration_ms;exec_duration_ms)
+    _build_decomposition_result(query;pipeline_name;prep_result)
+  prellm/env_config.py:
+    e: EnvConfig,load_dotenv_if_available,get_env_config,check_providers,_resolve_config_path,_read_env_file,_write_env_file,resolve_alias,mask_value,config_set,config_get,config_list,check_providers_live
+    EnvConfig:  # Resolved environment configuration...
+    load_dotenv_if_available(path)
+    get_env_config(dotenv_path)
+    check_providers(env)
+    _resolve_config_path(global_)
+    _read_env_file(path)
+    _write_env_file(path;entries;comments)
+    resolve_alias(key)
+    mask_value(key;value)
+    config_set(key;value;global_)
+    config_get(key;global_)
+    config_list(global_;show_secrets)
+    check_providers_live(env)
+  prellm/context/sensitive_filter.py:
+    e: SensitiveDataFilter
+    SensitiveDataFilter: __init__(3),_load_rules(1),classify_key(1),classify_value(1),filter_dict(2),filter_context_for_large_llm(1),sanitize_text(1),get_filter_report(0),_filter_recursive(1),_looks_like_env_var(0),_mask_value(0)  # Classifies and filters sensitive data from context before LL...
+  prellm/validators.py:
+    e: ValidationResult,SchemaDefinition,ResponseValidator
+    ValidationResult(BaseModel):  # Result of validating data against a schema...
+    SchemaDefinition(BaseModel):  # Parsed schema definition from YAML...
+    ResponseValidator: __init__(1),_ensure_loaded(0),_load(0),list_schemas(0),validate(2),validate_or_retry(4),_check_type(2),_check_constraints(2)  # Validates LLM responses against YAML-defined schemas.
+
+Usage...
+  prellm/llm_provider.py:
+    e: LLMProvider
+    LLMProvider: __init__(1),_get_budget(0),complete(3),complete_json(2),complete_structured(4),_parse_json(0)  # Unified LLM caller with retry and fallback support.
+
+Usage:
+...
+  prellm/analyzers/context_engine.py:
+    e: ContextEngine
+    ContextEngine: __init__(1),gather(0),enrich_prompt(2),gather_runtime(0),_auto_collect_env(0),_gather_process(-1),_gather_locale(-1),_gather_network(-1),_gather_env(0),_gather_git(0),_gather_git_gitpython(0),_gather_git_subprocess(0),_gather_system(0)  # Collects context from environment, git, and system for promp...
+  prellm/agents/preprocessor.py:
+    e: PreprocessResult,PreprocessorAgent,_get_user_memory_class,_get_codebase_indexer_class
+    PreprocessResult(BaseModel):  # Output of the PreprocessorAgent — structured input for the E...
+    PreprocessorAgent: __init__(7),preprocess(3),_extract_executor_input(1),_extract_confidence(0)  # Agent preprocessing — small LLM (≤24B) analyzes and structur...
+    _get_user_memory_class()
+    _get_codebase_indexer_class()
+  prellm/server.py:
+    e: ChatMessage,PreLLMExtras,ChatCompletionRequest,ChatCompletionChoice,UsageInfo,PreLLMMeta,ChatCompletionResponse,BatchItem,HealthResponse,AuthMiddleware,_parse_model_pair,_build_prellm_meta,health,list_models,chat_completions,_stream_response,batch_process,create_app
+    ChatMessage(BaseModel):
+    PreLLMExtras(BaseModel):  # preLLM-specific extensions in the request body...
+    ChatCompletionRequest(BaseModel):
+    ChatCompletionChoice(BaseModel):
+    UsageInfo(BaseModel):
+    PreLLMMeta(BaseModel):  # preLLM metadata in the response...
+    ChatCompletionResponse(BaseModel):
+    BatchItem(BaseModel):
+    HealthResponse(BaseModel):
+    AuthMiddleware(BaseHTTPMiddleware): dispatch(2)  # Bearer token auth using LITELLM_MASTER_KEY. Skips auth if ke...
+    _parse_model_pair(model_str)
+    _build_prellm_meta(result;strategy)
+    health()
+    list_models()
+    chat_completions(req)
+    _stream_response(query;small;large;strategy;extras)
+    batch_process(items)
+    create_app(small_model;large_model;strategy;config_path;master_key;dotenv_path)
+  prellm/context/user_memory.py:
+    e: UserMemory
+    UserMemory: __init__(2),_init_sqlite(0),_init_chromadb(0),add_interaction(3),get_recent_context(2),get_user_preferences(0),set_preference(2),clear(0),export_session(1),import_session(1),get_relevant_context(2),auto_inject_context(2),learn_preference_from_interaction(2),_get_all_interactions(1),close(0)  # Stores user query history and learned preferences.
+
+Usage:
+ ...
+  prellm/context/folder_compressor.py:
+    e: FolderCompressor,_relative_path,_path_to_module,_extract_module_from_import,_extract_module_docstring
+    FolderCompressor: __init__(1),compress(3),to_toon(1),to_dependency_graph(1),to_summary(1),estimate_token_count(0)  # Compresses a project folder into a lightweight representatio...
+    _relative_path(path;root)
+    _path_to_module(rel_path)
+    _extract_module_from_import(import_line;project_name)
+    _extract_module_docstring(path)
+  prellm/context/schema_generator.py:
+    e: ContextSchemaGenerator
+    ContextSchemaGenerator: generate(5),to_prompt_section(1),estimate_relevance(2),_detect_execution_env(0),_detect_tools(-1),_detect_project_type(0),_build_project_summary(0),_summarize_history(0),_estimate_token_cost(0)  # Generates a structured context schema from available context...
+  prellm/context/codebase_indexer.py:
+    e: CodeSymbol,FileIndex,CodebaseIndex,CodebaseIndexer
+    CodeSymbol:  # A code symbol extracted from source...
+    FileIndex:  # Index of a single source file...
+    CodebaseIndex:  # Full codebase index...
+    CodebaseIndexer: __init__(1),_check_tree_sitter(-1),index_directory(3),_index_file(2),_extract_with_tree_sitter(3),_get_parser(1),_walk_tree(4),_get_line(1),_extract_with_regex(2),_extract_imports(1),search(3),get_context_for_query(3),get_compressed_context(3),estimate_tokens(0)  # Index a codebase using tree-sitter for AST-based symbol extr...
+  prellm/pipeline.py:
+    e: PipelineStep,PipelineConfig,StepExecutionResult,PipelineResult,PromptPipeline
+    PipelineStep(BaseModel):  # Configuration for a single pipeline step...
+    PipelineConfig(BaseModel):  # Configuration for a complete pipeline...
+    StepExecutionResult(BaseModel):  # Result of executing a single pipeline step...
+    PipelineResult(BaseModel):  # Result of executing a full pipeline...
+    PromptPipeline: __init__(4),from_yaml(5),execute(2),_execute_llm_step(2),_execute_algo_step(2),_gather_inputs(2),_build_user_message(2),_evaluate_condition(2),register_algo_handler(2),_algo_domain_rule_matcher(2),_algo_field_validator(2),_algo_yaml_formatter(2),_algo_runtime_collector(2),_algo_sensitive_filter(2),_algo_session_injector(2),_algo_shell_context_collector(2),_algo_folder_compressor(2),_algo_context_schema_generator(2)  # Generic pipeline — executes a sequence of LLM + algorithmic ...
+  prellm/query_decomposer.py:
+    e: QueryDecomposer
+    QueryDecomposer: __init__(3),decompose(4),_classify(1),_structure(1),_split(1),_enrich(3),_compose(3),_match_domain_rule(2),_auto_select_strategy(2),_find_missing_fields(2)  # Decomposes user queries using a small LLM before routing to ...
+  prellm/model_catalog.py:
+    e: list_model_pairs,list_openrouter_models
+    list_model_pairs(provider;search)
+    list_openrouter_models(provider;search)
+  prellm/agents/executor.py:
+    e: ExecutorResult,ExecutorAgent
+    ExecutorResult(BaseModel):  # Output of the ExecutorAgent...
+    ExecutorAgent: __init__(4),execute(2),_validate_response(1)  # Agent execution — large LLM (>24B) executes structured tasks...
+  prellm/chains/process_chain.py:
+    e: ProcessChain
+    ProcessChain: __init__(5),execute(3),_execute_step(4),_check_dependencies(1),_handle_approval(4),_run_dry_run(4),_run_engine(4),get_audit_log(0),_audit_step(3),_load_process_config(0)  # Execute multi-step DevOps workflows with preLLM validation a...
+  prellm/prompt_registry.py:
+    e: PromptNotFoundError,PromptRenderError,PromptEntry,PromptRegistry,_StrictUndefined
+    PromptNotFoundError(KeyError):  # Raised when a prompt name is not found in the registry...
+    PromptRenderError(ValueError):  # Raised when a prompt template fails to render...
+    PromptEntry: __init__(4),__repr__(0)  # Single prompt entry with template, max_tokens, and temperatu...
+    PromptRegistry: __init__(1),_ensure_loaded(0),_load(0),get(1),get_entry(1),list_prompts(0),validate(0),register(4),_render(2)  # Loads prompts from YAML, caches, validates placeholders.
+
+Us...
+    _StrictUndefined:  # Custom undefined that allows `default` filter but raises on ...
+  prellm/budget.py:
+    e: BudgetExceededError,UsageEntry,BudgetTracker,_current_month_key,get_budget_tracker,reset_budget_tracker
+    BudgetExceededError(Exception): __init__(3)  # Raised when the monthly budget limit has been reached...
+    UsageEntry:  # Single API call cost record...
+    BudgetTracker: _ensure_loaded(0),check(1),record(4),record_from_response(2),summary(0),_persist(0),reset(0)  # Tracks LLM API spend against a monthly budget.
+
+Usage:
+    t...
+    _current_month_key()
+    get_budget_tracker(monthly_limit;persist_path)
+    reset_budget_tracker()
+  prellm/context/shell_collector.py:
+    e: ShellContextCollector
+    ShellContextCollector: __init__(1),collect_env_vars(1),collect_process_info(0),collect_locale_info(0),collect_shell_info(0),collect_network_context(0),collect_all(1),_is_safe_key(1)  # Collects full shell environment context for LLM prompt enric...
+  prellm/logging_setup.py:
+    e: setup_logging,get_logger,_get_version
+    setup_logging(level;markdown_file;terminal_format)
+    get_logger(name)
+    _get_version()
+  prellm/models.py:
+    e: SensitivityLevel,ProcessInfo,LocaleInfo,ShellInfo,NetworkContext,ShellContext,ContextSchema,FilterReport,CompressedFolder,RuntimeContext,SessionSnapshot,Policy,ApprovalMode,StepStatus,DecompositionStrategy,BiasPattern,ModelConfig,GuardConfig,AnalysisResult,GuardResponse,DomainRule,LLMProviderConfig,DecompositionPrompts,PreLLMConfig,ClassificationResult,StructureResult,DecompositionResult,PreLLMResponse,ProcessStep,ProcessConfig,StepResult,ProcessResult,AuditEntry
+    SensitivityLevel(str,enum.Enum):
+    ProcessInfo(BaseModel):
+    LocaleInfo(BaseModel):
+    ShellInfo(BaseModel):
+    NetworkContext(BaseModel):
+    ShellContext(BaseModel):
+    ContextSchema(BaseModel):
+    FilterReport(BaseModel):
+    CompressedFolder(BaseModel):
+    RuntimeContext(BaseModel):  # Full runtime snapshot — env, process, locale, network, git, ...
+    SessionSnapshot(BaseModel): to_file(1),from_file(1)  # Exportable session snapshot — enables persistent context acr...
+    Policy(str,enum.Enum):
+    ApprovalMode(str,enum.Enum):
+    StepStatus(str,enum.Enum):
+    DecompositionStrategy(str,enum.Enum):  # Strategy for how the small LLM preprocesses a query...
+    BiasPattern(BaseModel):
+    ModelConfig(BaseModel):
+    GuardConfig(BaseModel):  # Top-level YAML config model (v0.1 compat)...
+    AnalysisResult(BaseModel):  # Result of query analysis (v0.1 compat)...
+    GuardResponse(BaseModel):  # Response from Prellm (v0.1 compat)...
+    DomainRule(BaseModel):  # Configurable domain rule — keywords, intent, required fields...
+    LLMProviderConfig(BaseModel):  # Configuration for a single LLM provider (small or large)...
+    DecompositionPrompts(BaseModel):  # System prompts for each decomposition step — all configurabl...
+    PreLLMConfig(BaseModel):  # Top-level config for preLLM v0.2 — fully YAML-driven...
+    ClassificationResult(BaseModel):  # Output of the CLASSIFY step...
+    StructureResult(BaseModel):  # Output of the STRUCTURE step...
+    DecompositionResult(BaseModel):  # Full result of the small LLM decomposition pipeline...
+    PreLLMResponse(BaseModel):  # Response from preLLM v0.2 — includes decomposition + large L...
+    ProcessStep(BaseModel):
+    ProcessConfig(BaseModel):
+    StepResult(BaseModel):  # Result of a single process chain step...
+    ProcessResult(BaseModel):  # Result of a full process chain execution...
+    AuditEntry(BaseModel):  # Single audit log entry for traceability...
+  prellm/__init__.py:
+  prellm/chains/__init__.py:
+  prellm/context/__init__.py:
+  prellm/analyzers/__init__.py:
+  prellm/agents/__init__.py:
+  project.sh:
