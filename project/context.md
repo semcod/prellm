@@ -73,15 +73,15 @@
 - **Classes**: 5
 - **File**: `prompt_registry.py`
 
-### prellm.context.sensitive_filter
-- **Functions**: 11
-- **Classes**: 1
-- **File**: `sensitive_filter.py`
-
 ### prellm.budget
 - **Functions**: 11
 - **Classes**: 3
 - **File**: `budget.py`
+
+### prellm.context.sensitive_filter
+- **Functions**: 11
+- **Classes**: 1
+- **File**: `sensitive_filter.py`
 
 ### prellm.query_decomposer
 - **Functions**: 10
@@ -173,6 +173,10 @@ Example:
  
 - **Calls**: app.command, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option, typer.Option
 
+### prellm.server.chat_completions
+> OpenAI-compatible chat completions with preLLM preprocessing.
+- **Calls**: app.post, reversed, prellm.server._parse_model_pair, prellm.server._build_prellm_meta, ChatCompletionResponse, HTTPException, HTTPException, PreLLMExtras
+
 ### prellm.pipeline.PromptPipeline.from_yaml
 > Load a named pipeline from a YAML file.
 
@@ -180,10 +184,6 @@ Args:
     pipelines_path: Path to pipelines.yaml (or None for default).
     pipeline_name: Name of the pipeli
 - **Calls**: raw.get, pipe_data.get, PipelineConfig, cls, Path, open, sorted, KeyError
-
-### prellm.server.chat_completions
-> OpenAI-compatible chat completions with preLLM preprocessing.
-- **Calls**: app.post, reversed, prellm.server._parse_model_pair, prellm.server._build_prellm_meta, ChatCompletionResponse, HTTPException, HTTPException, PreLLMExtras
 
 ### prellm.context.sensitive_filter.SensitiveDataFilter._filter_recursive
 > Recursively filter a data structure.
@@ -410,6 +410,11 @@ Usage:
 - **Methods**: 8
 - **Key Methods**: prellm.trace.TraceRecorder.start, prellm.trace.TraceRecorder.stop, prellm.trace.TraceRecorder.step, prellm.trace.TraceRecorder.set_result, prellm.trace.TraceRecorder.total_duration_ms, prellm.trace.TraceRecorder.to_markdown, prellm.trace.TraceRecorder.to_stdout, prellm.trace.TraceRecorder.save
 
+### prellm.context.shell_collector.ShellContextCollector
+> Collects full shell environment context for LLM prompt enrichment.
+- **Methods**: 8
+- **Key Methods**: prellm.context.shell_collector.ShellContextCollector.__init__, prellm.context.shell_collector.ShellContextCollector.collect_env_vars, prellm.context.shell_collector.ShellContextCollector.collect_process_info, prellm.context.shell_collector.ShellContextCollector.collect_locale_info, prellm.context.shell_collector.ShellContextCollector.collect_shell_info, prellm.context.shell_collector.ShellContextCollector.collect_network_context, prellm.context.shell_collector.ShellContextCollector.collect_all, prellm.context.shell_collector.ShellContextCollector._is_safe_key
+
 ### prellm.validators.ResponseValidator
 > Validates LLM responses against YAML-defined schemas.
 
@@ -418,11 +423,6 @@ Usage:
   
 - **Methods**: 8
 - **Key Methods**: prellm.validators.ResponseValidator.__init__, prellm.validators.ResponseValidator._ensure_loaded, prellm.validators.ResponseValidator._load, prellm.validators.ResponseValidator.list_schemas, prellm.validators.ResponseValidator.validate, prellm.validators.ResponseValidator.validate_or_retry, prellm.validators.ResponseValidator._check_type, prellm.validators.ResponseValidator._check_constraints
-
-### prellm.context.shell_collector.ShellContextCollector
-> Collects full shell environment context for LLM prompt enrichment.
-- **Methods**: 8
-- **Key Methods**: prellm.context.shell_collector.ShellContextCollector.__init__, prellm.context.shell_collector.ShellContextCollector.collect_env_vars, prellm.context.shell_collector.ShellContextCollector.collect_process_info, prellm.context.shell_collector.ShellContextCollector.collect_locale_info, prellm.context.shell_collector.ShellContextCollector.collect_shell_info, prellm.context.shell_collector.ShellContextCollector.collect_network_context, prellm.context.shell_collector.ShellContextCollector.collect_all, prellm.context.shell_collector.ShellContextCollector._is_safe_key
 
 ### prellm.core.PreLLM
 > preLLM v0.2/v0.3 — small LLM decomposition before large LLM routing.
@@ -514,9 +514,45 @@ Usage:
 > Best-effort JSON extraction from LLM output.
 - **Output to**: text.strip, logger.warning, json.loads, text.split, text.find
 
+### prellm.server._parse_model_pair
+> Parse 'prellm:qwen→claude' or 'prellm:small→large' into (small, large) model strings.
+
+Special cases
+- **Output to**: model_str.split, None.lower, pair.split, len, pair.split
+
+### prellm.server.batch_process
+> Process multiple queries in parallel.
+- **Output to**: app.post, HTTPException, asyncio.gather, list, prellm.core.preprocess_and_execute
+
 ### prellm.pipeline.PromptPipeline._algo_yaml_formatter
 > Format pipeline state into structured executor input.
 - **Output to**: inputs.get, state.get, state.get, isinstance, str
+
+### scripts.config_wizard.validate_ollama_model
+- **Output to**: scripts.config_wizard.strip_ollama_prefix, scripts.config_wizard.warn, scripts.config_wizard.info, scripts.config_wizard.ask_yn, scripts.config_wizard.ask_yn
+
+### scripts.config_wizard.check_api_key_format
+> Validate API key format.
+- **Output to**: patterns.get, re.match, scripts.config_wizard.ok, scripts.config_wizard.warn
+
+### prellm.chains.process_chain.ProcessChain._load_process_config
+- **Output to**: raw.get, ProcessConfig, open, steps.append, yaml.safe_load
+
+### prellm.context.shell_collector.ShellContextCollector.collect_process_info
+> Collect current process information.
+- **Output to**: ProcessInfo, hasattr, os.ttyname, os.getpid, os.getcwd
+
+### prellm.context.codebase_indexer.CodebaseIndexer._get_parser
+> Get or create a tree-sitter parser for the given language.
+- **Output to**: __import__, tree_sitter.Language, tree_sitter.Parser, lang_module.language, logger.debug
+
+### prellm.analyzers.context_engine.ContextEngine._gather_process
+> PID, CWD, user, parent PID, TTY.
+- **Output to**: os.getpid, os.getcwd, os.environ.get, hasattr, os.ttyname
+
+### prellm.analyzers.context_engine.ContextEngine._gather_git_subprocess
+> Fallback: gather git info using subprocess calls.
+- **Output to**: git_commands.get, subprocess.run, out.stdout.strip
 
 ### prellm.validators.ResponseValidator.validate
 > Validate a dict against a named schema.
@@ -533,33 +569,9 @@ Args:
   
 - **Output to**: self.validate, logger.info, retry_fn, self.validate
 
-### prellm.server._parse_model_pair
-> Parse 'prellm:qwen→claude' or 'prellm:small→large' into (small, large) model strings.
-
-Special cases
-- **Output to**: model_str.split, None.lower, pair.split, len, pair.split
-
-### prellm.server.batch_process
-> Process multiple queries in parallel.
-- **Output to**: app.post, HTTPException, asyncio.gather, list, prellm.core.preprocess_and_execute
-
-### prellm.chains.process_chain.ProcessChain._load_process_config
-- **Output to**: raw.get, ProcessConfig, open, steps.append, yaml.safe_load
-
-### scripts.config_wizard.validate_ollama_model
-- **Output to**: scripts.config_wizard.strip_ollama_prefix, scripts.config_wizard.warn, scripts.config_wizard.info, scripts.config_wizard.ask_yn, scripts.config_wizard.ask_yn
-
-### scripts.config_wizard.check_api_key_format
-> Validate API key format.
-- **Output to**: patterns.get, re.match, scripts.config_wizard.ok, scripts.config_wizard.warn
-
-### prellm.context.shell_collector.ShellContextCollector.collect_process_info
-> Collect current process information.
-- **Output to**: ProcessInfo, hasattr, os.ttyname, os.getpid, os.getcwd
-
-### prellm.context.codebase_indexer.CodebaseIndexer._get_parser
-> Get or create a tree-sitter parser for the given language.
-- **Output to**: __import__, tree_sitter.Language, tree_sitter.Parser, lang_module.language, logger.debug
+### prellm.agents.executor.ExecutorAgent._validate_response
+> Validate response content against the configured schema.
+- **Output to**: self.response_validator.validate, json.loads, isinstance, self.response_validator.validate
 
 ### prellm.agents.preprocessor.PreprocessorAgent.preprocess
 > Preprocess a query and return structured input for the Executor.
@@ -567,18 +579,6 @@ Special cases
 Args:
     query: The raw user quer
 - **Output to**: self.context_engine.gather, self._extract_executor_input, self._extract_confidence, PreprocessResult, self.pipeline.execute
-
-### prellm.agents.executor.ExecutorAgent._validate_response
-> Validate response content against the configured schema.
-- **Output to**: self.response_validator.validate, json.loads, isinstance, self.response_validator.validate
-
-### prellm.analyzers.context_engine.ContextEngine._gather_process
-> PID, CWD, user, parent PID, TTY.
-- **Output to**: os.getpid, os.getcwd, os.environ.get, hasattr, os.ttyname
-
-### prellm.analyzers.context_engine.ContextEngine._gather_git_subprocess
-> Fallback: gather git info using subprocess calls.
-- **Output to**: git_commands.get, subprocess.run, out.stdout.strip
 
 ## Behavioral Patterns
 
@@ -602,8 +602,8 @@ Functions exposed as public API (no underscore prefix):
 - `prellm.cli.budget` - 26 calls
 - `prellm.cli.config_show_cmd` - 25 calls
 - `prellm.cli.serve` - 22 calls
-- `prellm.pipeline.PromptPipeline.from_yaml` - 22 calls
 - `prellm.server.chat_completions` - 22 calls
+- `prellm.pipeline.PromptPipeline.from_yaml` - 22 calls
 - `prellm.context.codebase_indexer.CodebaseIndexer.get_compressed_context` - 21 calls
 - `prellm.cli.process` - 20 calls
 - `prellm.cli.doctor` - 18 calls
@@ -626,11 +626,11 @@ Functions exposed as public API (no underscore prefix):
 - `prellm.analyzers.context_engine.ContextEngine.gather_runtime` - 14 calls
 - `prellm.cli.config_list_cmd` - 13 calls
 - `prellm.env_config.check_providers_live` - 13 calls
-- `prellm.validators.ResponseValidator.validate` - 13 calls
-- `prellm.chains.process_chain.ProcessChain.execute` - 13 calls
 - `scripts.config_wizard.ask_choice` - 13 calls
+- `prellm.chains.process_chain.ProcessChain.execute` - 13 calls
+- `prellm.validators.ResponseValidator.validate` - 13 calls
 - `prellm.agents.preprocessor.PreprocessorAgent.preprocess` - 13 calls
-- `examples.python_sdk.example_one_function` - 12 calls
+- `prellm.cli.config_init_env` - 12 calls
 
 ## System Interactions
 
