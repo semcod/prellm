@@ -1,0 +1,63 @@
+format: toon-v2-yaml
+timestamp: '2026-03-25'
+header:
+  files: 31
+  lines: 8900
+  functions: 310
+  avg_cc: 5.0
+  critical_count: 10
+  duplicates: 0
+  cycles: 1
+health:
+  count: 10
+  status: issues_found
+  issues:
+  - severity: yellow
+    code: CC
+    message: load_dotenv_if_available CC=20 (limit:15)
+  - severity: yellow
+    code: CC
+    message: query CC=27 (limit:15)
+  - severity: yellow
+    code: CC
+    message: to_markdown CC=17 (limit:15)
+  - severity: yellow
+    code: CC
+    message: to_stdout CC=28 (limit:15)
+  - severity: yellow
+    code: CC
+    message: preprocess_and_execute CC=15 (limit:15)
+  - severity: yellow
+    code: CC
+    message: _prepare_context CC=21 (limit:15)
+  - severity: yellow
+    code: CC
+    message: _build_executor_system_prompt CC=19 (limit:15)
+  - severity: yellow
+    code: CC
+    message: _build_decomposition_result CC=16 (limit:15)
+  - severity: yellow
+    code: CC
+    message: main CC=30 (limit:15)
+  - severity: yellow
+    code: CC
+    message: _filter_recursive CC=17 (limit:15)
+refactor:
+  steps:
+  - action: split_methods
+    count: 10
+    reason: high_cc
+  - action: break_cycles
+    count: 1
+pipelines:
+  count: 0
+  pipelines: []
+layers:
+  count: 0
+  layers: []
+coupling:
+  count: 0
+  packages: []
+external:
+  count: 0
+  libraries: []

@@ -1,0 +1,104 @@
+format: evolution-toon-yaml
+timestamp: '2026-03-25'
+stats:
+  total_funcs: 248
+  total_files: 24
+  avg_cc: 5.1
+  max_cc: 28
+  high_cc_count: 9
+  critical_count: 31
+refactoring:
+  action_count: 12
+  actions:
+  - priority: critical
+    action: SPLIT-FUNC
+    target: query
+    cc: 27
+    fan_out: 30
+    reason: CC=27 exceeds 15
+    effort: ~1h
+  - priority: critical
+    action: SPLIT-FUNC
+    target: TraceRecorder.to_stdout
+    cc: 28
+    fan_out: 22
+    reason: CC=28 exceeds 15
+    effort: ~1h
+  - priority: high
+    action: SPLIT
+    target: prellm/cli.py
+    reason: 999L, 0 classes, max CC=27
+    effort: ~4h
+  - priority: high
+    action: SPLIT
+    target: prellm/core.py
+    reason: 893L, 1 classes, max CC=21
+    effort: ~4h
+  - priority: high
+    action: SPLIT
+    target: prellm/trace.py
+    reason: 509L, 2 classes, max CC=28
+    effort: ~4h
+  - priority: high
+    action: SPLIT-FUNC
+    target: _prepare_context
+    cc: 21
+    fan_out: 18
+    reason: CC=21 exceeds 15
+    effort: ~1h
+  - priority: high
+    action: SPLIT-FUNC
+    target: load_dotenv_if_available
+    cc: 20
+    fan_out: 16
+    reason: CC=20 exceeds 15
+    effort: ~1h
+  - priority: high
+    action: SPLIT-FUNC
+    target: _build_executor_system_prompt
+    cc: 19
+    fan_out: 12
+    reason: CC=19 exceeds 15
+    effort: ~1h
+  - priority: high
+    action: SPLIT-FUNC
+    target: TraceRecorder.to_markdown
+    cc: 17
+    fan_out: 12
+    reason: CC=17 exceeds 15
+    effort: ~1h
+  - priority: high
+    action: SPLIT-FUNC
+    target: _build_decomposition_result
+    cc: 16
+    fan_out: 11
+    reason: CC=16 exceeds 15
+    effort: ~1h
+risks:
+  count: 3
+  items:
+  - type: breaking_imports
+    target: prellm/cli.py
+    impact: may break 24 import paths
+  - type: breaking_imports
+    target: prellm/core.py
+    impact: may break 17 import paths
+  - type: breaking_imports
+    target: prellm/trace.py
+    impact: may break 16 import paths
+metrics_target:
+  avg_cc:
+    current: 5.1
+    target: 3.6
+  max_cc:
+    current: 28
+    target: 14
+  god_modules:
+    current: 3
+    target: 0
+  high_cc:
+    current: 9
+    target: 4
+  hub_types:
+    current: 0
+    target: 0

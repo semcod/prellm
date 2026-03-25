@@ -1,0 +1,48 @@
+flowchart TD
+
+    %% Entry points (blue)
+    classDef entry fill:#4dabf7,stroke:#1971c2,color:#fff
+
+    subgraph CLI
+        prellm__cli___init_logging["_init_logging"]
+        prellm__cli__query["query"]
+        prellm__cli__context["context"]
+        prellm__cli__process["process"]
+        prellm__cli__decompose["decompose"]
+        prellm__cli__init["init"]
+        prellm__cli__serve["serve"]
+        prellm__cli___doctor_check_config["_doctor_check_config"]
+        prellm__cli___doctor_check_providers["_doctor_check_providers"]
+        prellm__cli___doctor_check_files["_doctor_check_files"]
+        prellm__cli__doctor["doctor"]
+        prellm__cli__config_set_cmd["config_set_cmd"]
+        prellm__cli__config_get_cmd["config_get_cmd"]
+        prellm__cli___format_config_sections["_format_config_sections"]
+        prellm__cli__config_list_cmd["config_list_cmd"]
+        ...["+9 more"]
+    end
+
+    subgraph Core
+        prellm__env_config__load_dotenv_if_available{{load_dotenv_if_available CC=20}}
+        prellm__env_config__get_env_config("get_env_config CC=9")
+        prellm__env_config__check_providers["check_providers"]
+        prellm__env_config__check_providers_live["check_providers_live"]
+        prellm__trace__TraceRecorder__start["start"]
+        prellm__trace__TraceRecorder__stop["stop"]
+        prellm__trace__TraceRecorder__step["step"]
+        prellm__trace__TraceRecorder__set_result["set_result"]
+        prellm__trace__TraceRecorder__to_markdown["to_markdown"]
+        prellm__trace__TraceRecorder__to_stdout["to_stdout"]
+        prellm__trace__TraceRecorder__save["save"]
+        prellm__trace___compact_value["_compact_value"]
+        prellm__prompt_registry__PromptEntry____repr__["__repr__"]
+        prellm__prompt_registry__PromptRegistry___ensure_loaded["_ensure_loaded"]
+        prellm__prompt_registry__PromptRegistry___load["_load"]
+        ...["+154 more"]
+    end
+
+    subgraph Exporters
+        prellm__context__user_memory__UserMemory__export_session["export_session"]
+    end
+
+    class prellm__cli___init_logging,prellm__cli__query,prellm__cli__context,prellm__cli__process,prellm__cli__decompose,prellm__cli__init,prellm__cli__serve,prellm__cli___doctor_check_config,prellm__cli___doctor_check_providers,prellm__cli___doctor_check_files entry
