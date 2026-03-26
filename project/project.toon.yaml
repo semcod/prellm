@@ -1,0 +1,55 @@
+# prellm | 325 func | 28f | 15132L | python | 2026-03-26
+
+HEALTH:
+  CC̄=4.3  critical=24 (limit:10)  dup=0  cycles=0
+
+ALERTS[20]:
+  !!! high_fan_out     _execute_v3_pipeline = 23 (limit:10)
+  !!  high_fan_out     context = 19 (limit:10)
+  !!  high_fan_out     _write_env_file = 18 (limit:10)
+  !!  high_fan_out     context_show_cmd = 18 (limit:10)
+  !!  high_fan_out     chat_completions = 16 (limit:10)
+  !   cc_exceeded      preprocess_and_execute = 15 (limit:15)
+  !   high_fan_out     config_list = 14 (limit:10)
+  !   high_fan_out     _show_debug_info = 14 (limit:10)
+  !   high_fan_out     PromptPipeline.from_yaml = 14 (limit:10)
+  !   high_fan_out     CodebaseIndexer.get_compressed_context = 14 (limit:10)
+
+MODULES[34] (top by size):
+  M[prellm/cli.py] 1076L C:0 F:28 CC↑13 D:0 (python)
+  M[prellm/core.py] 1032L C:1 F:32 CC↑15 D:10 (python)
+  M[scripts/config_wizard.py] 708L C:0 F:33 CC↑9 D:0 (python)
+  M[prellm/trace.py] 649L C:2 F:29 CC↑13 D:1 (python)
+  M[prellm/env_config.py] 528L C:1 F:17 CC↑14 D:2 (python)
+  M[prellm/pipeline.py] 483L C:5 F:18 CC↑9 D:0 (python)
+  M[prellm/server.py] 447L C:10 F:9 CC↑12 D:1 (python)
+  M[prellm/models.py] 434L C:33 F:2 CC↑1 D:0 (python)
+  M[prellm/context/codebase_indexer.py] 418L C:4 F:14 CC↑11 D:0 (python)
+  M[prellm/context/user_memory.py] 361L C:1 F:15 CC↑12 D:0 (python)
+  M[prellm/query_decomposer.py] 330L C:1 F:10 CC↑9 D:0 (python)
+  M[prellm/chains/process_chain.py] 275L C:1 F:10 CC↑7 D:0 (python)
+  M[prellm/context/sensitive_filter.py] 262L C:1 F:14 CC↑7 D:0 (python)
+  M[prellm/analyzers/context_engine.py] 248L C:1 F:13 CC↑13 D:0 (python)
+  M[prellm/llm_provider.py] 236L C:1 F:6 CC↑13 D:0 (python)
+  LANGS: python:33/shell:1
+
+HOTSPOTS[10]:
+  ★ _execute_v3_pipeline fan=23  // Two-agent execution path — PreprocessorAgent + ExecutorAgent + PromptPipeline.
+
+
+  ★ context fan=19  // Show collected environment context, schema, and blocked sensitive data.
+  ★ _write_env_file fan=18  // Write entries to .env file, preserving existing comments.
+
+Delegates to getv.Env
+  ★ context_show_cmd fan=18  // Show collected runtime context.
+  ★ chat_completions fan=16  // OpenAI-compatible chat completions with preLLM preprocessing.
+
+REFACTOR[9]:
+  [1] H/H Split god module prellm/core.py (1032L, 1 classes)
+  [2] H/H Split god module prellm/env_config.py (528L, 1 classes)
+  [3] H/H Split god module prellm/cli.py (1076L, 0 classes)
+  [4] H/H Split god module prellm/trace.py (649L, 2 classes)
+  [5] H/H Split god module scripts/config_wizard.py (708L, 0 classes)
+
+EVOLUTION:
+  2026-03-26 CC̄=4.3 crit=24 15132L // Automated analysis

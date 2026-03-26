@@ -1,4 +1,4 @@
-# prellm | 34f 9442L | python:33,shell:1 | 2026-03-25
+# prellm | 34f 9442L | python:33,shell:1 | 2026-03-26
 # stats: 325 func | 0 cls | 34 mod | CC̄=4.3 | critical:1 | cycles:0
 # alerts[5]: fan-out _execute_v3_pipeline=23; fan-out context=19; fan-out _write_env_file=18; fan-out context_show_cmd=18; fan-out chat_completions=16
 # hotspots[5]: _execute_v3_pipeline fan=23; context fan=19; _write_env_file fan=18; context_show_cmd fan=18; chat_completions fan=16

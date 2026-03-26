@@ -1,4 +1,4 @@
-# code2llm | 34f 9442L | python:33,shell:1 | 2026-03-25
+# code2llm | 34f 9442L | python:33,shell:1 | 2026-03-26
 # CC̄=4.3 | critical:1/369 | dups:0 | cycles:0
 
 HEALTH[1]:
@@ -8,15 +8,15 @@ REFACTOR[1]:
   1. split 1 high-CC methods  (CC>15)
 
 PIPELINES[245]:
-  [1] Src [ollama_local]: ollama_local → run_provider_example → preprocess_and_execute → get_current_trace
+  [1] Src [main]: main → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [2] Src [ollama_plus_openai]: ollama_plus_openai → run_provider_example → preprocess_and_execute → get_current_trace
+  [2] Src [main]: main → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [3] Src [ollama_plus_anthropic]: ollama_plus_anthropic → run_provider_example → preprocess_and_execute → get_current_trace
+  [3] Src [main]: main → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [4] Src [openai_only]: openai_only → run_provider_example → preprocess_and_execute → get_current_trace
+  [4] Src [example_zero_config]: example_zero_config → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
-  [5] Src [anthropic_only]: anthropic_only → run_provider_example → preprocess_and_execute → get_current_trace
+  [5] Src [example_strategy]: example_strategy → preprocess_and_execute → get_current_trace
       PURITY: 100% pure
 
 LAYERS:

@@ -25,9 +25,9 @@ flowchart TD
     examples_python_sdk ==>|8| prellm_core
     examples_quick_start ==>|6| prellm_core
     examples_quick_start ==>|4| examples_utils
+    examples_embedded_refactor -->|3| prellm_core
     examples_polish_leasing -->|3| prellm_core
     examples_k8s_debug -->|3| prellm_core
-    examples_embedded_refactor -->|3| prellm_core
     prellm_server -->|3| prellm_core
     prellm_cli -->|2| prellm_budget
     prellm_cli -->|2| prellm_model_catalog
@@ -40,7 +40,7 @@ flowchart TD
     prellm_cli -->|1| prellm_core
     prellm_cli -->|1| prellm_server
     prellm_cli -->|1| prellm_models
+    prellm_core -->|1| prellm_pipeline
     prellm_server -->|1| prellm_env_config
     prellm_llm_provider -->|1| prellm_budget
-    prellm_core -->|1| prellm_pipeline
     prellm_chains -->|1| prellm_core

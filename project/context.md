@@ -233,10 +233,10 @@ Args:
 > Load custom sensitive rules from YAML.
 - **Calls**: None.get, None.get, None.get, raw.get, open, self._sensitive_key_patterns.append, self._masked_patterns.append, self._safe_keys.add
 
-### examples.k8s_debug.main
+### examples.embedded_refactor.main
 - **Calls**: print, print, print, print, print, print, print, print
 
-### examples.embedded_refactor.main
+### examples.k8s_debug.main
 - **Calls**: print, print, print, print, print, print, print, print
 
 ### examples.polish_leasing.main
@@ -385,14 +385,6 @@ Supports 5 strategies:
 - **Methods**: 10
 - **Key Methods**: prellm.query_decomposer.QueryDecomposer.__init__, prellm.query_decomposer.QueryDecomposer.decompose, prellm.query_decomposer.QueryDecomposer._classify, prellm.query_decomposer.QueryDecomposer._structure, prellm.query_decomposer.QueryDecomposer._split, prellm.query_decomposer.QueryDecomposer._enrich, prellm.query_decomposer.QueryDecomposer._compose, prellm.query_decomposer.QueryDecomposer._match_domain_rule, prellm.query_decomposer.QueryDecomposer._auto_select_strategy, prellm.query_decomposer.QueryDecomposer._find_missing_fields
 
-### prellm.budget.BudgetTracker
-> Tracks LLM API spend against a monthly budget.
-
-Usage:
-    tracker = BudgetTracker(monthly_limit=50.
-- **Methods**: 10
-- **Key Methods**: prellm.budget.BudgetTracker._ensure_loaded, prellm.budget.BudgetTracker.check, prellm.budget.BudgetTracker.record, prellm.budget.BudgetTracker.record_from_response, prellm.budget.BudgetTracker.total_cost, prellm.budget.BudgetTracker.remaining, prellm.budget.BudgetTracker.entries, prellm.budget.BudgetTracker.summary, prellm.budget.BudgetTracker._persist, prellm.budget.BudgetTracker.reset
-
 ### prellm.chains.process_chain.ProcessChain
 > Execute multi-step DevOps workflows with preLLM validation at each step.
 
@@ -400,6 +392,14 @@ Usage:
     from prellm.cor
 - **Methods**: 10
 - **Key Methods**: prellm.chains.process_chain.ProcessChain.__init__, prellm.chains.process_chain.ProcessChain.execute, prellm.chains.process_chain.ProcessChain._execute_step, prellm.chains.process_chain.ProcessChain._check_dependencies, prellm.chains.process_chain.ProcessChain._handle_approval, prellm.chains.process_chain.ProcessChain._run_dry_run, prellm.chains.process_chain.ProcessChain._run_engine, prellm.chains.process_chain.ProcessChain.get_audit_log, prellm.chains.process_chain.ProcessChain._audit_step, prellm.chains.process_chain.ProcessChain._load_process_config
+
+### prellm.budget.BudgetTracker
+> Tracks LLM API spend against a monthly budget.
+
+Usage:
+    tracker = BudgetTracker(monthly_limit=50.
+- **Methods**: 10
+- **Key Methods**: prellm.budget.BudgetTracker._ensure_loaded, prellm.budget.BudgetTracker.check, prellm.budget.BudgetTracker.record, prellm.budget.BudgetTracker.record_from_response, prellm.budget.BudgetTracker.total_cost, prellm.budget.BudgetTracker.remaining, prellm.budget.BudgetTracker.entries, prellm.budget.BudgetTracker.summary, prellm.budget.BudgetTracker._persist, prellm.budget.BudgetTracker.reset
 
 ### prellm.prompt_registry.PromptRegistry
 > Loads prompts from YAML, caches, validates placeholders.
@@ -430,14 +430,6 @@ Usage:
 - **Key Methods**: prellm.validators.ResponseValidator.__init__, prellm.validators.ResponseValidator._load, prellm.validators.ResponseValidator.list_schemas, prellm.validators.ResponseValidator.validate, prellm.validators.ResponseValidator.validate_or_retry, prellm.validators.ResponseValidator._check_type, prellm.validators.ResponseValidator._check_constraints
 - **Inherits**: LazyLoader
 
-### prellm.llm_provider.LLMProvider
-> Unified LLM caller with retry and fallback support.
-
-Usage:
-    provider = LLMProvider(LLMProviderCo
-- **Methods**: 6
-- **Key Methods**: prellm.llm_provider.LLMProvider.__init__, prellm.llm_provider.LLMProvider._get_budget, prellm.llm_provider.LLMProvider.complete, prellm.llm_provider.LLMProvider.complete_json, prellm.llm_provider.LLMProvider.complete_structured, prellm.llm_provider.LLMProvider._parse_json
-
 ### prellm.core.PreLLM
 > preLLM v0.2/v0.3 — small LLM decomposition before large LLM routing.
 
@@ -445,6 +437,14 @@ Usage:
     engine = PreLLM("pr
 - **Methods**: 6
 - **Key Methods**: prellm.core.PreLLM.__init__, prellm.core.PreLLM.__call__, prellm.core.PreLLM.decompose_only, prellm.core.PreLLM.get_audit_log, prellm.core.PreLLM._audit, prellm.core.PreLLM._load_config
+
+### prellm.llm_provider.LLMProvider
+> Unified LLM caller with retry and fallback support.
+
+Usage:
+    provider = LLMProvider(LLMProviderCo
+- **Methods**: 6
+- **Key Methods**: prellm.llm_provider.LLMProvider.__init__, prellm.llm_provider.LLMProvider._get_budget, prellm.llm_provider.LLMProvider.complete, prellm.llm_provider.LLMProvider.complete_json, prellm.llm_provider.LLMProvider.complete_structured, prellm.llm_provider.LLMProvider._parse_json
 
 ### prellm.context.folder_compressor.FolderCompressor
 > Compresses a project folder into a lightweight representation for LLM context.
@@ -508,20 +508,6 @@ Key functions that process and transform data:
 > Validate that all prompts have non-empty templates. Returns list of error messages.
 - **Output to**: self._ensure_loaded, set, self._entries.items, self._entries.keys, errors.append
 
-### prellm.server._parse_model_pair
-> Parse 'prellm:qwen→claude' or 'prellm:small→large' into (small, large) model strings.
-
-Special cases
-- **Output to**: model_str.split, None.lower, pair.split, len, pair.split
-
-### prellm.server.batch_process
-> Process multiple queries in parallel.
-- **Output to**: app.post, HTTPException, asyncio.gather, list, prellm.core.preprocess_and_execute
-
-### prellm.llm_provider.LLMProvider._parse_json
-> Best-effort JSON extraction from LLM output.
-- **Output to**: text.strip, logger.warning, json.loads, text.split, text.find
-
 ### prellm.core.preprocess_and_execute
 > One function to preprocess and execute — like litellm.completion() but with small LLM decomposition.
 - **Output to**: logger.info, prellm.trace.get_current_trace, PreLLM._load_config, trace.step, prellm.core._execute_v3_pipeline
@@ -553,16 +539,23 @@ Usage:
 > Extract and format user context information.
 - **Output to**: extra_context.get, parts.append
 
+### prellm.server._parse_model_pair
+> Parse 'prellm:qwen→claude' or 'prellm:small→large' into (small, large) model strings.
+
+Special cases
+- **Output to**: model_str.split, None.lower, pair.split, len, pair.split
+
+### prellm.server.batch_process
+> Process multiple queries in parallel.
+- **Output to**: app.post, HTTPException, asyncio.gather, list, prellm.core.preprocess_and_execute
+
+### prellm.llm_provider.LLMProvider._parse_json
+> Best-effort JSON extraction from LLM output.
+- **Output to**: text.strip, logger.warning, json.loads, text.split, text.find
+
 ### prellm.pipeline.PromptPipeline._algo_yaml_formatter
 > Format pipeline state into structured executor input.
 - **Output to**: inputs.get, state.get, state.get, isinstance, str
-
-### scripts.config_wizard.validate_ollama_model
-- **Output to**: scripts.config_wizard.strip_ollama_prefix, scripts.config_wizard.warn, scripts.config_wizard.info, scripts.config_wizard.ask_yn, scripts.config_wizard.ask_yn
-
-### scripts.config_wizard.check_api_key_format
-> Validate API key format.
-- **Output to**: patterns.get, re.match, scripts.config_wizard.ok, scripts.config_wizard.warn
 
 ### prellm.validators.ResponseValidator.validate
 > Validate a dict against a named schema.
@@ -579,12 +572,19 @@ Args:
   
 - **Output to**: self.validate, logger.info, retry_fn, self.validate
 
-### prellm.context.shell_collector.ShellContextCollector.collect_process_info
-> Collect current process information.
-- **Output to**: ProcessInfo, hasattr, os.ttyname, os.getpid, os.getcwd
+### scripts.config_wizard.validate_ollama_model
+- **Output to**: scripts.config_wizard.strip_ollama_prefix, scripts.config_wizard.warn, scripts.config_wizard.info, scripts.config_wizard.ask_yn, scripts.config_wizard.ask_yn
+
+### scripts.config_wizard.check_api_key_format
+> Validate API key format.
+- **Output to**: patterns.get, re.match, scripts.config_wizard.ok, scripts.config_wizard.warn
 
 ### prellm.chains.process_chain.ProcessChain._load_process_config
 - **Output to**: raw.get, ProcessConfig, open, steps.append, yaml.safe_load
+
+### prellm.context.shell_collector.ShellContextCollector.collect_process_info
+> Collect current process information.
+- **Output to**: ProcessInfo, hasattr, os.ttyname, os.getpid, os.getcwd
 
 ### prellm.agents.preprocessor.PreprocessorAgent.preprocess
 > Preprocess a query and return structured input for the Executor.
@@ -623,8 +623,8 @@ Functions exposed as public API (no underscore prefix):
 - `prellm.cli.session_export_cmd` - 17 calls
 - `prellm.query_decomposer.QueryDecomposer.decompose` - 17 calls
 - `prellm.context.folder_compressor.FolderCompressor.to_toon` - 17 calls
-- `examples.k8s_debug.main` - 16 calls
 - `examples.embedded_refactor.main` - 16 calls
+- `examples.k8s_debug.main` - 16 calls
 - `examples.polish_leasing.main` - 15 calls
 - `examples.python_sdk.example_custom_pipeline` - 15 calls
 - `scripts.config_wizard.main` - 15 calls
@@ -636,8 +636,8 @@ Functions exposed as public API (no underscore prefix):
 - `prellm.analyzers.context_engine.ContextEngine.gather_runtime` - 14 calls
 - `prellm.env_config.check_providers_live` - 13 calls
 - `prellm.cli.config_list_cmd` - 13 calls
-- `scripts.config_wizard.ask_choice` - 13 calls
 - `prellm.validators.ResponseValidator.validate` - 13 calls
+- `scripts.config_wizard.ask_choice` - 13 calls
 - `prellm.chains.process_chain.ProcessChain.execute` - 13 calls
 - `prellm.agents.preprocessor.PreprocessorAgent.preprocess` - 13 calls
 - `examples.python_sdk.example_one_function` - 12 calls
