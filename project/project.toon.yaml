@@ -51,16 +51,17 @@ HOTSPOTS[10]:
 Delegates to getv.Env
   ★ chat_completions fan=16  // OpenAI-compatible chat completions with preLLM preprocessing.
 
-REFACTOR[6]:
+REFACTOR[5]:
   [1] ✓ DONE Split preprocess_and_execute CC=15→6 (prellm/core/__init__.py)
   [2] ✓ DONE Split god module prellm/core.py → prellm/core/ package (7 submodules)
       STRUCTURE: __init__.py (API), main.py, context.py, pipeline.py, prompts.py, tracing.py, results.py, legacy.py
-  [3] H/H Split god module prellm/cli.py (1076L, 0 classes)
+  [3] ✓ DONE Split god module prellm/cli.py → prellm/cli/ package (9 submodules)
+      STRUCTURE: __init__.py, main.py, utils.py, doctor.py, config.py, budget.py, models.py, context.py, session.py, process.py
   [4] H/H Split god module prellm/trace.py (649L, 2 classes)
   [5] H/H Split god module prellm/env_config.py (528L, 1 classes)
-  [6] H/H Split god module scripts/config_wizard.py (708L, 0 classes)
 
 EVOLUTION:
   2026-03-29 CC̄=4.3 crit=24 15132L // Automated analysis
   2026-03-29 CC̄=4.1 crit=0 15132L // preprocess_and_execute refactored (CC 15→6)
   2026-03-29 CC̄=4.1 crit=0 15200L // prellm/core.py god module split into 7 submodules
+  2026-03-29 CC̄=4.1 crit=0 10800L // prellm/cli.py god module split into 9 submodules

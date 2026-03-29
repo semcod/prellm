@@ -1,5 +1,20 @@
 ## [Unreleased]
 
+## [0.4.22] - 2026-03-29
+
+### Other
+- Update prellm/cli.py
+- Update prellm/cli/__init__.py
+- Update prellm/cli/budget.py
+- Update prellm/cli/config.py
+- Update prellm/cli/context.py
+- Update prellm/cli/doctor.py
+- Update prellm/cli/main.py
+- Update prellm/cli/models.py
+- Update prellm/cli/process.py
+- Update prellm/cli/session.py
+- ... and 4 more files
+
 ## [0.4.21] - 2026-03-29
 
 ## [0.4.20] - 2026-03-29

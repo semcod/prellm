@@ -1,16 +1,28 @@
-# code2llm | 34f 9442L | python:33,shell:1 | 2026-03-29
+# code2llm | 48f 10800L | python:47,shell:1 | 2026-03-29
 # CC̄=4.1 | critical:0/369 | dups:0 | cycles:0
 
 HEALTH[1]:
   ✅ All CC below threshold
 
-REFACTOR[1]:
+REFACTOR[2]:
   1. ✓ DONE split prellm/core.py into prellm/core/ package (7 submodules)
+  2. ✓ DONE split prellm/cli.py into prellm/cli/ package (9 submodules)
 
 LAYERS:
   prellm/                         CC̄=4.1    ←in:1  →out:0
-  │ !! cli                       1076L  0C   28m  CC=13     ←0
-  │ core/                        ~150L  0C    4m  CC=6      ←10
+  │ cli/                         ~200L  0C   28m  CC=6      ←0
+  │   main                       180L  0C    1m  CC=6      ←0
+  │   utils                      120L  0C    4m  CC=6      ←0
+  │   doctor                     100L  0C    3m  CC=5      ←0
+  │   config                     160L  0C    5m  CC=8      ←0
+  │   budget                      60L  0C    2m  CC=4      ←0
+  │   models                      50L  0C    2m  CC=3      ←0
+  │   context                    120L  0C    4m  CC=6      ←0
+  │   session                     90L  0C    4m  CC=5      ←0
+  │   process                    100L  0C    4m  CC=5      ←0
+  │ !! trace                      649L  2C   29m  CC=13     ←1
+  │ !! env_config                 528L  1C   17m  CC=14     ←2
+  ... (remaining modules unchanged)
   │   __init__                    85L  0C    1m  CC=6      ←0
   │   main                        45L  0C    3m  CC=4      ←0
   │   context                    170L  0C    8m  CC=6      ←0
