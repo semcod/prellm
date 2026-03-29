@@ -50,15 +50,15 @@
 - **Classes**: 1
 - **File**: `user_memory.py`
 
-### prellm.context.sensitive_filter
-- **Functions**: 14
-- **Classes**: 1
-- **File**: `sensitive_filter.py`
-
 ### prellm.context.codebase_indexer
 - **Functions**: 14
 - **Classes**: 4
 - **File**: `codebase_indexer.py`
+
+### prellm.context.sensitive_filter
+- **Functions**: 14
+- **Classes**: 1
+- **File**: `sensitive_filter.py`
 
 ### prellm.analyzers.context_engine
 - **Functions**: 13
@@ -88,15 +88,15 @@
 - **Classes**: 1
 - **File**: `query_decomposer.py`
 
-### prellm.context.folder_compressor
-- **Functions**: 10
-- **Classes**: 1
-- **File**: `folder_compressor.py`
-
 ### prellm.chains.process_chain
 - **Functions**: 10
 - **Classes**: 1
 - **File**: `process_chain.py`
+
+### prellm.context.folder_compressor
+- **Functions**: 10
+- **Classes**: 1
+- **File**: `folder_compressor.py`
 
 ### prellm.server
 - **Functions**: 9
@@ -357,11 +357,6 @@ Usage:
 - **Methods**: 15
 - **Key Methods**: prellm.context.user_memory.UserMemory.__init__, prellm.context.user_memory.UserMemory._init_sqlite, prellm.context.user_memory.UserMemory._init_chromadb, prellm.context.user_memory.UserMemory.add_interaction, prellm.context.user_memory.UserMemory.get_recent_context, prellm.context.user_memory.UserMemory.get_user_preferences, prellm.context.user_memory.UserMemory.set_preference, prellm.context.user_memory.UserMemory.clear, prellm.context.user_memory.UserMemory.export_session, prellm.context.user_memory.UserMemory.import_session
 
-### prellm.context.sensitive_filter.SensitiveDataFilter
-> Classifies and filters sensitive data from context before LLM calls.
-- **Methods**: 14
-- **Key Methods**: prellm.context.sensitive_filter.SensitiveDataFilter.__init__, prellm.context.sensitive_filter.SensitiveDataFilter._load_rules, prellm.context.sensitive_filter.SensitiveDataFilter.classify_key, prellm.context.sensitive_filter.SensitiveDataFilter.classify_value, prellm.context.sensitive_filter.SensitiveDataFilter.filter_dict, prellm.context.sensitive_filter.SensitiveDataFilter.filter_context_for_large_llm, prellm.context.sensitive_filter.SensitiveDataFilter.sanitize_text, prellm.context.sensitive_filter.SensitiveDataFilter.get_filter_report, prellm.context.sensitive_filter.SensitiveDataFilter._filter_dict_item, prellm.context.sensitive_filter.SensitiveDataFilter._filter_env_var_item
-
 ### prellm.context.codebase_indexer.CodebaseIndexer
 > Index a codebase using tree-sitter for AST-based symbol extraction.
 
@@ -369,6 +364,11 @@ Usage:
     indexer = CodebaseIn
 - **Methods**: 14
 - **Key Methods**: prellm.context.codebase_indexer.CodebaseIndexer.__init__, prellm.context.codebase_indexer.CodebaseIndexer._check_tree_sitter, prellm.context.codebase_indexer.CodebaseIndexer.index_directory, prellm.context.codebase_indexer.CodebaseIndexer._index_file, prellm.context.codebase_indexer.CodebaseIndexer._extract_with_tree_sitter, prellm.context.codebase_indexer.CodebaseIndexer._get_parser, prellm.context.codebase_indexer.CodebaseIndexer._walk_tree, prellm.context.codebase_indexer.CodebaseIndexer._get_line, prellm.context.codebase_indexer.CodebaseIndexer._extract_with_regex, prellm.context.codebase_indexer.CodebaseIndexer._extract_imports
+
+### prellm.context.sensitive_filter.SensitiveDataFilter
+> Classifies and filters sensitive data from context before LLM calls.
+- **Methods**: 14
+- **Key Methods**: prellm.context.sensitive_filter.SensitiveDataFilter.__init__, prellm.context.sensitive_filter.SensitiveDataFilter._load_rules, prellm.context.sensitive_filter.SensitiveDataFilter.classify_key, prellm.context.sensitive_filter.SensitiveDataFilter.classify_value, prellm.context.sensitive_filter.SensitiveDataFilter.filter_dict, prellm.context.sensitive_filter.SensitiveDataFilter.filter_context_for_large_llm, prellm.context.sensitive_filter.SensitiveDataFilter.sanitize_text, prellm.context.sensitive_filter.SensitiveDataFilter.get_filter_report, prellm.context.sensitive_filter.SensitiveDataFilter._filter_dict_item, prellm.context.sensitive_filter.SensitiveDataFilter._filter_env_var_item
 
 ### prellm.analyzers.context_engine.ContextEngine
 > Collects context from environment, git, and system for prompt enrichment.
@@ -482,10 +482,6 @@ Usage:
 
 Key functions that process and transform data:
 
-### prellm.env_config._parse_env_line
-> Parse a single .env line. Returns (key, value) or None if invalid.
-- **Output to**: line.strip, line.partition, key.strip, None.strip, line.startswith
-
 ### prellm.cli._execute_and_format_result
 > Execute the query and format output.
 - **Output to**: asyncio.run, prellm.core.preprocess_and_execute, recorder.stop, typer.echo, recorder.save
@@ -498,6 +494,10 @@ Key functions that process and transform data:
 > Group config entries into categorized sections for display.
 - **Output to**: entries.items, None.append, None.append, var.startswith, None.append
 
+### prellm.env_config._parse_env_line
+> Parse a single .env line. Returns (key, value) or None if invalid.
+- **Output to**: line.strip, line.partition, key.strip, None.strip, line.startswith
+
 ### prellm._get_process_chain
 
 ### prellm.trace._format_tree_value
@@ -507,6 +507,16 @@ Key functions that process and transform data:
 ### prellm.prompt_registry.PromptRegistry.validate
 > Validate that all prompts have non-empty templates. Returns list of error messages.
 - **Output to**: self._ensure_loaded, set, self._entries.items, self._entries.keys, errors.append
+
+### prellm.server._parse_model_pair
+> Parse 'prellm:qwen→claude' or 'prellm:small→large' into (small, large) model strings.
+
+Special cases
+- **Output to**: model_str.split, None.lower, pair.split, len, pair.split
+
+### prellm.server.batch_process
+> Process multiple queries in parallel.
+- **Output to**: app.post, HTTPException, asyncio.gather, list, prellm.core.preprocess_and_execute
 
 ### prellm.core.preprocess_and_execute
 > One function to preprocess and execute — like litellm.completion() but with small LLM decomposition.
@@ -539,23 +549,9 @@ Usage:
 > Extract and format user context information.
 - **Output to**: extra_context.get, parts.append
 
-### prellm.server._parse_model_pair
-> Parse 'prellm:qwen→claude' or 'prellm:small→large' into (small, large) model strings.
-
-Special cases
-- **Output to**: model_str.split, None.lower, pair.split, len, pair.split
-
-### prellm.server.batch_process
-> Process multiple queries in parallel.
-- **Output to**: app.post, HTTPException, asyncio.gather, list, prellm.core.preprocess_and_execute
-
 ### prellm.llm_provider.LLMProvider._parse_json
 > Best-effort JSON extraction from LLM output.
 - **Output to**: text.strip, logger.warning, json.loads, text.split, text.find
-
-### prellm.pipeline.PromptPipeline._algo_yaml_formatter
-> Format pipeline state into structured executor input.
-- **Output to**: inputs.get, state.get, state.get, isinstance, str
 
 ### prellm.validators.ResponseValidator.validate
 > Validate a dict against a named schema.
@@ -572,6 +568,13 @@ Args:
   
 - **Output to**: self.validate, logger.info, retry_fn, self.validate
 
+### prellm.pipeline.PromptPipeline._algo_yaml_formatter
+> Format pipeline state into structured executor input.
+- **Output to**: inputs.get, state.get, state.get, isinstance, str
+
+### prellm.chains.process_chain.ProcessChain._load_process_config
+- **Output to**: raw.get, ProcessConfig, open, steps.append, yaml.safe_load
+
 ### scripts.config_wizard.validate_ollama_model
 - **Output to**: scripts.config_wizard.strip_ollama_prefix, scripts.config_wizard.warn, scripts.config_wizard.info, scripts.config_wizard.ask_yn, scripts.config_wizard.ask_yn
 
@@ -579,19 +582,13 @@ Args:
 > Validate API key format.
 - **Output to**: patterns.get, re.match, scripts.config_wizard.ok, scripts.config_wizard.warn
 
-### prellm.chains.process_chain.ProcessChain._load_process_config
-- **Output to**: raw.get, ProcessConfig, open, steps.append, yaml.safe_load
-
 ### prellm.context.shell_collector.ShellContextCollector.collect_process_info
 > Collect current process information.
 - **Output to**: ProcessInfo, hasattr, os.ttyname, os.getpid, os.getcwd
 
-### prellm.agents.preprocessor.PreprocessorAgent.preprocess
-> Preprocess a query and return structured input for the Executor.
-
-Args:
-    query: The raw user quer
-- **Output to**: self.context_engine.gather, self._extract_executor_input, self._extract_confidence, PreprocessResult, self.pipeline.execute
+### prellm.context.codebase_indexer.CodebaseIndexer._get_parser
+> Get or create a tree-sitter parser for the given language.
+- **Output to**: __import__, tree_sitter.Language, tree_sitter.Parser, lang_module.language, logger.debug
 
 ## Behavioral Patterns
 
@@ -619,8 +616,8 @@ Functions exposed as public API (no underscore prefix):
 - `prellm.cli.doctor` - 18 calls
 - `prellm.cli.models` - 18 calls
 - `prellm.cli.session_list_cmd` - 18 calls
-- `prellm.env_config.config_list` - 17 calls
 - `prellm.cli.session_export_cmd` - 17 calls
+- `prellm.env_config.config_list` - 17 calls
 - `prellm.query_decomposer.QueryDecomposer.decompose` - 17 calls
 - `prellm.context.folder_compressor.FolderCompressor.to_toon` - 17 calls
 - `examples.embedded_refactor.main` - 16 calls
@@ -634,11 +631,11 @@ Functions exposed as public API (no underscore prefix):
 - `prellm.context.user_memory.UserMemory.get_recent_context` - 14 calls
 - `prellm.context.codebase_indexer.CodebaseIndexer.index_directory` - 14 calls
 - `prellm.analyzers.context_engine.ContextEngine.gather_runtime` - 14 calls
-- `prellm.env_config.check_providers_live` - 13 calls
 - `prellm.cli.config_list_cmd` - 13 calls
+- `prellm.env_config.check_providers_live` - 13 calls
 - `prellm.validators.ResponseValidator.validate` - 13 calls
-- `scripts.config_wizard.ask_choice` - 13 calls
 - `prellm.chains.process_chain.ProcessChain.execute` - 13 calls
+- `scripts.config_wizard.ask_choice` - 13 calls
 - `prellm.agents.preprocessor.PreprocessorAgent.preprocess` - 13 calls
 - `examples.python_sdk.example_one_function` - 12 calls
 - `prellm.cli.config_init_env` - 12 calls

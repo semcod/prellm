@@ -1,5 +1,26 @@
 ## [Unreleased]
 
+## [0.4.18] - 2026-03-29
+
+### Docs
+- Update README.md
+- Update docs/README.md
+- Update project/README.md
+- Update project/context.md
+
+### Other
+- Update prellm/core.py
+- Update project/analysis.toon.yaml
+- Update project/calls.mmd
+- Update project/calls.png
+- Update project/compact_flow.mmd
+- Update project/duplication.toon.yaml
+- Update project/evolution.toon.yaml
+- Update project/flow.mmd
+- Update project/index.html
+- Update project/map.toon.yaml
+- ... and 3 more files
+
 ## [0.4.17] - 2026-03-25
 
 ### Docs

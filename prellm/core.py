@@ -51,6 +51,75 @@ from prellm.trace import get_current_trace
 logger = logging.getLogger("prellm")
 
 
+def _resolve_pipeline_name(
+    pipeline: str | None,
+    strategy: str | DecompositionStrategy,
+) -> str:
+    """Resolve pipeline name from pipeline param or strategy."""
+    if pipeline:
+        return pipeline
+    if isinstance(strategy, DecompositionStrategy):
+        return strategy.value
+    return strategy
+
+
+def _load_config_overrides(
+    config_path: str | Path | None,
+    small_llm: str,
+    large_llm: str,
+    domain_rules: list[dict[str, Any]] | None,
+) -> tuple[dict[str, Any], str, str, list[dict[str, Any]] | None]:
+    """Load config from YAML and apply model overrides.
+    
+    Returns (config_overrides, small_llm, large_llm, domain_rules).
+    """
+    config_overrides: dict[str, Any] = {}
+    
+    if not config_path:
+        return config_overrides, small_llm, large_llm, domain_rules
+    
+    config = PreLLM._load_config(Path(config_path))
+    
+    # Use config models unless explicitly overridden (not default values)
+    if small_llm == "ollama/qwen2.5:3b":
+        small_llm = config.small_model.model
+    if large_llm == "anthropic/claude-sonnet-4-20250514":
+        large_llm = config.large_model.model
+        config_overrides["max_tokens"] = config.large_model.max_tokens
+    
+    # Inject domain rules from config
+    if config.domain_rules and not domain_rules:
+        domain_rules = [r.model_dump() for r in config.domain_rules]
+    
+    return config_overrides, small_llm, large_llm, domain_rules
+
+
+def _record_config_trace(
+    trace: Any,
+    small_llm: str,
+    large_llm: str,
+    pipeline_name: str,
+    config_path: str | Path | None,
+    user_context: str | dict[str, str] | None,
+) -> None:
+    """Record configuration step to trace if available."""
+    if not trace:
+        return
+    
+    trace.step(
+        name="Configuration",
+        step_type="config",
+        description="Resolved models, strategy, and pipeline parameters.",
+        outputs={
+            "small_llm": small_llm,
+            "large_llm": large_llm,
+            "strategy": pipeline_name,
+            "config_path": str(config_path) if config_path else None,
+            "user_context": user_context,
+        },
+    )
+
+
 # ============================================================
 # 1-function API — like litellm.completion() but with preprocessing
 # ============================================================
@@ -122,40 +191,17 @@ async def preprocess_and_execute(
             codebase_path=".",
         )
     """
-    # Resolve pipeline name: pipeline param overrides strategy
-    pipeline_name = pipeline or (strategy.value if isinstance(strategy, DecompositionStrategy) else strategy)
-
-    # Load config overrides from YAML if provided
-    config_overrides: dict[str, Any] = {}
-    if config_path:
-        config = PreLLM._load_config(Path(config_path))
-        # Use config models unless explicitly overridden
-        if small_llm == "ollama/qwen2.5:3b":
-            small_llm = config.small_model.model
-        if large_llm == "anthropic/claude-sonnet-4-20250514":
-            large_llm = config.large_model.model
-            kwargs.setdefault("max_tokens", config.large_model.max_tokens)
-        # Inject domain rules from config
-        if config.domain_rules and not domain_rules:
-            domain_rules = [r.model_dump() for r in config.domain_rules]
+    # Resolve pipeline name and load config
+    pipeline_name = _resolve_pipeline_name(pipeline, strategy)
+    config_overrides, small_llm, large_llm, domain_rules = _load_config_overrides(
+        config_path, small_llm, large_llm, domain_rules
+    )
+    kwargs.update(config_overrides)
 
     logger.info(f"preLLM pipeline: {small_llm} \u2192 {large_llm} | strategy={pipeline_name}")
 
-    # Record trace config
-    trace = get_current_trace()
-    if trace:
-        trace.step(
-            name="Configuration",
-            step_type="config",
-            description="Resolved models, strategy, and pipeline parameters.",
-            outputs={
-                "small_llm": small_llm,
-                "large_llm": large_llm,
-                "strategy": pipeline_name,
-                "config_path": str(config_path) if config_path else None,
-                "user_context": user_context,
-            },
-        )
+    # Record trace
+    _record_config_trace(get_current_trace(), small_llm, large_llm, pipeline_name, config_path, user_context)
 
     return await _execute_v3_pipeline(
         query=query,

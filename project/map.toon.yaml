@@ -1,7 +1,7 @@
-# prellm | 34f 9442L | python:33,shell:1 | 2026-03-26
+# prellm | 34f 9442L | python:33,shell:1 | 2026-03-29
 # stats: 325 func | 0 cls | 34 mod | CC̄=4.3 | critical:1 | cycles:0
 # alerts[5]: fan-out _execute_v3_pipeline=23; fan-out context=19; fan-out _write_env_file=18; fan-out context_show_cmd=18; fan-out chat_completions=16
-# hotspots[5]: _execute_v3_pipeline fan=23; context fan=19; _write_env_file fan=18; context_show_cmd fan=18; chat_completions fan=16
+# hotspots[5]: _execute_v3_pipeline fan=23; context fan=19; context_show_cmd fan=18; _write_env_file fan=18; chat_completions fan=16
 # evolution: CC̄ 4.5→4.3 (improved -0.2)
 # Keys: M=modules, D=details, i=imports, e=exports, c=classes, f=functions, m=methods
 M[34]:
@@ -145,15 +145,15 @@ Usage...
 
 Usage:
 ...
+  prellm/analyzers/context_engine.py:
+    e: ContextEngine
+    ContextEngine: __init__(1),gather(0),enrich_prompt(2),gather_runtime(0),_auto_collect_env(0),_gather_process(-1),_gather_locale(-1),_gather_network(-1),_gather_env(0),_gather_git(0),_gather_git_gitpython(0),_gather_git_subprocess(0),_gather_system(0)  # Collects context from environment, git, and system for promp...
   prellm/agents/preprocessor.py:
     e: PreprocessResult,PreprocessorAgent,_get_user_memory_class,_get_codebase_indexer_class
     PreprocessResult(BaseModel):  # Output of the PreprocessorAgent — structured input for the E...
     PreprocessorAgent: __init__(7),preprocess(3),_extract_executor_input(1),_extract_confidence(0)  # Agent preprocessing — small LLM (≤24B) analyzes and structur...
     _get_user_memory_class()
     _get_codebase_indexer_class()
-  prellm/analyzers/context_engine.py:
-    e: ContextEngine
-    ContextEngine: __init__(1),gather(0),enrich_prompt(2),gather_runtime(0),_auto_collect_env(0),_gather_process(-1),_gather_locale(-1),_gather_network(-1),_gather_env(0),_gather_git(0),_gather_git_gitpython(0),_gather_git_subprocess(0),_gather_system(0)  # Collects context from environment, git, and system for promp...
   prellm/server.py:
     e: ChatMessage,PreLLMExtras,ChatCompletionRequest,ChatCompletionChoice,UsageInfo,PreLLMMeta,ChatCompletionResponse,BatchItem,HealthResponse,AuthMiddleware,_parse_model_pair,_build_prellm_meta,health,list_models,chat_completions,_stream_response,batch_process,create_app
     ChatMessage(BaseModel):
@@ -187,15 +187,15 @@ Usage:
     _path_to_module(rel_path)
     _extract_module_from_import(import_line;project_name)
     _extract_module_docstring(path)
-  prellm/context/schema_generator.py:
-    e: ContextSchemaGenerator
-    ContextSchemaGenerator: generate(5),to_prompt_section(1),estimate_relevance(2),_detect_execution_env(0),_detect_tools(-1),_detect_project_type(0),_build_project_summary(0),_summarize_history(0),_estimate_token_cost(0)  # Generates a structured context schema from available context...
   prellm/context/codebase_indexer.py:
     e: CodeSymbol,FileIndex,CodebaseIndex,CodebaseIndexer
     CodeSymbol:  # A code symbol extracted from source...
     FileIndex:  # Index of a single source file...
     CodebaseIndex:  # Full codebase index...
     CodebaseIndexer: __init__(1),_check_tree_sitter(-1),index_directory(3),_index_file(2),_extract_with_tree_sitter(3),_get_parser(1),_walk_tree(4),_get_line(1),_extract_with_regex(2),_extract_imports(1),search(3),get_context_for_query(3),get_compressed_context(3),estimate_tokens(0)  # Index a codebase using tree-sitter for AST-based symbol extr...
+  prellm/context/schema_generator.py:
+    e: ContextSchemaGenerator
+    ContextSchemaGenerator: generate(5),to_prompt_section(1),estimate_relevance(2),_detect_execution_env(0),_detect_tools(-1),_detect_project_type(0),_build_project_summary(0),_summarize_history(0),_estimate_token_cost(0)  # Generates a structured context schema from available context...
   prellm/query_decomposer.py:
     e: QueryDecomposer
     QueryDecomposer: __init__(3),decompose(4),_classify(1),_structure(1),_split(1),_enrich(3),_compose(3),_match_domain_rule(2),_auto_select_strategy(2),_find_missing_fields(2)  # Decomposes user queries using a small LLM before routing to ...

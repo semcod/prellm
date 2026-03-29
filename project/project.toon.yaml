@@ -1,23 +1,22 @@
-# prellm | 325 func | 28f | 15132L | python | 2026-03-26
+# prellm | 325 func | 28f | 15132L | python | 2026-03-29
 
 HEALTH:
-  CC̄=4.3  critical=24 (limit:10)  dup=0  cycles=0
+  CC̄=4.1  critical=0 (limit:10)  dup=0  cycles=0
 
 ALERTS[20]:
   !!! high_fan_out     _execute_v3_pipeline = 23 (limit:10)
   !!  high_fan_out     context = 19 (limit:10)
-  !!  high_fan_out     _write_env_file = 18 (limit:10)
   !!  high_fan_out     context_show_cmd = 18 (limit:10)
+  !!  high_fan_out     _write_env_file = 18 (limit:10)
   !!  high_fan_out     chat_completions = 16 (limit:10)
-  !   cc_exceeded      preprocess_and_execute = 15 (limit:15)
-  !   high_fan_out     config_list = 14 (limit:10)
   !   high_fan_out     _show_debug_info = 14 (limit:10)
+  !   high_fan_out     config_list = 14 (limit:10)
   !   high_fan_out     PromptPipeline.from_yaml = 14 (limit:10)
   !   high_fan_out     CodebaseIndexer.get_compressed_context = 14 (limit:10)
 
 MODULES[34] (top by size):
   M[prellm/cli.py] 1076L C:0 F:28 CC↑13 D:0 (python)
-  M[prellm/core.py] 1032L C:1 F:32 CC↑15 D:10 (python)
+  M[prellm/core.py] 1032L C:1 F:35 CC↑6 D:10 (python)
   M[scripts/config_wizard.py] 708L C:0 F:33 CC↑9 D:0 (python)
   M[prellm/trace.py] 649L C:2 F:29 CC↑13 D:1 (python)
   M[prellm/env_config.py] 528L C:1 F:17 CC↑14 D:2 (python)
@@ -38,18 +37,19 @@ HOTSPOTS[10]:
 
 
   ★ context fan=19  // Show collected environment context, schema, and blocked sensitive data.
+  ★ context_show_cmd fan=18  // Show collected runtime context.
   ★ _write_env_file fan=18  // Write entries to .env file, preserving existing comments.
 
 Delegates to getv.Env
-  ★ context_show_cmd fan=18  // Show collected runtime context.
   ★ chat_completions fan=16  // OpenAI-compatible chat completions with preLLM preprocessing.
 
 REFACTOR[9]:
-  [1] H/H Split god module prellm/core.py (1032L, 1 classes)
-  [2] H/H Split god module prellm/env_config.py (528L, 1 classes)
-  [3] H/H Split god module prellm/cli.py (1076L, 0 classes)
+  [1] ✓ DONE Split preprocess_and_execute CC=15→6 (prellm/core.py)
+  [2] H/H Split god module prellm/cli.py (1076L, 0 classes)
+  [3] H/H Split god module prellm/core.py (1032L, 1 classes) — partial: main func done
   [4] H/H Split god module prellm/trace.py (649L, 2 classes)
-  [5] H/H Split god module scripts/config_wizard.py (708L, 0 classes)
+  [5] H/H Split god module prellm/env_config.py (528L, 1 classes)
+  [6] H/H Split god module scripts/config_wizard.py (708L, 0 classes)
 
 EVOLUTION:
-  2026-03-26 CC̄=4.3 crit=24 15132L // Automated analysis
+  2026-03-29 CC̄=4.3 crit=24 15132L // Automated analysis

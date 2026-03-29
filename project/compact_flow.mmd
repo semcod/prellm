@@ -1,46 +1,46 @@
 flowchart TD
-    examples_embedded_refactor["examples.embedded_refactor<br/>1 funcs"]
-    examples_k8s_debug["examples.k8s_debug<br/>1 funcs"]
-    examples_polish_leasing["examples.polish_leasing<br/>1 funcs"]
-    examples_providers["examples.providers<br/>16 funcs"]
-    examples_python_sdk["examples.python_sdk<br/>11 funcs"]
-    examples_quick_start["examples.quick_start<br/>12 funcs"]
-    examples_utils["examples.utils<br/>2 funcs"]
-    prellm_agents["prellm.agents<br/>9 funcs"]
-    prellm_budget["prellm.budget<br/>11 funcs"]
-    prellm_chains["prellm.chains<br/>10 funcs"]
-    prellm_cli["prellm.cli<br/>28 funcs"]
-    prellm_core["prellm.core<br/>32 funcs"]
-    prellm_env_config["prellm.env_config<br/>17 funcs"]
-    prellm_llm_provider["prellm.llm_provider<br/>6 funcs"]
-    prellm_logging_setup["prellm.logging_setup<br/>3 funcs"]
-    prellm_model_catalog["prellm.model_catalog<br/>2 funcs"]
-    prellm_models["prellm.models<br/>2 funcs"]
-    prellm_pipeline["prellm.pipeline<br/>18 funcs"]
-    prellm_server["prellm.server<br/>9 funcs"]
-    prellm_trace["prellm.trace<br/>29 funcs"]
-    prellm_utils["prellm.utils<br/>4 funcs"]
-    prellm_cli ==>|14| prellm_env_config
-    examples_providers ==>|13| examples_utils
-    examples_python_sdk ==>|8| prellm_core
-    examples_quick_start ==>|6| prellm_core
-    examples_quick_start ==>|4| examples_utils
-    examples_embedded_refactor -->|3| prellm_core
-    examples_polish_leasing -->|3| prellm_core
-    examples_k8s_debug -->|3| prellm_core
-    prellm_server -->|3| prellm_core
-    prellm_cli -->|2| prellm_budget
-    prellm_cli -->|2| prellm_model_catalog
-    prellm_core -->|2| prellm_trace
-    prellm_agents -->|2| prellm_utils
-    examples_utils -->|2| prellm_core
-    examples_providers -->|1| prellm_core
-    examples_python_sdk -->|1| prellm_pipeline
-    prellm_cli -->|1| prellm_logging_setup
-    prellm_cli -->|1| prellm_core
-    prellm_cli -->|1| prellm_server
-    prellm_cli -->|1| prellm_models
-    prellm_core -->|1| prellm_pipeline
-    prellm_server -->|1| prellm_env_config
-    prellm_llm_provider -->|1| prellm_budget
-    prellm_chains -->|1| prellm_core
+    examples__embedded_refactor["examples.embedded_refactor<br/>1 funcs"]
+    examples__k8s_debug["examples.k8s_debug<br/>1 funcs"]
+    examples__polish_leasing["examples.polish_leasing<br/>1 funcs"]
+    examples__providers["examples.providers<br/>16 funcs"]
+    examples__python_sdk["examples.python_sdk<br/>11 funcs"]
+    examples__quick_start["examples.quick_start<br/>12 funcs"]
+    examples__utils["examples.utils<br/>2 funcs"]
+    prellm__agents["prellm.agents<br/>9 funcs"]
+    prellm__budget["prellm.budget<br/>11 funcs"]
+    prellm__chains["prellm.chains<br/>10 funcs"]
+    prellm__cli["prellm.cli<br/>28 funcs"]
+    prellm__core["prellm.core<br/>32 funcs"]
+    prellm__env_config["prellm.env_config<br/>17 funcs"]
+    prellm__llm_provider["prellm.llm_provider<br/>6 funcs"]
+    prellm__logging_setup["prellm.logging_setup<br/>3 funcs"]
+    prellm__model_catalog["prellm.model_catalog<br/>2 funcs"]
+    prellm__models["prellm.models<br/>2 funcs"]
+    prellm__pipeline["prellm.pipeline<br/>18 funcs"]
+    prellm__server["prellm.server<br/>9 funcs"]
+    prellm__trace["prellm.trace<br/>29 funcs"]
+    prellm__utils["prellm.utils<br/>4 funcs"]
+    prellm__cli ==>|14| prellm__env_config
+    examples__providers ==>|13| examples__utils
+    examples__python_sdk ==>|8| prellm__core
+    examples__quick_start ==>|6| prellm__core
+    examples__quick_start ==>|4| examples__utils
+    examples__embedded_refactor -->|3| prellm__core
+    examples__polish_leasing -->|3| prellm__core
+    examples__k8s_debug -->|3| prellm__core
+    prellm__server -->|3| prellm__core
+    prellm__cli -->|2| prellm__budget
+    prellm__cli -->|2| prellm__model_catalog
+    prellm__core -->|2| prellm__trace
+    prellm__agents -->|2| prellm__utils
+    examples__utils -->|2| prellm__core
+    examples__providers -->|1| prellm__core
+    examples__python_sdk -->|1| prellm__pipeline
+    prellm__cli -->|1| prellm__logging_setup
+    prellm__cli -->|1| prellm__core
+    prellm__cli -->|1| prellm__server
+    prellm__cli -->|1| prellm__models
+    prellm__server -->|1| prellm__env_config
+    prellm__core -->|1| prellm__pipeline
+    prellm__llm_provider -->|1| prellm__budget
+    prellm__chains -->|1| prellm__core
