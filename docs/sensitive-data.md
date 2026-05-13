@@ -27,8 +27,6 @@ Value-based detection catches tokens even in non-standard variable names:
 | `sk-or-v1-[a-zA-Z0-9]{20,}` | OpenRouter |
 | `xox[bpsa]-[a-zA-Z0-9-]{20,}` | Slack |
 
-## Usage
-
 ### Automatic (default in v0.4)
 
 ```python
@@ -81,13 +79,9 @@ filt.classify_value("hello world")             # → SAFE
 # Filter a dict
 data = {"LANG": "pl_PL", "OPENAI_API_KEY": "sk-secret", "HOME": "/home/user"}
 safe = filt.filter_dict(data)
-# → {"LANG": "pl_PL", "HOME": "/home/user"}
-
 # Sanitize free text
 text = "Use key sk-1234567890abcdefghijklmnop for auth"
 clean = filt.sanitize_text(text)
-# → "Use key [REDACTED] for auth"
-
 # Get report
 report = filt.get_filter_report()
 print(report.blocked_keys)   # ["OPENAI_API_KEY"]

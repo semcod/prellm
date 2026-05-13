@@ -5,8 +5,6 @@
 
 ---
 
-## Stan obecny vs. cel
-
 ### Co już jest (moduły z .toon):
 
 | Moduł | Funkcji | Obecna odpowiedzialność |
@@ -36,10 +34,6 @@
 **Plik:** `prellm/context/shell_collector.py` (NOWY)
 **Zależność:** rozszerza `prellm/analyzers/context_engine.py` → `_gather_env`, `_gather_system`
 
-### 1.1 Zbieranie pełnego środowiska shell
-
-```python
-# Cel: klasa ShellContextCollector
 # Metody do zaimplementowania:
 
 class ShellContextCollector:
@@ -132,9 +126,6 @@ class SensitiveDataFilter:
 - `prellm/core.py` → `_execute_v3_pipeline()` — filtr przed `ExecutorAgent.execute()`
 - `prellm/pipeline.py` → nowy algo step type: `sensitive_filter`
 
-### 2.3 Konfiguracja YAML
-
-```yaml
 # configs/sensitive_rules.yaml
 sensitive_keys:
   blocked: ["API_KEY", "SECRET", "TOKEN", "PASSWORD", "PRIVATE_KEY"]
@@ -358,9 +349,6 @@ prompts:
 **Plik do modyfikacji:** `prellm/agents/executor.py`
 **Dotyczy:** `ExecutorAgent.execute()` (linia 58-102)
 
-### 6.1 Warstwa sanityzacji w ExecutorAgent
-
-```python
 # Modyfikacja ExecutorAgent:
 
 class ExecutorAgent:
@@ -491,9 +479,6 @@ pipelines:
 
 **Plik do modyfikacji:** `prellm/cli.py`
 
-### 8.1 Nowe flagi CLI
-
-```bash
 # Nowe opcje w `prellm query`:
 prellm query "Deploy app" \
   --collect-env          # zbierz pełny kontekst shell

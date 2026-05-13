@@ -47,12 +47,12 @@ class TestPreprocessAndExecute:
             result = await preprocess_and_execute(
                 query="Deploy app to production",
                 small_llm="phi3:mini",
-                large_llm="gpt-4o-mini",
+                large_llm="gpt-5.4-mini",
             )
 
         assert result.content == "Deployed successfully."
         assert result.small_model_used == "phi3:mini"
-        assert result.model_used == "gpt-4o-mini"
+        assert result.model_used == "gpt-5.4-mini"
 
     @pytest.mark.asyncio
     async def test_passthrough_strategy(self):

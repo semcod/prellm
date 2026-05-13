@@ -13,7 +13,7 @@ small_model:
 
 # --- Large LLM (main generation) ---
 large_model:
-  model: "gpt-4o-mini"
+  model: "gpt-5.4-mini"
   fallback:
     - "anthropic/claude-sonnet-4-20250514"
     - "ollama/llama3"

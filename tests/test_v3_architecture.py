@@ -11,17 +11,16 @@ Covers:
 from __future__ import annotations
 
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, MagicMock
 
 import pytest
 import yaml
 
 from prellm.agents.executor import ExecutorAgent, ExecutorResult
 from prellm.agents.preprocessor import PreprocessorAgent, PreprocessResult
-from prellm.analyzers.context_engine import ContextEngine
 from prellm.llm_provider import LLMProvider
-from prellm.models import LLMProviderConfig, PreLLMResponse
-from prellm.pipeline import PipelineConfig, PipelineStep, PromptPipeline
+from prellm.models import LLMProviderConfig
+from prellm.pipeline import PromptPipeline
 from prellm.prompt_registry import PromptRegistry
 from prellm.validators import ResponseValidator
 

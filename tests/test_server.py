@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import json
-import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from fastapi.testclient import TestClient
@@ -49,11 +47,11 @@ class TestParseModelPair:
         assert large == "gpt-4o"
 
     def test_single_model(self):
-        small, large = _parse_model_pair("prellm:gpt-4o-mini")
+        small, large = _parse_model_pair("prellm:gpt-5.4-mini")
         assert "kimi" in large or "gpt-4" in large or "claude" in large
 
     def test_no_prefix(self):
-        small, large = _parse_model_pair("gpt-4o-mini")
+        small, large = _parse_model_pair("gpt-5.4-mini")
         assert small == SMALL_MODEL
         assert large == LARGE_MODEL  # no colon → returns server defaults
 

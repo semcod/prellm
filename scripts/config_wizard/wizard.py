@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from config_wizard.ui import GREEN, BLUE, YELLOW, NC, ok, warn, info, ask, ask_yn, ask_choice
+from config_wizard.ui import GREEN, BLUE, YELLOW, NC, ok, info, ask, ask_yn, ask_choice
 from config_wizard.ollama import check_ollama, build_ollama_options, option_index_for_value, validate_ollama_model
 from config_wizard.providers import (
     mask_key,

@@ -3,8 +3,6 @@
 from __future__ import annotations
 
 import os
-import tempfile
-import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
 from prellm.env_config import (
@@ -20,7 +18,7 @@ class TestEnvConfigDefaults:
     def test_default_config(self):
         cfg = EnvConfig()
         assert cfg.small_model == "ollama/qwen2.5:3b"
-        assert cfg.large_model == "gpt-4o-mini"
+        assert cfg.large_model == "gpt-5.4-mini"
         assert cfg.strategy == "auto"
         assert cfg.master_key is None
         assert cfg.host == "0.0.0.0"
@@ -106,7 +104,7 @@ class TestGetEnvConfig:
             "LITELLM_MASTER_KEY": "sk-master-key",
             "PRELLM_HOST": "127.0.0.1",
             "PRELLM_PORT": "9090",
-            "PRELLM_FALLBACKS": "gpt-4o-mini,llama3",
+            "PRELLM_FALLBACKS": "gpt-5.4-mini,llama3",
             "PRELLM_MONTHLY_BUDGET": "50.0",
             "PRELLM_LOG_LEVEL": "debug",
         }
@@ -120,7 +118,7 @@ class TestGetEnvConfig:
         assert cfg.master_key == "sk-master-key"
         assert cfg.host == "127.0.0.1"
         assert cfg.port == 9090
-        assert cfg.fallbacks == ["gpt-4o-mini", "llama3"]
+        assert cfg.fallbacks == ["gpt-5.4-mini", "llama3"]
         assert cfg.monthly_budget == 50.0
         assert cfg.log_level == "debug"
 

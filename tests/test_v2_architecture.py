@@ -25,6 +25,12 @@ from prellm.llm_provider import LLMProvider
 from prellm.query_decomposer import QueryDecomposer
 from prellm.core import PreLLM
 
+CONSTANT_3 = 3
+CONSTANT_6 = 6
+MAX_256 = 256
+MAX_4096 = 4096
+
+
 
 # ============================================================
 # LLMProvider Tests
@@ -233,7 +239,7 @@ class TestQueryDecomposer:
             strategy=DecompositionStrategy.SPLIT,
         )
 
-        assert len(result.sub_queries) == 3
+        assert len(result.sub_queries) == CONSTANT_3
         assert "Check status" in result.sub_queries
 
     @pytest.mark.asyncio
@@ -331,7 +337,7 @@ class TestPreLLMConfig:
     def test_defaults(self):
         config = PreLLMConfig()
         assert config.small_model.model == "phi3:mini"
-        assert config.large_model.model == "gpt-4o-mini"
+        assert config.large_model.model == "gpt-5.4-mini"
         assert config.default_strategy == DecompositionStrategy.CLASSIFY
         assert config.domain_rules == []
 
@@ -355,7 +361,7 @@ class TestPreLLMCore:
     def test_init_default(self):
         engine = PreLLM()
         assert engine.config.small_model.model == "phi3:mini"
-        assert engine.config.large_model.model == "gpt-4o-mini"
+        assert engine.config.large_model.model == "gpt-5.4-mini"
 
     def test_init_with_config(self):
         config = PreLLMConfig(
@@ -485,8 +491,8 @@ class TestPreLLMConfigLoading:
     def test_load_yaml_config(self, tmp_path):
         import yaml
         config_data = {
-            "small_model": {"model": "phi3:mini", "max_tokens": 256},
-            "large_model": {"model": "gpt-4", "max_tokens": 4096},
+            "small_model": {"model": "phi3:mini", "max_tokens": MAX_256},
+            "large_model": {"model": "gpt-4", "max_tokens": MAX_4096},
             "default_strategy": "structure",
             "policy": "devops",
             "domain_rules": [
@@ -520,7 +526,7 @@ class TestPreLLMConfigLoading:
         if config_path.exists():
             engine = PreLLM(config_path=config_path)
             assert engine.config.small_model.model == "phi3:mini"
-            assert len(engine.config.domain_rules) >= 6
+            assert len(engine.config.domain_rules) >= CONSTANT_6
 
 
 # ============================================================

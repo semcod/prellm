@@ -59,10 +59,6 @@ result = await preprocess_and_execute(
     small_llm="ollama/bielik:7b",
     large_llm="openrouter/google/gemini-3-flash-preview",
 )
-# Bielik receives: RuntimeContext + auto-selected strategy
-# Gemini receives: sanitized prompt (no API keys)
-```
-
 ### Full Persistent Context
 
 ```python
@@ -140,6 +136,5 @@ result = await preprocess_and_execute(
 
 - [Session Persistence](session-persistence.md) — export/import/RAG
 - [Sensitive Data Filtering](sensitive-data.md) — rules and config
-- [Flow Graphs](flow-graphs.md) — Mermaid diagrams
 - [CHANGELOG](../CHANGELOG.md) — v0.4.0 details
 - [ROADMAP](../ROADMAP.md) — future plans

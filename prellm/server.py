@@ -3,7 +3,7 @@
 Usage:
     uvicorn prellm.server:app --host 0.0.0.0 --port 8080
     # or
-    prellm serve --port 8080 --small ollama/qwen2.5:3b --large gpt-4o-mini
+    prellm serve --port 8080 --small ollama/qwen2.5:3b --large gpt-5.4-mini
 
 Curl:
     curl http://localhost:8080/v1/chat/completions -d '{"model":"prellm:qwen→claude","messages":[...]}'
@@ -14,25 +14,19 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
-import os
 import time
 import uuid
 from typing import Any, AsyncGenerator
 
 from fastapi import FastAPI, HTTPException, Request
-from nfo.decorators import log_call
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel, Field
 from starlette.middleware.base import BaseHTTPMiddleware
 
-from prellm.core import PreLLM, preprocess_and_execute
-from prellm.env_config import get_env_config, EnvConfig
+from prellm.core import preprocess_and_execute
+from prellm.env_config import get_env_config
 from prellm.models import (
-    DecompositionStrategy,
-    DomainRule,
-    LLMProviderConfig,
-    PreLLMConfig,
     PreLLMResponse,
 )
 
@@ -168,8 +162,10 @@ app = FastAPI(
     version="0.3.0",
 )
 
-app.add_middleware(AuthMiddleware)
-app.add_middleware(
+
+if __name__ == "__main__":
+    app.add_middleware(AuthMiddleware)
+    app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_methods=["*"],
@@ -184,8 +180,8 @@ def _parse_model_pair(model_str: str) -> tuple[str, str]:
         'prellm:default' → server defaults
         'prellm:qwen→claude' → ("qwen", "claude")
         'prellm:phi3->gpt-4o' → ("phi3", "gpt-4o")
-        'prellm:gpt-4o-mini' → (default_small, "gpt-4o-mini")
-        'gpt-4o-mini' → (default_small, "gpt-4o-mini")
+        'prellm:gpt-5.4-mini' → (default_small, "gpt-5.4-mini")
+        'gpt-5.4-mini' → (default_small, "gpt-5.4-mini")
     """
     small, large = SMALL_MODEL, LARGE_MODEL
 

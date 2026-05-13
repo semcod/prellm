@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir . && \
 
 # Environment variables for server mode
 ENV SMALL_MODEL="ollama/qwen2.5:3b"
-ENV LARGE_MODEL="gpt-4o-mini"
+ENV LARGE_MODEL="gpt-5.4-mini"
 ENV PRELLM_STRATEGY="classify"
 
 EXPOSE 8080
@@ -23,7 +23,7 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
 
 # Usage:
 #   Server:  docker run -p 8080:8080 prellm/prellm serve
-#   Query:   docker run prellm/prellm query "Deploy app" --small phi3:mini --large gpt-4o-mini
+#   Query:   docker run prellm/prellm query "Deploy app" --small phi3:mini --large gpt-5.4-mini
 #   Help:    docker run prellm/prellm --help
 ENTRYPOINT ["prellm"]
 CMD ["serve", "--host", "0.0.0.0", "--port", "8080"]

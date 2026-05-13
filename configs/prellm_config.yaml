@@ -12,7 +12,7 @@ small_model:
 
 # Large model — receives the composed, structured prompt
 large_model:
-  model: "gpt-4o-mini"
+  model: "gpt-5.4-mini"
   fallback: ["llama3", "mistral", "claude-3-haiku-20240307"]
   max_retries: 3
   timeout: 30

@@ -66,7 +66,7 @@ def _configure_openai(config: dict) -> None:
     config["OPENAI_API_KEY"] = api_key
     check_api_key_format("openai", api_key)
 
-    openai_models = ["gpt-4o-mini", "gpt-4o", "gpt-4-turbo", "gpt-3.5-turbo", "other"]
+    openai_models = ["gpt-5.4-mini", "gpt-4o", "gpt-4-turbo", "gpt-3.5-turbo", "other"]
     model = ask_choice("Select model:", openai_models, default=0)
     if model == "other":
         model = ask("Enter model name:")

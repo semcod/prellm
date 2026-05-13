@@ -2,9 +2,9 @@
 # preLLM API Examples (v0.3.8) — curl commands for the OpenAI-compatible server
 #
 # Start server first:
-#   prellm serve --small ollama/qwen2.5:3b --large gpt-4o-mini --port 8080
+#   prellm serve --small ollama/qwen2.5:3b --large gpt-5.4-mini --port 8080
 #   # or
-#   docker run -p 8080:8080 prellm/prellm serve --small ollama/qwen2.5:3b --large gpt-4o-mini
+#   docker run -p 8080:8080 prellm/prellm serve --small ollama/qwen2.5:3b --large gpt-5.4-mini
 
 BASE_URL="${PRELLM_BASE_URL:-http://localhost:8080}"
 

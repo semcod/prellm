@@ -33,7 +33,7 @@ async def example_strategy():
     result = await preprocess_and_execute(
         query="Deploy backend v2.3 to production with rollback",
         small_llm="ollama/qwen2.5:7b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
         strategy="structure",
         user_context={"team": "backend", "env": "production"},
     )
@@ -48,7 +48,7 @@ async def example_pipeline():
     await run_quick_start_example(
         query="Deploy backend v2.3 to production with rollback",
         small_llm="ollama/qwen2.5:7b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
         example_name="pipeline=dual_agent_full",
         pipeline="dual_agent_full",
     )
@@ -70,7 +70,7 @@ async def example_hybrid_ollama_openai():
     await run_quick_start_example(
         query="Review this Python function for security issues",
         small_llm="ollama/qwen2.5:7b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
         example_name="hybrid ollama→openai",
         strategy="enrich",
     )
@@ -94,14 +94,16 @@ async def example_domain_rules():
     result = await preprocess_and_execute(
         query="Usuń bazę danych klientów",
         small_llm="ollama/qwen2.5:7b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
         strategy="structure",
-        domain_rules=[{
-            "name": "destructive_db",
-            "keywords": ["delete", "drop", "usuń", "remove"],
-            "required_fields": ["target_database", "backup_confirmed"],
-            "severity": "critical",
-        }],
+        domain_rules=[
+            {
+                "name": "destructive_db",
+                "keywords": ["delete", "drop", "usuń", "remove"],
+                "required_fields": ["target_database", "backup_confirmed"],
+                "severity": "critical",
+            }
+        ],
     )
     print(f"[domain-rules] {result.content[:100]}...")
     if result.decomposition and result.decomposition.missing_fields:
@@ -143,7 +145,7 @@ def example_sync():
     result = preprocess_and_execute_sync(
         "Explain Docker networking",
         small_llm="ollama/qwen2.5:7b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
     )
     print(f"[sync] {result.content[:100]}...")
 
@@ -151,7 +153,7 @@ def example_sync():
 async def example_openai_sdk_client():
     """Use preLLM server from any OpenAI SDK client."""
     print("[openai-sdk] Start preLLM server first:")
-    print("  prellm serve --port 8080 --small ollama/qwen2.5:7b --large gpt-4o-mini")
+    print("  prellm serve --port 8080 --small ollama/qwen2.5:7b --large gpt-5.4-mini")
     print("  Then:")
     print("  client = openai.OpenAI(base_url='http://localhost:8080/v1', api_key='any')")
     print("  response = client.chat.completions.create(model='prellm:default', messages=[...])")

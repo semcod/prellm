@@ -11,7 +11,7 @@ Usage:
 
     cfg = get_env_config()
     print(cfg.small_model)   # "ollama/qwen2.5:3b"
-    print(cfg.large_model)   # "gpt-4o-mini"
+    print(cfg.large_model)   # "gpt-5.4-mini"
     print(cfg.master_key)    # "sk-prellm-1234" or None
 
     status = check_providers()

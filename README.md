@@ -1,19 +1,14 @@
-# preLLM
-
-
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.4.25-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$6.75-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-14.1h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.31-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$4.76-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-16.5h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
 
-- 🤖 **LLM usage:** $6.7500 (45 commits)
-- 👤 **Human dev:** ~$1408 (14.1h @ $100/h, 30min dedup)
+- 🤖 **LLM usage:** $4.7552 (54 commits)
+- 👤 **Human dev:** ~$1651 (16.5h @ $100/h, 30min dedup)
 
-Generated on 2026-03-29 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
+Generated on 2026-04-20 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
 
 ---
-
-
 
 **One function for small LLM preprocessing before large LLM execution.**
 Like `litellm.completion()` — but with a smart preprocessing layer.
@@ -35,7 +30,7 @@ print(result.content)
 pip install prellm
 
 # CLI — zero config
-prellm query "Zdeployuj apkę na prod" --small ollama/qwen2.5:3b --large gpt-4o-mini
+prellm query "Zdeployuj apkę na prod" --small ollama/qwen2.5:3b --large gpt-5.4-mini
 
 # With strategy
 prellm query "Refaktoryzuj kod" --strategy structure --json
@@ -44,7 +39,7 @@ prellm query "Refaktoryzuj kod" --strategy structure --json
 prellm query "Deploy app" --pipeline dual_agent_full
 
 # Docker
-docker run prellm/prellm query "Deploy app" --small ollama/qwen2.5:3b --large gpt-4o-mini
+docker run prellm/prellm query "Deploy app" --small ollama/qwen2.5:3b --large gpt-5.4-mini
 ```
 
 ### Interactive Configuration (repo)
@@ -78,9 +73,6 @@ result = await preprocess_and_execute(
 )
 ```
 
-### New CLI Commands
-
-```bash
 # Inspect runtime context
 prellm context show                    # formatted runtime context
 prellm context show --json             # as JSON
@@ -108,8 +100,6 @@ User Query
 **Result:** 70–80% token savings + enterprise-quality output for the price of a small LLM call.
 
 ---
-
-## Python API
 
 ### One Function — Two Execution Paths
 
@@ -144,13 +134,7 @@ print(result.small_model_used)     # Which small model preprocessed
 ```python
 from prellm import preprocess_and_execute_sync
 
-result = preprocess_and_execute_sync("Deploy app", large_llm="gpt-4o-mini")
-# Works exactly the same, just blocking
-```
-
-### Zero-Config
-
-```python
+result = preprocess_and_execute_sync("Deploy app", large_llm="gpt-5.4-mini")
 # Defaults: small=ollama/qwen2.5:3b, large=claude-sonnet, strategy=classify
 result = await preprocess_and_execute("Refaktoryzuj kod")
 ```
@@ -161,10 +145,6 @@ result = await preprocess_and_execute("Refaktoryzuj kod")
 
 preLLM uses **LiteLLM** under the hood, so any model string supported by LiteLLM works.
 
-### Ollama (local, free)
-
-```python
-# Start Ollama: ollama serve
 # Pull model:   ollama pull qwen2.5:3b
 
 result = await preprocess_and_execute(
@@ -172,20 +152,14 @@ result = await preprocess_and_execute(
     small_llm="ollama/qwen2.5:3b",       # local small model
     large_llm="ollama/llama3:70b",        # local large model
 )
-# Cost: $0.00 — both models run locally
-```
-
 ### Ollama + OpenAI (hybrid)
 
 ```python
 result = await preprocess_and_execute(
     query="Review my Python code",
     small_llm="ollama/qwen2.5:3b",       # local preprocessing
-    large_llm="gpt-4o-mini",             # OpenAI execution
+    large_llm="gpt-5.4-mini",             # OpenAI execution
 )
-# Cost: $0.00 (local) + ~$0.15 (OpenAI) = $0.15
-```
-
 ### Ollama + Anthropic (hybrid)
 
 ```python
@@ -201,7 +175,7 @@ result = await preprocess_and_execute(
 ```python
 result = await preprocess_and_execute(
     query="Analyze sales data",
-    small_llm="gpt-4o-mini",             # cheap OpenAI preprocessing
+    small_llm="gpt-5.4-mini",             # cheap OpenAI preprocessing
     large_llm="gpt-4o",                  # powerful OpenAI execution
 )
 ```
@@ -251,7 +225,7 @@ result = await preprocess_and_execute(
 ```python
 result = await preprocess_and_execute(
     query="Generate quarterly report",
-    small_llm="azure/gpt-4o-mini-deployment",
+    small_llm="azure/gpt-5.4-mini-deployment",
     large_llm="azure/gpt-4o-deployment",
 )
 ```
@@ -269,8 +243,6 @@ result = await preprocess_and_execute(
 > **Full provider list:** See [LiteLLM docs](https://docs.litellm.ai/docs/providers) — preLLM supports all 100+ providers.
 
 ---
-
-## Integration with Existing LiteLLM Projects
 
 ### Drop-in Enhancement
 
@@ -290,9 +262,6 @@ result = await preprocess_and_execute(
     query="Deploy app to production",
     large_llm="gpt-4o",  # same model, now with preprocessing
 )
-# result.content == same quality, but with structured decomposition
-```
-
 ### Use Your Existing `.env`
 
 preLLM reads the same environment variables as LiteLLM:
@@ -310,7 +279,7 @@ PRELLM_STRATEGY=classify
 
 # Legacy names still supported
 SMALL_MODEL=ollama/qwen2.5:3b
-LARGE_MODEL=gpt-4o-mini
+LARGE_MODEL=gpt-5.4-mini
 ```
 
 ### LiteLLM Proxy Integration
@@ -334,7 +303,7 @@ preLLM ships an OpenAI-compatible proxy — use it from **any** OpenAI SDK clien
 
 ```bash
 # Start preLLM server
-prellm serve --port 8080 --small ollama/qwen2.5:3b --large gpt-4o-mini
+prellm serve --port 8080 --small ollama/qwen2.5:3b --large gpt-5.4-mini
 
 # Use from OpenAI Python SDK
 import openai
@@ -472,7 +441,7 @@ schemas:
 result = await preprocess_and_execute(
     query="Usuń bazę danych klientów",
     small_llm="ollama/qwen2.5:3b",
-    large_llm="gpt-4o-mini",
+    large_llm="gpt-5.4-mini",
     domain_rules=[{
         "name": "destructive_db",
         "keywords": ["delete", "drop", "usuń"],
@@ -485,8 +454,6 @@ print(result.decomposition.missing_fields)  # ["target_database", "backup_confir
 
 ---
 
-## Use Cases
-
 ### 1. Code Refactoring
 
 ```python
@@ -497,26 +464,16 @@ result = await preprocess_and_execute(
     strategy="structure",
     user_context="gdansk_embedded_python",
 )
-# Small LLM: classify intent, extract structure, compose prompt
-# Large LLM: complete refactored code with tests
-# Cost: $0.01 + $0.45 = $0.46
-```
-
 ### 2. Kubernetes Diagnostics
 
 ```python
 result = await preprocess_and_execute(
     query="Zdiagnozuj problem z K8s podami",
     small_llm="ollama/qwen2.5:3b",
-    large_llm="gpt-4o-mini",
+    large_llm="gpt-5.4-mini",
     pipeline="structure",
     user_context={"cluster": "k8s-prod", "namespace": "backend"},
 )
-# Preprocessor: parse context, identify missing fields, compose prompt
-# Executor: root cause + K8s manifests + Prometheus rules
-# Cost: $0.02 + $0.38 = $0.40
-```
-
 ### 3. Business Automation
 
 ```python
@@ -527,16 +484,6 @@ result = await preprocess_and_execute(
     pipeline="enrich",
     user_context="PL_automotive_leasing",
 )
-# Preprocessor: domain=automotive, locale=PL, required=[VAT, WIBOR]
-# Executor: Python calculator + Excel generator + PDF templates
-# Cost: $0.015 + $0.52 = $0.535
-```
-
----
-
-## Configuration (YAML)
-
-```yaml
 # configs/prellm_config.yaml
 small_model:
   model: "ollama/qwen2.5:3b"
@@ -544,7 +491,7 @@ small_model:
   max_tokens: 512
 
 large_model:
-  model: "gpt-4o-mini"
+  model: "gpt-5.4-mini"
   fallback: ["llama3", "mistral"]
   max_tokens: 2048
 
@@ -626,12 +573,6 @@ Ready-to-run examples in `examples/`:
 | **Python SDK** | `examples/python_sdk.py` | env keys per provider |
 | **CLI + API** | `examples/cli_examples.sh`, `examples/curl_api.sh` | server running |
 
-### Run Examples
-
-```bash
-# Run all examples (real-time output)
-make examples
-
 # Run single example
 python examples/quick_start.py
 python examples/k8s_debug.py
@@ -709,6 +650,20 @@ See [ROADMAP.md](ROADMAP.md) for the full plan.
 ## License
 
 Licensed under Apache-2.0.
-## Author
 
-Tom Sapletta
+<!-- taskill:status:start -->
+
+## Status
+
+_Last updated by [taskill](https://github.com/oqlos/taskill) at 2026-04-25 13:43 UTC_
+
+| Metric | Value |
+|---|---|
+| HEAD | `5a7fbf0` |
+| Coverage | — |
+| Failing tests | — |
+| Commits in last cycle | 50 |
+
+> Multiple commits introduce a configuration management system, deepen the code analysis engine (with supporting modules), and add CLI/env improvements (AppDefaults, LiteLLMEnv, delegate env file I/O). Documentation and tests were updated and several refactors applied across config, docs, examples, and tests.
+
+<!-- taskill:status:end -->

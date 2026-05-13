@@ -19,10 +19,10 @@ echo ""
 # 2. Custom models
 # ─────────────────────────────────────────────
 echo "--- 2. Custom Models ---"
-echo '$ prellm query "Deploy app" --small ollama/qwen2.5:3b --large gpt-4o-mini'
+echo '$ prellm query "Deploy app" --small ollama/qwen2.5:3b --large gpt-5.4-mini'
 prellm query "Deploy app to staging" \
   --small ollama/qwen2.5:3b \
-  --large gpt-4o-mini
+  --large gpt-5.4-mini
 echo ""
 
 # ─────────────────────────────────────────────
@@ -100,7 +100,7 @@ echo ""
 # 11. Start API server
 # ─────────────────────────────────────────────
 echo "--- 11. Start API Server ---"
-echo '$ prellm serve --small ollama/qwen2.5:3b --large gpt-4o-mini --port 8080'
+echo '$ prellm serve --small ollama/qwen2.5:3b --large gpt-5.4-mini --port 8080'
 echo "(not running — use this command to start)"
 echo ""
 

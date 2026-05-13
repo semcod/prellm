@@ -192,7 +192,7 @@ def serve(
     auth_status = "ON (LITELLM_MASTER_KEY)" if env.master_key else "OFF (no key set)"
 
     typer.echo(f"\n🧠 preLLM API Server")
-    typer.echo(f"   http://host}:{port}")
+    typer.echo(f"   http://{host}:{port}")
     typer.echo(f"   Small: {effective_small} | Large: {effective_large}")
     typer.echo(f"   Strategy: {effective_strategy} | Auth: {auth_status}")
     typer.echo(f"   Endpoints: /v1/chat/completions, /v1/batch, /v1/models, /health")

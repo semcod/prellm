@@ -16,8 +16,6 @@ Small LLMs lose context between sessions. After restarting the pipeline, Bielik/
 - **Auto-inject** — build enriched system prompt from preferences + history
 - **Auto-learn** — extract preferences from interactions (like Oobabooga Dynamic Context)
 
-## Quick Start
-
 ### Enable Session Persistence
 
 ```python
@@ -29,10 +27,6 @@ result = await preprocess_and_execute(
     large_llm="openrouter/google/gemini-3-flash-preview",
     session_path=".prellm/sessions.db",   # enables persistence
 )
-# Interaction is automatically saved to sessions.db
-# Preferences are auto-learned from the exchange
-```
-
 ### Export and Import Sessions
 
 ```python
@@ -57,16 +51,8 @@ memory = UserMemory(path=".prellm/sessions.db")
 
 # Get relevant history fragments (token-budgeted)
 context = await memory.get_relevant_context("Deploy firmware", max_tokens=1024)
-# Returns: "Q: Deploy ESP32 firmware\nA: Used OTA update via..."
-
 # Build enriched system prompt automatically
 system_prompt = await memory.auto_inject_context("Deploy firmware")
-# Returns: "User preferences: lang=pl, preferred_tool=platformio\n\nRelevant history:\n..."
-```
-
-## CLI Commands
-
-```bash
 # List recent interactions
 prellm session list
 prellm session list --memory .prellm/custom.db

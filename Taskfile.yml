@@ -1,0 +1,372 @@
+version: '1'
+name: prellm
+description: Minimal Taskfile
+variables:
+  APP_NAME: prellm
+environments:
+  local:
+    container_runtime: docker
+    compose_command: docker compose
+pipeline:
+  python_version: "3.12"
+  runner_image: ubuntu-latest
+  branches: [main]
+  cache: [~/.cache/pip]
+  artifacts: [dist/]
+
+  stages:
+    - name: lint
+      tasks: [lint]
+
+    - name: test
+      tasks: [test]
+
+    - name: build
+      tasks: [build]
+      when: "branch:main"
+
+tasks:
+  install:
+    desc: Install Python dependencies (editable)
+    cmds:
+    - pip install -e .[dev]
+  test:
+    desc: Run pytest suite
+    cmds:
+    - pytest -q
+  lint:
+    desc: Run ruff lint check
+    cmds:
+    - ruff check .
+  fmt:
+    desc: Auto-format with ruff
+    cmds:
+    - ruff format .
+  build:
+    desc: Build wheel + sdist
+    cmds:
+    - python -m build
+  clean:
+    desc: Remove build artefacts
+    cmds:
+    - rm -rf build/ dist/ *.egg-info
+  up:
+    desc: Start services via docker compose
+    cmds:
+    - docker compose up -d
+  down:
+    desc: Stop services
+    cmds:
+    - docker compose down
+  logs:
+    desc: Tail compose logs
+    cmds:
+    - docker compose logs -f
+  ps:
+    desc: Show running compose services
+    cmds:
+    - docker compose ps
+  docker-build:
+    desc: Build docker image
+    cmds:
+    - docker build -t prellm:latest .
+  help:
+    desc: '[imported from Makefile] help'
+    cmds:
+    - echo "Prellm - LLM prompt middleware"
+    - echo "=================================="
+    - echo ""
+    - echo "Available commands:"
+    - echo "  install      Install production dependencies"
+    - echo "  install-dev  Install development dependencies"
+    - echo "  config       Interactive LLM configuration wizard"
+    - echo "  doctor       Check configuration and provider connectivity"
+    - echo "  serve        Start the preLLM API server"
+    - 'echo "  query        Run a test query (usage: make query Q=''hello world'')"'
+    - echo "  test         Run tests"
+    - echo "  test-cov     Run tests with coverage"
+    - echo "  examples     Run all example scripts (real-time demos)"
+    - echo "  lint         Run linting (ruff)"
+    - echo "  format       Format code (ruff)"
+    - echo "  clean        Clean build artifacts"
+    - echo "  build        Build package"
+    - echo "  publish      Publish to PyPI"
+    - echo "  demo         Run demo with sample config"
+    - echo "  init         Generate starter config"
+    - echo ""
+  fix-venv:
+    desc: '[imported from Makefile] fix-venv'
+    cmds:
+    - if [ -z "$(POETRY)" ]; then \
+    - if [ -d "venv" ]; then \
+    - echo "$(YELLOW)Checking venv health...$(NC)"; \
+    - if ! venv/bin/python --version >/dev/null 2>&1 || ! venv/bin/pip --version >/dev/null
+      2>&1; then \
+    - echo "$(RED)Broken venv detected. Recreating...$(NC)"; \
+    - rm -rf venv; \
+    - python3 -m venv venv; \
+    - . venv/bin/activate && python -m pip install --upgrade pip; \
+    - echo "$(GREEN)Venv recreated!$(NC)"; \
+    - fi; \
+    - else \
+    - echo "$(YELLOW)Creating venv...$(NC)"; \
+    - python3 -m venv venv; \
+    - . venv/bin/activate && python -m pip install --upgrade pip; \
+    - echo "$(GREEN)Venv created!$(NC)"; \
+    - fi; \
+    - fi
+  install-dev:
+    desc: '[imported from Makefile] install-dev'
+    cmds:
+    - if [ -z "$(POETRY)" ]; then \
+    - $(PIP) install -e ".[dev]"; \
+    - else \
+    - poetry lock 2>/dev/null || true; \
+    - poetry install; \
+    - fi
+    deps:
+    - fix-venv
+  test-cov:
+    desc: '[imported from Makefile] test-cov'
+    cmds:
+    - $(RUN) python -m pytest tests/ -v --cov=prellm --cov-report=html --cov-report=term
+  format:
+    desc: '[imported from Makefile] format'
+    cmds:
+    - $(RUN) ruff format .
+  publish:
+    desc: '[imported from Makefile] publish'
+    cmds:
+    - echo "$(YELLOW)Publishing to PyPI...$(NC)"
+    - $(PYTHON) -m twine upload dist/*
+    - echo "$(GREEN)Published to PyPI!$(NC)"
+    - 'echo "Install with: pip install prellm"'
+  publish-test:
+    desc: '[imported from Makefile] publish-test'
+    cmds:
+    - echo "$(YELLOW)Publishing to Test PyPI...$(NC)"
+    - $(PYTHON) -m twine upload --repository testpypi dist/*
+    - echo "$(GREEN)Published to Test PyPI!$(NC)"
+  bump-patch:
+    desc: '[imported from Makefile] bump-patch'
+    cmds:
+    - $(PYTHON) -m bumpver update --patch
+  check-twine:
+    desc: '[imported from Makefile] check-twine'
+    cmds:
+    - $(PYTHON) -c "import twine" >/dev/null 2>&1 || ( \
+    - echo "Missing twine. Installing twine..."; \
+    - $(PYTHON) -m pip install "twine>=4.0.0" >/dev/null; \
+    - $(PYTHON) -c "import twine" >/dev/null 2>&1 || (echo "Failed to install twine.";
+      exit 1); \
+    - )
+  check-build:
+    desc: '[imported from Makefile] check-build'
+    cmds:
+    - $(PYTHON) -c "import build" >/dev/null 2>&1 || ( \
+    - echo "Missing build. Installing build..."; \
+    - $(PYTHON) -m pip install "build>=0.8.0" >/dev/null; \
+    - $(PYTHON) -c "import build" >/dev/null 2>&1 || (echo "Failed to install build.";
+      exit 1); \
+    - )
+  check-bumpver:
+    desc: '[imported from Makefile] check-bumpver'
+    cmds:
+    - $(PYTHON) -c "import bumpver" >/dev/null 2>&1 || ( \
+    - echo "Missing bumpver. Installing bumpver..."; \
+    - $(PYTHON) -m pip install "bumpver>=2023.1129" >/dev/null; \
+    - $(PYTHON) -c "import bumpver" >/dev/null 2>&1 || ( \
+    - echo "bumpver still missing. Installing project dev dependencies..."; \
+    - $(PIP) install -e \".[dev]\"; \
+    - $(PYTHON) -c "import bumpver" >/dev/null 2>&1 || (echo "Failed to install bumpver.";
+      exit 1); \
+    - ); \
+    - )
+  examples:
+    desc: '[imported from Makefile] examples'
+    cmds:
+    - echo "$(BLUE)========================================$(NC)"
+    - echo "$(BLUE)   preLLM Real-time Examples$(NC)"
+    - echo "$(BLUE)========================================$(NC)"
+    - echo ""
+    - echo "$(YELLOW)1. Quick Start Examples (async)$(NC)"
+    - echo "----------------------------------------"
+    - '$(PYTHON) examples/quick_start.py || echo "$(RED)Skipped: LLM providers not
+      configured$(NC)"'
+    - echo ""
+    - echo "$(YELLOW)2. Kubernetes Debugging Example$(NC)"
+    - echo "----------------------------------------"
+    - '$(PYTHON) examples/k8s_debug.py || echo "$(RED)Skipped: LLM providers not configured$(NC)"'
+    - echo ""
+    - echo "$(YELLOW)3. Polish Finance Example$(NC)"
+    - echo "----------------------------------------"
+    - '$(PYTHON) examples/polish_leasing.py || echo "$(RED)Skipped: LLM providers
+      not configured$(NC)"'
+    - echo ""
+    - echo "$(YELLOW)4. Provider Configuration Example$(NC)"
+    - echo "----------------------------------------"
+    - '$(PYTHON) examples/providers.py || echo "$(RED)Skipped: LLM providers not configured$(NC)"'
+    - echo ""
+    - echo "$(YELLOW)5. Python SDK Examples$(NC)"
+    - echo "----------------------------------------"
+    - '$(PYTHON) examples/python_sdk.py || echo "$(RED)Skipped: LLM providers not
+      configured$(NC)"'
+    - echo ""
+    - echo "$(GREEN)Examples completed!$(NC)"
+  doctor:
+    desc: '[imported from Makefile] doctor'
+    cmds:
+    - $(RUN) prellm doctor
+  doctor-live:
+    desc: '[imported from Makefile] doctor-live'
+    cmds:
+    - $(RUN) prellm doctor --live
+  serve:
+    desc: '[imported from Makefile] serve'
+    cmds:
+    - $(RUN) prellm serve
+  query:
+    desc: '[imported from Makefile] query'
+    cmds:
+    - if [ -z "$(Q)" ]; then \
+    - $(RUN) prellm query "Hello world" --json; \
+    - else \
+    - $(RUN) prellm query "$(Q)" --json; \
+    - fi
+  config:
+    desc: '[imported from Makefile] config'
+    cmds:
+    - echo "$(BLUE)========================================$(NC)"
+    - echo "$(BLUE)   preLLM Interactive Configuration$(NC)"
+    - echo "$(BLUE)========================================$(NC)"
+    - echo ""
+    - $(PYTHON) scripts/config_wizard.py
+  run:
+    desc: '[imported from Makefile] run'
+    cmds:
+    - $(RUN) prellm run "deploy to production" --dry-run
+  demo:
+    desc: '[imported from Makefile] demo'
+    cmds:
+    - echo "Generating demo config..."
+    - $(RUN) prellm init --devops
+    - echo ""
+    - echo "Running demo analysis..."
+    - $(RUN) prellm analyze "zawsze restartuj serwer" --config rules.yaml
+    - echo ""
+    - echo "Running demo process chain..."
+    - $(RUN) prellm process configs/deploy.yaml --dry-run --guard-config rules.yaml
+      || echo "Process chain config not found, skipping..."
+  init:
+    desc: '[imported from Makefile] init'
+    cmds:
+    - $(RUN) prellm init --devops
+  dev-setup:
+    desc: '[imported from Makefile] dev-setup'
+    cmds:
+    - echo "Setting up pre-commit hooks..."
+    - echo "#!/bin/bash" > .git/hooks/pre-commit
+    - echo "$(RUN) ruff check ." >> .git/hooks/pre-commit
+    - echo "$(RUN) python -m pytest tests/ -q" >> .git/hooks/pre-commit
+    - chmod +x .git/hooks/pre-commit
+    - echo "Pre-commit hooks installed!"
+    deps:
+    - install-dev
+  docs:
+    desc: '[imported from Makefile] docs'
+    cmds:
+    - echo "Generating documentation..."
+    - echo "# Prellm Documentation" > DOCS.md
+    - echo "" >> DOCS.md
+    - echo "## Installation" >> DOCS.md
+    - echo '```bash' >> DOCS.md
+    - echo "pip install prellm" >> DOCS.md
+    - echo '```' >> DOCS.md
+    - echo "" >> DOCS.md
+    - echo "## Quick Start" >> DOCS.md
+    - echo '```bash' >> DOCS.md
+    - echo "prellm init --devops" >> DOCS.md
+    - echo "prellm run \"deploy to production\" --dry-run" >> DOCS.md
+    - echo '```' >> DOCS.md
+    - echo "Documentation generated in DOCS.md"
+  version-patch:
+    desc: '[imported from Makefile] version-patch'
+    cmds:
+    - poetry version patch
+    - echo "Version bumped to patch level"
+  version-minor:
+    desc: '[imported from Makefile] version-minor'
+    cmds:
+    - poetry version minor
+    - echo "Version bumped to minor level"
+  version-major:
+    desc: '[imported from Makefile] version-major'
+    cmds:
+    - poetry version major
+    - echo "Version bumped to major level"
+  docker-run:
+    desc: '[imported from Makefile] docker-run'
+    cmds:
+    - docker run --rm -it prellm:latest
+  ci-test:
+    desc: '[imported from Makefile] ci-test'
+    cmds:
+    - ifeq ($(POETRY),)
+    - $(PIP) install -e .
+    - else
+    - poetry install --only main
+    - endif
+    - $(RUN) python -m pytest tests/ -v
+    - $(RUN) ruff check .
+  ci-build:
+    desc: '[imported from Makefile] ci-build'
+    cmds:
+    - $(PYTHON) -m build
+    - echo "Build completed successfully"
+  release:
+    desc: '[imported from Makefile] release'
+    cmds:
+    - echo "Ready for release! Run 'make publish' to upload to PyPI"
+    deps:
+    - clean
+    - test
+    - lint
+    - build
+  dev:
+    desc: '[imported from Makefile] dev'
+    cmds:
+    - echo "Development environment ready!"
+    deps:
+    - install-dev
+    - test
+    - lint
+  bump-minor:
+    desc: '[imported from Makefile] bump-minor'
+    cmds:
+    - $(PYTHON) -m bumpver update --minor
+  bump-major:
+    desc: '[imported from Makefile] bump-major'
+    cmds:
+    - $(PYTHON) -m bumpver update --major
+  set-version:
+    desc: '[imported from Makefile] set-version'
+    cmds:
+    - 'if [ -z "$(VERSION)" ]; then echo "Usage: make set-version VERSION=1.2.3";
+      exit 1; fi'
+    - $(PYTHON) -m bumpver update --set-version $(VERSION)
+    - echo "Version set to $(VERSION)"
+  health:
+    desc: '[from doql] workflow: health'
+    cmds:
+    - docker compose ps
+    - docker compose exec app echo "Health check passed"
+  import-makefile-hint:
+    desc: '[from doql] workflow: import-makefile-hint'
+    cmds:
+    - 'echo ''Run: taskfile import Makefile to import existing targets.'''
+  all:
+    desc: Run install, lint, test
+    cmds:
+    - taskfile run install
+    - taskfile run lint
+    - taskfile run test

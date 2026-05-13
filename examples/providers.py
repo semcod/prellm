@@ -11,7 +11,6 @@ Usage:
 from __future__ import annotations
 
 import asyncio
-import os
 
 from examples.utils.example_helpers import run_provider_example
 
@@ -19,6 +18,7 @@ from examples.utils.example_helpers import run_provider_example
 # ============================================================
 # Provider examples
 # ============================================================
+
 
 async def ollama_local():
     """Both models local via Ollama. Cost: $0.00"""
@@ -34,7 +34,7 @@ async def ollama_plus_openai():
     await run_provider_example(
         "Ollama + OpenAI (hybrid)",
         small_llm="ollama/qwen2.5:3b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
     )
 
 
@@ -51,7 +51,7 @@ async def openai_only():
     """Both models on OpenAI. Cost: ~$0.20"""
     await run_provider_example(
         "OpenAI only",
-        small_llm="gpt-4o-mini",
+        small_llm="gpt-5.4-mini",
         large_llm="gpt-4o",
     )
 
@@ -88,7 +88,7 @@ async def azure_openai():
     # Requires: AZURE_API_KEY, AZURE_API_BASE, AZURE_API_VERSION
     await run_provider_example(
         "Azure OpenAI",
-        small_llm="azure/gpt-4o-mini-deployment",
+        small_llm="azure/gpt-5.4-mini-deployment",
         large_llm="azure/gpt-4o-deployment",
     )
 
@@ -147,19 +147,19 @@ async def mixed_providers_pipeline():
     """Pipeline with mixed providers."""
     from prellm import preprocess_and_execute
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print("  Mixed Providers + Pipeline")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     try:
         result = await preprocess_and_execute(
             query="Design a microservices architecture for an e-commerce platform",
-            small_llm="ollama/qwen2.5:3b",         # free local preprocessing
-            large_llm="anthropic/claude-sonnet-4-20250514",    # powerful execution
-            pipeline="structure",                    # YAML-defined pipeline
+            small_llm="ollama/qwen2.5:3b",  # free local preprocessing
+            large_llm="anthropic/claude-sonnet-4-20250514",  # powerful execution
+            pipeline="structure",  # YAML-defined pipeline
             user_context={"team": "backend", "stack": "Python/FastAPI/K8s"},
         )
-        print(f"  Status: OK")
+        print("  Status: OK")
         print(f"  Response: {result.content[:150]}...")
     except Exception as e:
         print(f"  Status: SKIPPED ({type(e).__name__}: {e})")
@@ -168,6 +168,7 @@ async def mixed_providers_pipeline():
 # ============================================================
 # Environment setup helper
 # ============================================================
+
 
 def print_env_setup():
     """Print required environment variables for each provider."""

@@ -15,6 +15,7 @@ from pathlib import Path
 # Example 1: One-Function API (recommended)
 # ═══════════════════════════════════════════════
 
+
 async def example_one_function():
     """The simplest way to use preLLM — like litellm.completion()."""
     from prellm import preprocess_and_execute
@@ -31,7 +32,7 @@ async def example_one_function():
     result = await preprocess_and_execute(
         query="Deploy app to production",
         small_llm="ollama/qwen2.5:3b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
         strategy="structure",
         user_context="gdansk_embedded_python",
     )
@@ -51,6 +52,7 @@ async def example_one_function():
 # Example 2: With Domain Rules
 # ═══════════════════════════════════════════════
 
+
 async def example_domain_rules():
     """Inline domain rules for safety checks."""
     from prellm import preprocess_and_execute
@@ -58,7 +60,7 @@ async def example_domain_rules():
     result = await preprocess_and_execute(
         query="Usuń bazę danych klientów",
         small_llm="ollama/qwen2.5:3b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
         strategy="structure",
         domain_rules=[
             {
@@ -81,6 +83,7 @@ async def example_domain_rules():
 # Example 3: Sync Version
 # ═══════════════════════════════════════════════
 
+
 def example_sync():
     """Synchronous wrapper — no async needed."""
     from prellm import preprocess_and_execute_sync
@@ -97,6 +100,7 @@ def example_sync():
 # Example 4: Named Pipeline (dual_agent_full)
 # ═══════════════════════════════════════════════
 
+
 async def example_pipeline():
     """Use a named YAML-defined pipeline for maximum preprocessing quality."""
     from prellm import preprocess_and_execute
@@ -104,18 +108,19 @@ async def example_pipeline():
     result = await preprocess_and_execute(
         query="Design microservices architecture for e-commerce",
         small_llm="ollama/qwen2.5:3b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
         pipeline="dual_agent_full",
         user_context={"team": "backend", "stack": "Python/FastAPI/K8s"},
     )
     print(f"[4] Content: {result.content[:100]}...")
-    print(f"    Pipeline: dual_agent_full (4-step preprocessing)")
+    print("    Pipeline: dual_agent_full (4-step preprocessing)")
     print()
 
 
 # ═══════════════════════════════════════════════
 # Example 5: With UserMemory Context
 # ═══════════════════════════════════════════════
+
 
 async def example_user_memory():
     """Enrich queries with interaction history from UserMemory."""
@@ -135,13 +140,14 @@ async def example_user_memory():
             memory_path=str(db_path),
         )
         print(f"[5] Content: {result.content[:100]}...")
-        print(f"    (UserMemory provided 2 recent interactions as context)")
+        print("    (UserMemory provided 2 recent interactions as context)")
     print()
 
 
 # ═══════════════════════════════════════════════
 # Example 6: With CodebaseIndexer Context
 # ═══════════════════════════════════════════════
+
 
 async def example_codebase_context():
     """Enrich queries with codebase symbols from CodebaseIndexer."""
@@ -153,13 +159,14 @@ async def example_codebase_context():
         codebase_path="prellm/",  # index the source directory
     )
     print(f"[6] Content: {result.content[:100]}...")
-    print(f"    (CodebaseIndexer found relevant symbols in prellm/ source)")
+    print("    (CodebaseIndexer found relevant symbols in prellm/ source)")
     print()
 
 
 # ═══════════════════════════════════════════════
 # Example 7: Class-Based API (PreLLM)
 # ═══════════════════════════════════════════════
+
 
 async def example_class_based():
     """More control with the PreLLM class."""
@@ -191,6 +198,7 @@ async def example_class_based():
 # Example 8: Custom Pipeline (component-level)
 # ═══════════════════════════════════════════════
 
+
 async def example_custom_pipeline():
     """Build a pipeline from components for maximum flexibility."""
     from prellm import PromptRegistry, PromptPipeline, PreprocessorAgent, ExecutorAgent
@@ -198,7 +206,7 @@ async def example_custom_pipeline():
 
     registry = PromptRegistry()
     small = LLMProvider(LLMProviderConfig(model="ollama/qwen2.5:3b", max_tokens=512))
-    large = LLMProvider(LLMProviderConfig(model="gpt-4o-mini", max_tokens=2048))
+    large = LLMProvider(LLMProviderConfig(model="gpt-5.4-mini", max_tokens=2048))
 
     pipeline = PromptPipeline.from_yaml(pipeline_name="structure", registry=registry, small_llm=small)
     preprocessor = PreprocessorAgent(small_llm=small, registry=registry, pipeline=pipeline)
@@ -216,6 +224,7 @@ async def example_custom_pipeline():
 # ═══════════════════════════════════════════════
 # Example 9: OpenAI SDK Compatibility
 # ═══════════════════════════════════════════════
+
 
 async def example_openai_sdk():
     """Use preLLM as an OpenAI drop-in replacement.
@@ -240,6 +249,7 @@ async def example_openai_sdk():
 # ═══════════════════════════════════════════════
 # Example 10: All 5 Strategies
 # ═══════════════════════════════════════════════
+
 
 async def example_strategies():
     """Demonstrate all 5 decomposition strategies."""
@@ -268,6 +278,7 @@ async def example_strategies():
 # ═══════════════════════════════════════════════
 # Run all examples
 # ═══════════════════════════════════════════════
+
 
 async def main():
     print("=" * 60)

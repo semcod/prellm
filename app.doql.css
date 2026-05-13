@@ -1,0 +1,481 @@
+app {
+  name: "Untitled";
+  version: "0.4.25";
+}
+
+entity[name="ProcessInfo"] {
+
+}
+
+entity[name="LocaleInfo"] {
+
+}
+
+entity[name="ShellInfo"] {
+
+}
+
+entity[name="NetworkContext"] {
+
+}
+
+entity[name="ShellContext"] {
+
+}
+
+entity[name="FilterReport"] {
+
+}
+
+entity[name="CompressedFolder"] {
+
+}
+
+entity[name="RuntimeContext"] {
+
+}
+
+entity[name="SessionSnapshot"] {
+
+}
+
+entity[name="BiasPattern"] {
+
+}
+
+entity[name="ModelConfig"] {
+
+}
+
+entity[name="GuardConfig"] {
+
+}
+
+entity[name="DomainRule"] {
+
+}
+
+entity[name="LLMProviderConfig"] {
+
+}
+
+entity[name="DecompositionPrompts"] {
+
+}
+
+entity[name="PreLLMConfig"] {
+
+}
+
+entity[name="ProcessStep"] {
+
+}
+
+entity[name="ProcessConfig"] {
+
+}
+
+entity[name="AuditEntry"] {
+
+}
+
+workflow[name="install"] {
+  trigger: "manual";
+  step-1: run cmd=if [ -z "$(POETRY)" ]; then \;
+  step-2: run cmd=$(PIP) install -e .; \;
+  step-3: run cmd=else \;
+  step-4: run cmd=poetry lock 2>/dev/null || true; \;
+  step-5: run cmd=poetry install --only main; \;
+  step-6: run cmd=fi;
+}
+
+workflow[name="fix-venv"] {
+  trigger: "manual";
+  step-1: run cmd=if [ -z "$(POETRY)" ]; then \;
+  step-2: run cmd=if [ -d "venv" ]; then \;
+  step-3: run cmd=echo "$(YELLOW)Checking venv health...$(NC)"; \;
+  step-4: run cmd=if ! venv/bin/python --version >/dev/null 2>&1 || ! venv/bin/pip --version >/dev/null 2>&1; then \;
+  step-5: run cmd=echo "$(RED)Broken venv detected. Recreating...$(NC)"; \;
+  step-6: run cmd=rm -rf venv; \;
+  step-7: run cmd=python3 -m venv venv; \;
+  step-8: run cmd=. venv/bin/activate && python -m pip install --upgrade pip; \;
+  step-9: run cmd=echo "$(GREEN)Venv recreated!$(NC)"; \;
+  step-10: run cmd=fi; \;
+  step-11: run cmd=else \;
+  step-12: run cmd=echo "$(YELLOW)Creating venv...$(NC)"; \;
+  step-13: run cmd=python3 -m venv venv; \;
+  step-14: run cmd=. venv/bin/activate && python -m pip install --upgrade pip; \;
+  step-15: run cmd=echo "$(GREEN)Venv created!$(NC)"; \;
+  step-16: run cmd=fi; \;
+  step-17: run cmd=fi;
+}
+
+workflow[name="install-dev"] {
+  trigger: "manual";
+  step-1: run cmd=if [ -z "$(POETRY)" ]; then \;
+  step-2: run cmd=$(PIP) install -e ".[dev]"; \;
+  step-3: run cmd=else \;
+  step-4: run cmd=poetry lock 2>/dev/null || true; \;
+  step-5: run cmd=poetry install; \;
+  step-6: run cmd=fi;
+}
+
+workflow[name="test"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) python -m pytest tests/ -v;
+}
+
+workflow[name="test-cov"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) python -m pytest tests/ -v --cov=prellm --cov-report=html --cov-report=term;
+}
+
+workflow[name="lint"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) ruff check .;
+}
+
+workflow[name="format"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) ruff format .;
+}
+
+workflow[name="clean"] {
+  trigger: "manual";
+  step-1: run cmd=rm -rf dist/;
+  step-2: run cmd=rm -rf build/;
+  step-3: run cmd=rm -rf *.egg-info/;
+  step-4: run cmd=rm -rf .pytest_cache/;
+  step-5: run cmd=rm -rf htmlcov/;
+  step-6: run cmd=find . -type d -name __pycache__ -exec rm -rf {} +;
+  step-7: run cmd=find . -type f -name "*.pyc" -delete;
+}
+
+workflow[name="build"] {
+  trigger: "manual";
+  step-1: run cmd=$(PYTHON) -m build;
+}
+
+workflow[name="publish"] {
+  trigger: "manual";
+  step-1: run cmd=echo "$(YELLOW)Publishing to PyPI...$(NC)";
+  step-2: run cmd=$(PYTHON) -m twine upload dist/*;
+  step-3: run cmd=echo "$(GREEN)Published to PyPI!$(NC)";
+  step-4: run cmd=echo "Install with: pip install prellm";
+}
+
+workflow[name="publish-test"] {
+  trigger: "manual";
+  step-1: run cmd=echo "$(YELLOW)Publishing to Test PyPI...$(NC)";
+  step-2: run cmd=$(PYTHON) -m twine upload --repository testpypi dist/*;
+  step-3: run cmd=echo "$(GREEN)Published to Test PyPI!$(NC)";
+}
+
+workflow[name="bump-patch"] {
+  trigger: "manual";
+  step-1: run cmd=$(PYTHON) -m bumpver update --patch;
+}
+
+workflow[name="check-twine"] {
+  trigger: "manual";
+  step-1: run cmd=$(PYTHON) -c "import twine" >/dev/null 2>&1 || ( \;
+  step-2: run cmd=echo "Missing twine. Installing twine..."; \;
+  step-3: run cmd=$(PYTHON) -m pip install "twine>=4.0.0" >/dev/null; \;
+  step-4: run cmd=$(PYTHON) -c "import twine" >/dev/null 2>&1 || (echo "Failed to install twine."; exit 1); \;
+  step-5: run cmd=);
+}
+
+workflow[name="check-build"] {
+  trigger: "manual";
+  step-1: run cmd=$(PYTHON) -c "import build" >/dev/null 2>&1 || ( \;
+  step-2: run cmd=echo "Missing build. Installing build..."; \;
+  step-3: run cmd=$(PYTHON) -m pip install "build>=0.8.0" >/dev/null; \;
+  step-4: run cmd=$(PYTHON) -c "import build" >/dev/null 2>&1 || (echo "Failed to install build."; exit 1); \;
+  step-5: run cmd=);
+}
+
+workflow[name="check-bumpver"] {
+  trigger: "manual";
+  step-1: run cmd=$(PYTHON) -c "import bumpver" >/dev/null 2>&1 || ( \;
+  step-2: run cmd=echo "Missing bumpver. Installing bumpver..."; \;
+  step-3: run cmd=$(PYTHON) -m pip install "bumpver>=2023.1129" >/dev/null; \;
+  step-4: run cmd=$(PYTHON) -c "import bumpver" >/dev/null 2>&1 || ( \;
+  step-5: run cmd=echo "bumpver still missing. Installing project dev dependencies..."; \;
+  step-6: run cmd=$(PIP) install -e \".[dev]\"; \;
+  step-7: run cmd=$(PYTHON) -c "import bumpver" >/dev/null 2>&1 || (echo "Failed to install bumpver."; exit 1); \;
+  step-8: run cmd=); \;
+  step-9: run cmd=);
+}
+
+workflow[name="examples"] {
+  trigger: "manual";
+  step-1: run cmd=echo "$(BLUE)========================================$(NC)";
+  step-2: run cmd=echo "$(BLUE)   preLLM Real-time Examples$(NC)";
+  step-3: run cmd=echo "$(BLUE)========================================$(NC)";
+  step-4: run cmd=echo "";
+  step-5: run cmd=echo "$(YELLOW)1. Quick Start Examples (async)$(NC)";
+  step-6: run cmd=echo "----------------------------------------";
+  step-7: run cmd=$(PYTHON) examples/quick_start.py || echo "$(RED)Skipped: LLM providers not configured$(NC)";
+  step-8: run cmd=echo "";
+  step-9: run cmd=echo "$(YELLOW)2. Kubernetes Debugging Example$(NC)";
+  step-10: run cmd=echo "----------------------------------------";
+  step-11: run cmd=$(PYTHON) examples/k8s_debug.py || echo "$(RED)Skipped: LLM providers not configured$(NC)";
+  step-12: run cmd=echo "";
+  step-13: run cmd=echo "$(YELLOW)3. Polish Finance Example$(NC)";
+  step-14: run cmd=echo "----------------------------------------";
+  step-15: run cmd=$(PYTHON) examples/polish_leasing.py || echo "$(RED)Skipped: LLM providers not configured$(NC)";
+  step-16: run cmd=echo "";
+  step-17: run cmd=echo "$(YELLOW)4. Provider Configuration Example$(NC)";
+  step-18: run cmd=echo "----------------------------------------";
+  step-19: run cmd=$(PYTHON) examples/providers.py || echo "$(RED)Skipped: LLM providers not configured$(NC)";
+  step-20: run cmd=echo "";
+  step-21: run cmd=echo "$(YELLOW)5. Python SDK Examples$(NC)";
+  step-22: run cmd=echo "----------------------------------------";
+  step-23: run cmd=$(PYTHON) examples/python_sdk.py || echo "$(RED)Skipped: LLM providers not configured$(NC)";
+  step-24: run cmd=echo "";
+  step-25: run cmd=echo "$(GREEN)Examples completed!$(NC)";
+}
+
+workflow[name="doctor"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) prellm doctor;
+}
+
+workflow[name="doctor-live"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) prellm doctor --live;
+}
+
+workflow[name="serve"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) prellm serve;
+}
+
+workflow[name="query"] {
+  trigger: "manual";
+  step-1: run cmd=if [ -z "$(Q)" ]; then \;
+  step-2: run cmd=$(RUN) prellm query "Hello world" --json; \;
+  step-3: run cmd=else \;
+  step-4: run cmd=$(RUN) prellm query "$(Q)" --json; \;
+  step-5: run cmd=fi;
+}
+
+workflow[name="config"] {
+  trigger: "manual";
+  step-1: run cmd=echo "$(BLUE)========================================$(NC)";
+  step-2: run cmd=echo "$(BLUE)   preLLM Interactive Configuration$(NC)";
+  step-3: run cmd=echo "$(BLUE)========================================$(NC)";
+  step-4: run cmd=echo "";
+  step-5: run cmd=$(PYTHON) scripts/config_wizard.py;
+}
+
+workflow[name="run"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) prellm run "deploy to production" --dry-run;
+}
+
+workflow[name="demo"] {
+  trigger: "manual";
+  step-1: run cmd=echo "Generating demo config...";
+  step-2: run cmd=$(RUN) prellm init --devops;
+  step-3: run cmd=echo "";
+  step-4: run cmd=echo "Running demo analysis...";
+  step-5: run cmd=$(RUN) prellm analyze "zawsze restartuj serwer" --config rules.yaml;
+  step-6: run cmd=echo "";
+  step-7: run cmd=echo "Running demo process chain...";
+  step-8: run cmd=$(RUN) prellm process configs/deploy.yaml --dry-run --guard-config rules.yaml || echo "Process chain config not found, skipping...";
+}
+
+workflow[name="init"] {
+  trigger: "manual";
+  step-1: run cmd=$(RUN) prellm init --devops;
+}
+
+workflow[name="dev-setup"] {
+  trigger: "manual";
+  step-1: run cmd=echo "Setting up pre-commit hooks...";
+  step-2: run cmd=echo "#!/bin/bash" > .git/hooks/pre-commit;
+  step-3: run cmd=echo "$(RUN) ruff check ." >> .git/hooks/pre-commit;
+  step-4: run cmd=echo "$(RUN) python -m pytest tests/ -q" >> .git/hooks/pre-commit;
+  step-5: run cmd=chmod +x .git/hooks/pre-commit;
+  step-6: run cmd=echo "Pre-commit hooks installed!";
+}
+
+workflow[name="docs"] {
+  trigger: "manual";
+  step-1: run cmd=echo "Generating documentation...";
+  step-2: run cmd=echo "# Prellm Documentation" > DOCS.md;
+  step-3: run cmd=echo "" >> DOCS.md;
+  step-4: run cmd=echo "## Installation" >> DOCS.md;
+  step-5: run cmd=echo '```bash' >> DOCS.md;
+  step-6: run cmd=echo "pip install prellm" >> DOCS.md;
+  step-7: run cmd=echo '```' >> DOCS.md;
+  step-8: run cmd=echo "" >> DOCS.md;
+  step-9: run cmd=echo "## Quick Start" >> DOCS.md;
+  step-10: run cmd=echo '```bash' >> DOCS.md;
+  step-11: run cmd=echo "prellm init --devops" >> DOCS.md;
+  step-12: run cmd=echo "prellm run \"deploy to production\" --dry-run" >> DOCS.md;
+  step-13: run cmd=echo '```' >> DOCS.md;
+  step-14: run cmd=echo "Documentation generated in DOCS.md";
+}
+
+workflow[name="version-patch"] {
+  trigger: "manual";
+  step-1: run cmd=poetry version patch;
+  step-2: run cmd=echo "Version bumped to patch level";
+}
+
+workflow[name="version-minor"] {
+  trigger: "manual";
+  step-1: run cmd=poetry version minor;
+  step-2: run cmd=echo "Version bumped to minor level";
+}
+
+workflow[name="version-major"] {
+  trigger: "manual";
+  step-1: run cmd=poetry version major;
+  step-2: run cmd=echo "Version bumped to major level";
+}
+
+workflow[name="docker-build"] {
+  trigger: "manual";
+  step-1: run cmd=docker build -t prellm:latest .;
+}
+
+workflow[name="docker-run"] {
+  trigger: "manual";
+  step-1: run cmd=docker run --rm -it prellm:latest;
+}
+
+workflow[name="ci-test"] {
+  trigger: "manual";
+  step-1: run cmd=ifeq ($(POETRY),);
+  step-2: run cmd=$(PIP) install -e .;
+  step-3: run cmd=else;
+  step-4: run cmd=poetry install --only main;
+  step-5: run cmd=endif;
+  step-6: run cmd=$(RUN) python -m pytest tests/ -v;
+  step-7: run cmd=$(RUN) ruff check .;
+}
+
+workflow[name="ci-build"] {
+  trigger: "manual";
+  step-1: run cmd=$(PYTHON) -m build;
+  step-2: run cmd=echo "Build completed successfully";
+}
+
+workflow[name="release"] {
+  trigger: "manual";
+  step-1: run cmd=echo "Ready for release! Run 'make publish' to upload to PyPI";
+}
+
+workflow[name="dev"] {
+  trigger: "manual";
+  step-1: run cmd=echo "Development environment ready!";
+}
+
+workflow[name="bump-minor"] {
+  trigger: "manual";
+  step-1: run cmd=$(PYTHON) -m bumpver update --minor;
+}
+
+workflow[name="bump-major"] {
+  trigger: "manual";
+  step-1: run cmd=$(PYTHON) -m bumpver update --major;
+}
+
+workflow[name="set-version"] {
+  trigger: "manual";
+  step-1: run cmd=if [ -z "$(VERSION)" ]; then echo "Usage: make set-version VERSION=1.2.3"; exit 1; fi;
+  step-2: run cmd=$(PYTHON) -m bumpver update --set-version $(VERSION);
+  step-3: run cmd=echo "Version set to $(VERSION)";
+}
+
+workflow[name="fmt"] {
+  trigger: "manual";
+  step-1: run cmd=ruff format .;
+}
+
+workflow[name="health"] {
+  trigger: "manual";
+  step-1: run cmd=docker compose ps;
+  step-2: run cmd=docker compose exec app echo "Health check passed";
+}
+
+workflow[name="up"] {
+  trigger: "manual";
+  step-1: run cmd=docker compose up -d;
+}
+
+workflow[name="down"] {
+  trigger: "manual";
+  step-1: run cmd=docker compose down;
+}
+
+workflow[name="logs"] {
+  trigger: "manual";
+  step-1: run cmd=docker compose logs -f;
+}
+
+workflow[name="ps"] {
+  trigger: "manual";
+  step-1: run cmd=docker compose ps;
+}
+
+workflow[name="import-makefile-hint"] {
+  trigger: "manual";
+  step-1: run cmd=echo 'Run: taskfile import Makefile to import existing targets.';
+}
+
+workflow[name="help"] {
+  trigger: "manual";
+  step-1: run cmd=echo "Prellm - LLM prompt middleware";
+  step-2: run cmd=echo "==================================";
+  step-3: run cmd=echo "";
+  step-4: run cmd=echo "Available commands:";
+  step-5: run cmd=echo "  install      Install production dependencies";
+  step-6: run cmd=echo "  install-dev  Install development dependencies";
+  step-7: run cmd=echo "  config       Interactive LLM configuration wizard";
+  step-8: run cmd=echo "  doctor       Check configuration and provider connectivity";
+  step-9: run cmd=echo "  serve        Start the preLLM API server";
+  step-10: run cmd=echo "  query        Run a test query (usage: make query Q=''hello world''); 
+  step-11: run cmd=echo "  test         Run tests";
+  step-12: run cmd=echo "  test-cov     Run tests with coverage";
+  step-13: run cmd=echo "  examples     Run all example scripts (real-time demos)";
+  step-14: run cmd=echo "  lint         Run linting (ruff)";
+  step-15: run cmd=echo "  format       Format code (ruff)";
+  step-16: run cmd=echo "  clean        Clean build artifacts";
+  step-17: run cmd=echo "  build        Build package";
+  step-18: run cmd=echo "  publish      Publish to PyPI";
+  step-19: run cmd=echo "  demo         Run demo with sample config";
+  step-20: run cmd=echo "  init         Generate starter config";
+  step-21: run cmd=echo "";
+}
+
+deploy {
+  target: docker-compose;
+  compose_file: docker-compose.yaml;
+}
+
+environment[name="local"] {
+  runtime: docker-compose;
+  env_file: ".env";
+}
+
+environment[name="backup"] {
+  runtime: docker-compose;
+  env_file: ".env.backup";
+}
+
+workflow[name="all"] {
+  trigger: "manual";
+  step-1: run cmd=taskfile run install;
+  step-2: run cmd=taskfile run lint;
+  step-3: run cmd=taskfile run test;
+}
+
+/* auto-added stub: define where entities are persisted */
+database[name="default"] {
+  engine: "sqlite";
+  path: "data/app.db";
+}

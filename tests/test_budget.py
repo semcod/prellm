@@ -39,7 +39,7 @@ class TestBudgetTracker:
             persist_path=tmp_path / "budget.json",
         )
         tracker.record(model="gpt-4o", cost=1.0)
-        tracker.record(model="gpt-4o-mini", cost=0.5)
+        tracker.record(model="gpt-5.4-mini", cost=0.5)
         tracker.record(model="gpt-4o", cost=2.0)
 
         assert tracker.total_cost == pytest.approx(3.5)
@@ -77,7 +77,7 @@ class TestBudgetTracker:
             persist_path=tmp_path / "budget.json",
         )
         tracker.record(model="gpt-4o", cost=2.0)
-        tracker.record(model="gpt-4o-mini", cost=0.5)
+        tracker.record(model="gpt-5.4-mini", cost=0.5)
         tracker.record(model="gpt-4o", cost=1.5)
 
         summary = tracker.summary()
@@ -86,7 +86,7 @@ class TestBudgetTracker:
         assert summary["remaining"] == pytest.approx(96.0)
         assert summary["requests"] == 3
         assert summary["by_model"]["gpt-4o"] == pytest.approx(3.5)
-        assert summary["by_model"]["gpt-4o-mini"] == pytest.approx(0.5)
+        assert summary["by_model"]["gpt-5.4-mini"] == pytest.approx(0.5)
 
     def test_reset(self, tmp_path: Path):
         tracker = BudgetTracker(

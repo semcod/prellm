@@ -53,7 +53,7 @@ services:
       - "18080:8080"
     environment:
       - SMALL_MODEL=ollama/qwen2.5:3b
-      - LARGE_MODEL=gpt-4o-mini
+      - LARGE_MODEL=gpt-5.4-mini
     command: ["serve", "--host", "0.0.0.0", "--port", "8080"]
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/health"]

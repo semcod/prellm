@@ -136,7 +136,7 @@ def config_init_env(
 
 # ── Models ──────────────────────────────────────────────
 PRELLM_SMALL_DEFAULT=ollama/qwen2.5:3b
-PRELLM_LARGE_DEFAULT=gpt-4o-mini
+PRELLM_LARGE_DEFAULT=gpt-5.4-mini
 PRELLM_STRATEGY=classify
 
 # ── API Keys (uncomment and fill in) ───────────────────
@@ -176,7 +176,7 @@ PRELLM_STRATEGY=classify
 # PRELLM_MAX_TOKENS=4096
 # PRELLM_TIMEOUT=30
 # PRELLM_MONTHLY_BUDGET=50.00
-# PRELLM_FALLBACKS=ollama/llama3:8b,gpt-4o-mini
+# PRELLM_FALLBACKS=ollama/llama3:8b,gpt-5.4-mini
 """
     with open(path, "w") as f:
         f.write(template)

@@ -1,7 +1,5 @@
 ## [Unreleased]
 
-## [0.4.25] - 2026-03-29
-
 ### Docs
 - Update docs/README.md
 - Update project/README.md
@@ -24,15 +22,11 @@
 - Update project/duplication.toon.yaml
 - ... and 14 more files
 
-## [0.4.24] - 2026-03-29
-
 ### Other
 - Update prellm/env_config.py
 - Update prellm/env_config/__init__.py
 - Update project/evolution.toon.yaml
 - Update project/project.toon.yaml
-
-## [0.4.23] - 2026-03-29
 
 ### Docs
 - Update docs/README.md
@@ -52,8 +46,6 @@
 - Update prellm/trace/markdown.py
 - ... and 17 more files
 
-## [0.4.22] - 2026-03-29
-
 ### Other
 - Update prellm/cli.py
 - Update prellm/cli/__init__.py
@@ -67,17 +59,11 @@
 - Update prellm/cli/session.py
 - ... and 4 more files
 
-## [0.4.21] - 2026-03-29
-
-## [0.4.20] - 2026-03-29
-
 ### Other
 - Update prellm/core/__init__.py
 - Update project/analysis.toon.yaml
 - Update project/evolution.toon.yaml
 - Update project/project.toon.yaml
-
-## [0.4.19] - 2026-03-29
 
 ### Other
 - Update prellm/core.py
@@ -90,8 +76,6 @@
 - Update prellm/core/results.py
 - Update prellm/core/tracing.py
 - Update project/project.toon.yaml
-
-## [0.4.18] - 2026-03-29
 
 ### Docs
 - Update README.md
@@ -112,15 +96,11 @@
 - Update project/map.toon.yaml
 - ... and 3 more files
 
-## [0.4.17] - 2026-03-25
-
 ### Docs
 - Update docs/README.md
 
 ### Other
 - Update project/duplication.toon.yaml
-
-## [0.4.16] - 2026-03-25
 
 ### Docs
 - Update docs/README.md
@@ -140,8 +120,6 @@
 - Update project/compact_flow.mmd
 - Update project/compact_flow.png
 - ... and 8 more files
-
-## [0.4.15] - 2026-03-25
 
 ### Docs
 - Update ROADMAP.md
@@ -163,8 +141,6 @@
 - Update prellm/validators.py
 - ... and 14 more files
 
-## [0.4.14] - 2026-03-25
-
 ### Docs
 - Update project/context.md
 
@@ -177,8 +153,6 @@
 - Update project/index.html
 - Update project/map.toon.yaml
 
-## [0.4.13] - 2026-03-25
-
 ### Docs
 - Update docs/README.md
 - Update project/context.md
@@ -190,8 +164,6 @@
 - Update project/duplication.toon.yaml
 - Update project/index.html
 - Update project/map.toon.yaml
-
-## [0.4.12] - 2026-03-25
 
 ### Docs
 - Update docs/README.md
@@ -208,8 +180,6 @@
 - Update project/index.html
 - Update project/map.toon.yaml
 - Update project/validation.toon.yaml
-
-## [0.4.11] - 2026-03-25
 
 ### Docs
 - Update docs/README.md
@@ -228,8 +198,6 @@
 - Update project/map.yaml
 - ... and 3 more files
 
-## [0.4.10] - 2026-03-25
-
 ### Docs
 - Update docs/README.md
 - Update project/context.md
@@ -243,8 +211,6 @@
 - Update project/map.yaml
 - Update project/toon.yaml
 
-## [0.4.9] - 2026-03-25
-
 ### Docs
 - Update docs/README.md
 - Update project/context.md
@@ -257,8 +223,6 @@
 - Update project/index.html
 - Update project/map.yaml
 - Update project/toon.yaml
-
-## [0.4.8] - 2026-03-25
 
 ### Docs
 - Update docs/README.md
@@ -274,8 +238,6 @@
 - Update project/map.yaml
 - Update project/toon.yaml
 
-## [0.4.7] - 2026-03-25
-
 ### Docs
 - Update docs/README.md
 - Update project/context.md
@@ -287,12 +249,8 @@
 - Update project/compact_flow.png
 - Update project/index.html
 
-## [0.4.6] - 2026-03-25
-
 ### Test
 - Update tests/test_one_function.py
-
-## [0.4.5] - 2026-02-16
 
 ### Summary
 
@@ -318,8 +276,6 @@ refactor(tests): configuration management system
 - update project.toon
 
 
-## [0.4.4] - 2026-02-16
-
 ### Summary
 
 feat(tests): configuration management system
@@ -338,8 +294,6 @@ feat(tests): configuration management system
 - update prellm/agents/preprocessor.py
 - update prellm/core.py
 
-
-## [0.4.3] - 2026-02-16
 
 ### Summary
 
@@ -362,8 +316,6 @@ feat(config): configuration management system
 - update prellm/env_config.py
 - update prellm/llm_provider.py
 
-
-## [0.4.2] - 2026-02-16
 
 ### Summary
 
@@ -392,8 +344,6 @@ feat(docs): configuration management system
 
 - update prellm/context/user_memory.py
 
-
-## [0.4.0] - 2026-02-16
 
 ### Summary
 
@@ -450,8 +400,6 @@ Sensitive data never reaches the large-LLM. Solves the "Bielik drifts after 5–
 - `session_path=None` by default — no session persistence unless explicitly enabled
 
 
-## [0.4.1] - 2026-02-16
-
 ### Summary
 
 refactor(tests): CLI interface improvements
@@ -489,8 +437,6 @@ refactor(tests): CLI interface improvements
 - ... and 4 more
 
 
-## [0.3.15] - 2026-02-16
-
 ### Summary
 
 feat(docs): CLI interface improvements
@@ -513,8 +459,6 @@ feat(docs): CLI interface improvements
 - update project.functions.toon
 - ... and 1 more
 
-
-## [0.3.14] - 2026-02-16
 
 ### Summary
 
@@ -552,8 +496,6 @@ fix(docs): CLI interface improvements
 - ... and 16 more
 
 
-## [0.3.13] - 2026-02-16
-
 ### Summary
 
 docs(docs): code relationship mapping with 2 supporting modules
@@ -563,8 +505,6 @@ docs(docs): code relationship mapping with 2 supporting modules
 - docs: update README
 - docs: update flow-graphs.md
 
-
-## [0.3.12] - 2026-02-15
 
 ### Summary
 
@@ -591,8 +531,6 @@ refactor(examples): deep code analysis engine with 3 supporting modules
 - ... and 3 more
 
 
-## [0.3.11] - 2026-02-15
-
 ### Summary
 
 feat(docs): CLI interface improvements
@@ -610,8 +548,6 @@ feat(docs): CLI interface improvements
 - scripts: update cli_examples.sh
 
 
-## [0.3.10] - 2026-02-15
-
 ### Summary
 
 refactor(examples): configuration management system
@@ -627,22 +563,6 @@ refactor(examples): configuration management system
 - update tests/test_one_function.py
 - update tests/test_preprocessor_memory.py
 
-### Other
-
-- update examples/embedded/__init__.py
-- update examples/embedded/main.py
-- update examples/embedded/test_embedded.py
-- update examples/k8s/__init__.py
-- update examples/k8s/main.py
-- update examples/k8s/test_k8s.py
-- update examples/leasing/__init__.py
-- update examples/leasing/main.py
-- update examples/leasing/test_leasing.py
-- update prellm/chains/process_chain.py
-
-
-## [0.3.9] - 2026-02-15
-
 ### Summary
 
 feat(goal): CLI interface improvements
@@ -656,8 +576,6 @@ feat(goal): CLI interface improvements
 - update prellm/cli.py
 
 
-## [0.3.7] - 2026-02-15
-
 ### Summary
 
 feat(goal): CLI interface improvements
@@ -667,8 +585,6 @@ feat(goal): CLI interface improvements
 - update prellm/cli.py
 - update prellm/env_config.py
 
-
-## [0.3.6] - 2026-02-15
 
 ### Summary
 
@@ -685,8 +601,6 @@ refactor(tests): deep code analysis engine with 4 supporting modules
 - update prellm/context/codebase_indexer.py
 - update prellm/context/user_memory.py
 
-
-## [0.3.5] - 2026-02-15
 
 ### Summary
 
@@ -721,8 +635,6 @@ refactor(examples): CLI interface improvements
 - update prellm/chains/process_chain.py
 - ... and 3 more
 
-
-## [0.3.4] - 2026-02-15
 
 ### Summary
 
@@ -764,8 +676,6 @@ feat(core): unified API with two-agent architecture, comprehensive docs, provide
 - Version assertion tests updated for new version
 
 
-## [0.3.3] - 2026-02-15
-
 ### Summary
 
 fix(tests): configuration management system
@@ -794,8 +704,6 @@ fix(tests): configuration management system
 - update prellm/context/__init__.py
 - ... and 6 more
 
-
-## [0.3.2] - 2026-02-15
 
 ### Summary
 
@@ -830,8 +738,6 @@ fix(config): CLI interface improvements
 - ... and 5 more
 
 
-## [0.3.1] - 2026-02-15
-
 ### Summary
 
 fix(docs): CLI interface improvements
@@ -859,8 +765,6 @@ fix(docs): CLI interface improvements
 - update project.functions.toon
 - update project.toon
 
-
-## [0.2.1] - 2026-02-15
 
 ### Summary
 
@@ -892,8 +796,6 @@ feat(tests): CLI interface improvements
 - update prellm/query_decomposer.py
 
 
-## [0.1.15] - 2026-02-15
-
 ### Summary
 
 feat(None): configuration management system
@@ -904,8 +806,6 @@ feat(None): configuration management system
 - scripts: update project.sh
 - update project.toon-schema.json
 
-
-## [0.1.14] - 2026-02-15
 
 ### Summary
 
@@ -938,8 +838,6 @@ chore: fix testing infrastructure
 - update prellm/cli.py
 - update prellm/core.py
 
-
-## [0.1.13] - 2026-02-15
 
 ### Summary
 
@@ -978,8 +876,6 @@ refactor(docs): CLI interface improvements
 - ... and 5 more
 
 
-## [0.1.5] - 2026-02-15
-
 ### Summary
 
 feat(build): code relationship mapping with 4 supporting modules
@@ -998,8 +894,6 @@ feat(build): code relationship mapping with 4 supporting modules
 - update bumpver.toml
 - update prellm/__init__.py
 
-
-## [0.1.1] - 2026-02-15
 
 ### Summary
 
@@ -1025,18 +919,14 @@ refactor(tests): CLI interface improvements
 
 - config: update goal.yaml
 
-### Other
-
-- update .gitignore
-- update LICENSE
-- build: update Makefile
-- config: update deploy.yaml
-- config: update rules.yaml
-- update prellm/__init__.py
-- update prellm/analyzers/__init__.py
-- update prellm/analyzers/bias_detector.py
-- update prellm/analyzers/context_engine.py
-- update prellm/chains/__init__.py
-- ... and 5 more
-
+- feat(config): configuration management system
+- feat(project): code analysis engine
+- feat(docs): configuration management system
+- feat(docs): deep code analysis engine with supporting modules
+- feat(tests): CLI interface improvements
+- feat: add AppDefaults + LiteLLMEnv integration to load_dotenv_if_available
+- feat: delegate env file I/O to getv (with fallback)
+- fix(config): CLI interface improvements
+- chore: fix testing infrastructure
+- refactor(config): code analysis engine
 

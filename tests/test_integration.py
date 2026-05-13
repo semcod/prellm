@@ -41,7 +41,7 @@ class TestYAMLConfigLoading:
     def test_load_full_config(self):
         path = self._write_yaml({
             "small_model": {"model": "phi3:mini", "max_tokens": 512},
-            "large_model": {"model": "gpt-4o-mini", "max_tokens": 2048},
+            "large_model": {"model": "gpt-5.4-mini", "max_tokens": 2048},
             "max_retries": 2,
             "policy": "devops",
             "default_strategy": "classify",

@@ -7,7 +7,6 @@ or passthrough user queries before routing to a large LLM.
 from __future__ import annotations
 
 import logging
-from typing import Any
 
 from prellm.llm_provider import LLMProvider
 from prellm.models import (
@@ -16,7 +15,6 @@ from prellm.models import (
     DecompositionResult,
     DecompositionStrategy,
     DomainRule,
-    LLMProviderConfig,
     DecompositionPrompts,
     StructureResult,
 )

@@ -11,17 +11,17 @@ from typing import Any
 # (name, small_llm, large_llm, cost_hint)
 MODEL_PAIRS: list[tuple[str, str, str, str]] = [
     ("Ollama local (free)", "ollama/qwen2.5:3b", "ollama/llama3:8b", "$0.00"),
-    ("Ollama + OpenAI", "ollama/qwen2.5:3b", "gpt-4o-mini", "~$0.15"),
+    ("Ollama + OpenAI", "ollama/qwen2.5:3b", "gpt-5.4-mini", "~$0.15"),
     ("Ollama + Claude", "ollama/qwen2.5:3b", "anthropic/claude-sonnet-4-20250514", "~$0.30"),
     ("Ollama + Kimi K2.5", "ollama/qwen2.5:3b", "openrouter/moonshotai/kimi-k2.5", "~$0.10"),
-    ("OpenAI only", "gpt-4o-mini", "gpt-4o", "~$0.20"),
+    ("OpenAI only", "gpt-5.4-mini", "gpt-4o", "~$0.20"),
     ("Anthropic only", "anthropic/claude-haiku", "anthropic/claude-sonnet-4-20250514", "~$0.35"),
     ("Groq fast", "groq/llama-3.1-8b-instant", "groq/llama-3.3-70b-versatile", "~$0.05"),
     ("Mistral", "mistral/mistral-small-latest", "mistral/mistral-large-latest", "~$0.20"),
     ("DeepSeek", "deepseek/deepseek-chat", "deepseek/deepseek-reasoner", "~$0.15"),
     ("Google Gemini", "gemini/gemini-2.0-flash", "gemini/gemini-2.5-pro-preview-06-05", "~$0.20"),
     ("Together AI", "together_ai/Qwen/Qwen2.5-7B-Instruct-Turbo", "together_ai/meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo", "~$0.10"),
-    ("Azure OpenAI", "azure/gpt-4o-mini-deployment", "azure/gpt-4o-deployment", "~$0.20"),
+    ("Azure OpenAI", "azure/gpt-5.4-mini-deployment", "azure/gpt-4o-deployment", "~$0.20"),
     ("AWS Bedrock", "bedrock/anthropic.claude-3-haiku-20240307-v1:0", "bedrock/anthropic.claude-3-5-sonnet-20241022-v2:0", "~$0.30"),
 ]
 

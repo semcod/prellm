@@ -1,5 +1,3 @@
-# System Architecture Analysis
-
 ## Overview
 
 - **Project**: /home/tom/github/wronai/prellm
@@ -10,8 +8,6 @@
 - **Total Classes**: 81
 - **Modules**: 72
 - **Entry Points**: 246
-
-## Architecture by Module
 
 ### prellm.pipeline
 - **Functions**: 18
@@ -318,8 +314,6 @@ chat_completions [prellm.server]
 from_yaml [prellm.pipeline.PromptPipeline]
 ```
 
-## Key Classes
-
 ### prellm.pipeline.PromptPipeline
 > Generic pipeline — executes a sequence of LLM + algorithmic steps.
 
@@ -467,8 +461,6 @@ Usage:
 
 Key functions that process and transform data:
 
-### prellm._get_process_chain
-
 ### prellm.prompt_registry.PromptRegistry.validate
 > Validate that all prompts have non-empty templates. Returns list of error messages.
 - **Output to**: self._ensure_loaded, set, self._entries.items, self._entries.keys, errors.append
@@ -572,8 +564,6 @@ Args:
 ### prellm.context.shell_collector.ShellContextCollector.collect_process_info
 > Collect current process information.
 - **Output to**: ProcessInfo, hasattr, os.ttyname, os.getpid, os.getcwd
-
-## Behavioral Patterns
 
 ### recursion__sanitize
 - **Type**: recursion

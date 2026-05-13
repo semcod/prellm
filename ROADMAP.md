@@ -35,10 +35,8 @@ print(result.model_used)     # Which large model answered
 
 ```bash
 pip install prellm
-prellm "Deploy app to prod" --small ollama/qwen2.5:3b --large gpt-4o-mini
+prellm "Deploy app to prod" --small ollama/qwen2.5:3b --large gpt-5.4-mini
 ```
-
-## Use Cases
 
 ### 1. Code Refactoring with User Context
 ```
@@ -79,8 +77,6 @@ Cost: $0.015 + $0.52 = $0.535
 | Code refactoring | 8k tokens, no context | 2.5k tokens + context | +45% precision |
 | Log analysis | Generic diagnosis | Tech stack + env aware | +62% accuracy |
 | Business automation | Generic Excel | PL legal + VAT aware | +78% usefulness |
-
-## 12-Month Roadmap
 
 ### Month 1–3: MVP ✅
 - [x] `pip install prellm`
@@ -147,15 +143,12 @@ Cost: $0.015 + $0.52 = $0.535
 - [ ] LangChain + LlamaIndex + Haystack integrations
 - [ ] 1-click Vercel/Netlify deploy
 
-## Docker Deployment
-
-```bash
 # Build and run
 docker build -t prellm .
 docker run -p 8080:8080 prellm serve
 
 # Query mode
-docker run --rm prellm query "Deploy app" --small ollama/qwen2.5:3b --large gpt-4o-mini
+docker run --rm prellm query "Deploy app" --small ollama/qwen2.5:3b --large gpt-5.4-mini
 
 # Full stack with Ollama
 docker-compose up -d
@@ -168,9 +161,6 @@ curl http://localhost:8080/v1/chat/completions \
   -d '{"model": "prellm:qwen→claude", "messages": [{"role": "user", "content": "Deploy app"}]}'
 ```
 
-## Docker Test Sandbox
-
-```bash
 # Run full test suite in Docker
 docker-compose -f docker-compose.test.yml run --rm test
 
@@ -190,8 +180,6 @@ docker-compose -f docker-compose.test.yml run --rm build-check
 | Proxy server | Yes (key to adoption) | Yes (OpenAI format) |
 | Model support | 100+ via providers | 100+ via litellm (dependency) |
 | Unique value | Unified API | Small LLM preprocessing |
-
-## Success Criteria
 
 ### Technical
 1. **ONE function:** `preprocess_and_execute()` ✅
@@ -219,8 +207,6 @@ docker-compose -f docker-compose.test.yml run --rm build-check
 17. 1-click cloud deploy
 18. Sponsors: Anthropic, Mistral, Perplexity
 
-## Recent Achievements (v0.4.0+)
-
 ### Code Quality Improvements ✅
 - **Refactored critical functions:** CLI query (CC=27→8), Trace recorder (CC=28→15)
 - **Eliminated all critical complexity hotspots** (0 functions with CC > 25)
@@ -239,6 +225,3 @@ docker-compose -f docker-compose.test.yml run --rm build-check
 - **Schema generation** for small LLM optimization
 - **Full context awareness** pipeline
 
-## License
-
-Apache License 2.0

@@ -207,7 +207,7 @@ class PreLLM:
         # Parse large_model
         large_raw = raw.get("large_model", {})
         large_model = LLMProviderConfig(**large_raw) if isinstance(large_raw, dict) and large_raw else LLMProviderConfig(
-            model="gpt-4o-mini", max_tokens=2048
+            model="gpt-5.4-mini", max_tokens=2048
         )
 
         # Parse domain_rules

@@ -14,7 +14,7 @@ class EnvConfig:
 
     # Models
     small_model: str = "ollama/qwen2.5:3b"
-    large_model: str = "gpt-4o-mini"
+    large_model: str = "gpt-5.4-mini"
     strategy: str = "auto"
     fallbacks: list[str] = field(default_factory=list)
 

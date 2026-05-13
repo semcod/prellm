@@ -205,7 +205,7 @@ class BiasPattern(BaseModel):
 
 
 class ModelConfig(BaseModel):
-    fallback: list[str] = Field(default_factory=lambda: ["gpt-4o-mini"])
+    fallback: list[str] = Field(default_factory=lambda: ["gpt-5.4-mini"])
     timeout: int = 30
     max_tokens: int = 2048
 
@@ -265,7 +265,7 @@ class DomainRule(BaseModel):
 
 class LLMProviderConfig(BaseModel):
     """Configuration for a single LLM provider (small or large)."""
-    model: str = "gpt-4o-mini"
+    model: str = "gpt-5.4-mini"
     fallback: list[str] = Field(default_factory=list)
     max_retries: int = 3
     timeout: int = 30
@@ -316,7 +316,7 @@ class PreLLMConfig(BaseModel):
         default_factory=lambda: LLMProviderConfig(model="phi3:mini", max_tokens=512, temperature=0.0)
     )
     large_model: LLMProviderConfig = Field(
-        default_factory=lambda: LLMProviderConfig(model="gpt-4o-mini", max_tokens=2048)
+        default_factory=lambda: LLMProviderConfig(model="gpt-5.4-mini", max_tokens=2048)
     )
     domain_rules: list[DomainRule] = Field(default_factory=list)
     prompts: DecompositionPrompts = Field(default_factory=DecompositionPrompts)

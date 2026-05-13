@@ -6,7 +6,7 @@ Usage:
     result = await preprocess_and_execute(
         query="Deploy app to production",
         small_llm="ollama/qwen2.5:3b",
-        large_llm="gpt-4o-mini",
+        large_llm="gpt-5.4-mini",
     )
     print(result.content)
 """

@@ -9,8 +9,6 @@
 **License:** MIT[(LICENSE)](./LICENSE)  
 **Repository:** [https://github.com/wronai/gllm](https://github.com/wronai/gllm)
 
-## Installation
-
 ### From PyPI
 
 ```bash
@@ -25,14 +23,6 @@ cd prellm
 pip install -e .
 ```
 
-
-## Quick Start
-
-### CLI Usage
-
-```bash
-# Generate full documentation for your project
-prellm ./my-project
 
 # Only regenerate README
 prellm ./my-project --readme-only
@@ -142,8 +132,6 @@ Content outside the markers is preserved when regenerating. Enable this with `sy
 ```
 prellm/
     ├── python_sdk    ├── polish_leasing    ├── k8s_debug    ├── env_config/    ├── cli/    ├── providers    ├── model_catalog    ├── quick_start    ├── embedded_refactor├── prellm/    ├── trace/    ├── prompt_registry    ├── query_decomposer    ├── models    ├── llm_provider    ├── pipeline    ├── budget    ├── config_wizard/        ├── ollama    ├── validators        ├── providers        ├── ui        ├── loader        ├── commands        ├── providers        ├── utils        ├── models        ├── constants        ├── prompts        ├── legacy    ├── core/    ├── server        ├── context        ├── tracing        ├── main        ├── results        ├── pipeline        ├── process        ├── config        ├── session        ├── wizard        ├── doctor        ├── context        ├── models        ├── budget        ├── utils        ├── markdown        ├── utils    ├── chains/        ├── models    ├── utils/        ├── lazy_imports        ├── lazy_loader        ├── folder_compressor        ├── shell_collector        ├── terminal        ├── user_memory    ├── context/        ├── sensitive_filter        ├── schema_generator        ├── codebase_indexer    ├── analyzers/        ├── preprocessor    ├── agents/        ├── context_engine        ├── executor├── project    ├── cli_examples    ├── curl_api        ├── example_helpers        ├── process_chain    ├── logging_setup```
-
-## API Overview
 
 ### Classes
 
@@ -414,31 +402,20 @@ prellm/
 📄 `scripts.config_wizard.ui` (7 functions)
 📄 `scripts.config_wizard.wizard` (9 functions)
 
-## Requirements
-
-
-
 ## Contributing
 
 **Contributors:**
 - Tom Softreck <tom@sapletta.com>
 - Tom Sapletta <tom-sapletta-com@users.noreply.github.com>
 
-We welcome contributions! Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+We welcome contributions! Please see [CONTRIBUTING.md](https://github.com/wronai/prellm/blob/main/CONTRIBUTING.md) for guidelines.
 
-### Development Setup
-
-```bash
 # Clone the repository
 git clone https://github.com/wronai/gllm
 cd prellm
 
 # Install in development mode
 pip install -e ".[dev]"
-
-# Run tests
-pytest
-```
 
 ## Documentation
 
@@ -453,15 +430,15 @@ pytest
 | Output | Description | Link |
 |--------|-------------|------|
 | `README.md` | Project overview (this file) | — |
-| `docs/api.md` | Consolidated API reference | [View](./docs/api.md) |
-| `docs/modules.md` | Module reference with metrics | [View](./docs/modules.md) |
-| `docs/architecture.md` | Architecture with diagrams | [View](./docs/architecture.md) |
-| `docs/dependency-graph.md` | Dependency graphs | [View](./docs/dependency-graph.md) |
-| `docs/coverage.md` | Docstring coverage report | [View](./docs/coverage.md) |
-| `docs/getting-started.md` | Getting started guide | [View](./docs/getting-started.md) |
-| `docs/configuration.md` | Configuration reference | [View](./docs/configuration.md) |
-| `docs/api-changelog.md` | API change tracking | [View](./docs/api-changelog.md) |
-| `CONTRIBUTING.md` | Contribution guidelines | [View](./CONTRIBUTING.md) |
+| `docs/api.md` | Consolidated API reference | [View](https://github.com/wronai/prellm/blob/main/docs/api.md) |
+| `docs/modules.md` | Module reference with metrics | [View](https://github.com/wronai/prellm/blob/main/docs/modules.md) |
+| `docs/architecture.md` | Architecture with diagrams | [View](https://github.com/wronai/prellm/blob/main/docs/architecture.md) |
+| `docs/dependency-graph.md` | Dependency graphs | [View](https://github.com/wronai/prellm/blob/main/docs/dependency-graph.md) |
+| `docs/coverage.md` | Docstring coverage report | [View](https://github.com/wronai/prellm/blob/main/docs/coverage.md) |
+| `docs/getting-started.md` | Getting started guide | [View](https://github.com/wronai/prellm/blob/main/docs/getting-started.md) |
+| `docs/configuration.md` | Configuration reference | [View](https://github.com/wronai/prellm/blob/main/docs/configuration.md) |
+| `docs/api-changelog.md` | API change tracking | [View](https://github.com/wronai/prellm/blob/main/docs/api-changelog.md) |
+| `CONTRIBUTING.md` | Contribution guidelines | [View](https://github.com/wronai/prellm/blob/main/CONTRIBUTING.md) |
 | `examples/` | Usage examples | [Browse](./examples) |
 | `mkdocs.yml` | MkDocs configuration | — |
 
