@@ -48,7 +48,10 @@ class TestParseModelPair:
 
     def test_single_model(self):
         small, large = _parse_model_pair("prellm:gpt-5.4-mini")
-        assert "kimi" in large or "gpt-4" in large or "claude" in large
+        # A single model after the colon is treated as the large model;
+        # small falls back to the server default.
+        assert large == "gpt-5.4-mini"
+        assert small == SMALL_MODEL
 
     def test_no_prefix(self):
         small, large = _parse_model_pair("gpt-5.4-mini")

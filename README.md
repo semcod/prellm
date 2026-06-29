@@ -1,12 +1,10 @@
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.31-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$4.76-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-16.5h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$7.50-yellow) ![AI Model](https://img.shields.io/badge/AI%20Model-openrouter%2Fqwen%2Fqwen3-coder-next-lightgrey)
 
-- 🤖 **LLM usage:** $4.7552 (54 commits)
-- 👤 **Human dev:** ~$1651 (16.5h @ $100/h, 30min dedup)
+This project uses AI-generated code. Total cost: **$7.5000** with **57** AI commits.
 
-Generated on 2026-04-20 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
+Generated on 2026-06-29 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/models/openrouter/qwen/qwen3-coder-next)
 
 ---
 
@@ -650,9 +648,6 @@ See [ROADMAP.md](ROADMAP.md) for the full plan.
 ## License
 
 Licensed under Apache-2.0.
-
-<!-- taskill:status:start -->
-
 ## Status
 
 _Last updated by [taskill](https://github.com/oqlos/taskill) at 2026-04-25 13:43 UTC_

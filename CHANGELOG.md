@@ -1,5 +1,20 @@
 ## [Unreleased]
 
+## [0.4.27] - 2026-06-29
+
+### Docs
+- Update README.md
+
+### Test
+- Update tests/test_server.py
+
+### Other
+- Update VERSION
+- Update prellm/__init__.py
+- Update prellm/server.py
+
+## [Unreleased]
+
 ### Docs
 - Update docs/README.md
 - Update project/README.md
