@@ -1,0 +1,9 @@
+# local.dev.txt — locally developed dependencies of this project (generated 2026-07-04)
+# by ~/github/local.dev.sh — DO NOT EDIT; see ~/github/local.dev.md
+# project: prellm 0.4.27 (python) at /home/tom/github/semcod/prellm
+# deps declared: 11 | with local source: 1
+
+## LOCAL DEPS  (dep | required | local source (version) | installed | status)
+nfo | ^0.2 | /home/tom/github/semcod/nfo (0.2.22) | 0.2.13 non-editable | STALE-INSTALL (local 0.2.22) -> fix: pip install -e /home/tom/github/semcod/nfo  [pyproject.toml(poetry)]
+
+## EXTERNAL DEPS (no local source, 10): chromadb, fastapi, gitpython, instructor, jinja2, litellm, pydantic, pyyaml, typer, uvicorn
