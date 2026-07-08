@@ -88,3 +88,9 @@ htmlcov/
 # Backup files
 *.bak
 *.backup
+.benchmarks/
+.code2llm_cache/
+.github/
+.prellm/
+.ruff_cache/
+.taskill/
