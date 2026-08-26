@@ -336,8 +336,8 @@ class TestDomainRule:
 class TestPreLLMConfig:
     def test_defaults(self):
         config = PreLLMConfig()
-        assert config.small_model.model == "phi3:mini"
-        assert config.large_model.model == "gpt-5.4-mini"
+        assert config.small_model.model == "glm-5.3"
+        assert config.large_model.model == "glm-5.3"
         assert config.default_strategy == DecompositionStrategy.CLASSIFY
         assert config.domain_rules == []
 
@@ -360,8 +360,8 @@ class TestPreLLMConfig:
 class TestPreLLMCore:
     def test_init_default(self):
         engine = PreLLM()
-        assert engine.config.small_model.model == "phi3:mini"
-        assert engine.config.large_model.model == "gpt-5.4-mini"
+        assert engine.config.small_model.model == "glm-5.3"
+        assert engine.config.large_model.model == "glm-5.3"
 
     def test_init_with_config(self):
         config = PreLLMConfig(
@@ -517,7 +517,7 @@ class TestPreLLMConfigLoading:
             f.write("{}")
 
         engine = PreLLM(config_path=config_path)
-        assert engine.config.small_model.model == "phi3:mini"
+        assert engine.config.small_model.model == "glm-5.3"
         assert engine.config.default_strategy == DecompositionStrategy.CLASSIFY
 
     def test_load_shipped_config(self):

@@ -44,9 +44,9 @@ def _load_config_overrides(
     config = PreLLM._load_config(Path(config_path))
     
     # Use config models unless explicitly overridden (not default values)
-    if small_llm == "ollama/qwen2.5:3b":
+    if small_llm == "glm-5.3":
         small_llm = config.small_model.model
-    if large_llm == "anthropic/claude-sonnet-4-20250514":
+    if large_llm == "glm-5.3":
         large_llm = config.large_model.model
         config_overrides["max_tokens"] = config.large_model.max_tokens
     

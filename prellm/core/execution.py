@@ -45,7 +45,10 @@ def _build_llm_providers(
     """Build small and large LLM provider instances."""
     small_llm_config = LLMProviderConfig(model=small_llm, max_tokens=512, temperature=0.0)
     large_llm_config = LLMProviderConfig(model=large_llm, max_tokens=max_tokens, temperature=temperature)
-    return LLMProvider(small_llm_config), LLMProvider(large_llm_config)
+    return (
+        LLMProvider(small_llm_config, function="preprocess"),
+        LLMProvider(large_llm_config, function="execute"),
+    )
 
 
 def _build_prompt_registry(prompts_path: str | Path | None) -> PromptRegistry:

@@ -1,13 +1,16 @@
-"""LLMProvider — unified abstraction for small and large LLM calls with retry/fallback.
+"""LLMProvider — SubLLM-routed abstraction for preprocessing and execution.
 
-Wraps LiteLLM to provide consistent interface for both the small preprocessing
-model (≤3B) and the large target model (GPT-4/Claude/Llama).
+Public SubLLM owns provider, model, credential and paid fallback policy. The
+old LiteLLM transport remains available only through an explicit environment
+opt-in for compatibility.
 """
 
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
+import os
 import warnings
 from typing import Any
 
@@ -23,16 +26,62 @@ logger = logging.getLogger("prellm.llm_provider")
 
 
 class LLMProvider:
-    """Unified LLM caller with retry and fallback support.
+    """Policy-routed LLM caller with an explicit semantic function.
 
     Usage:
         provider = LLMProvider(LLMProviderConfig(model="phi3:mini", fallback=["qwen2:1.5b"]))
         result = await provider.complete("Classify this query", system_prompt="You are a classifier.")
     """
 
-    def __init__(self, config: LLMProviderConfig):
+    def __init__(self, config: LLMProviderConfig, *, function: str = "preprocess"):
+        if function not in {"preprocess", "execute"}:
+            raise ValueError("PreLLM route function must be 'preprocess' or 'execute'")
         self.config = config
+        self.function = function
         self._budget_tracker = None
+
+    @staticmethod
+    def _use_legacy_litellm() -> bool:
+        return os.getenv("PRELLM_USE_LEGACY_LITELLM", "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "on",
+        }
+
+    async def _complete_subllm(self, messages: list[dict[str, str]], **kwargs: Any) -> str:
+        try:
+            from subllm import complete as subllm_complete
+        except (ImportError, AttributeError) as exc:
+            raise RuntimeError(
+                "subactor-subllm>=1.4.1 with complete() is required for PreLLM"
+            ) from exc
+
+        request_id = kwargs.pop("request_id", None)
+        if kwargs:
+            logger.debug(
+                "SubLLM owns request parameters; ignored PreLLM keys: %s",
+                ", ".join(sorted(kwargs)),
+            )
+        response = await asyncio.to_thread(
+            subllm_complete,
+            "prellm",
+            self.function,
+            messages,
+            timeout_seconds=float(self.config.timeout),
+            request_id=request_id,
+        )
+
+        budget = self._get_budget()
+        if budget and budget.monthly_limit is not None:
+            usage = response.usage
+            budget.record(
+                model=response.model,
+                prompt_tokens=int(usage.get("prompt_tokens", 0) or 0),
+                completion_tokens=int(usage.get("completion_tokens", 0) or 0),
+            )
+        logger.debug("SubLLM response from %s/%s", response.provider, response.model)
+        return response.content
 
     def _get_budget(self):
         """Lazy-load budget tracker if configured."""
@@ -49,19 +98,18 @@ class LLMProvider:
         response_format: str | None = None,
         **kwargs: Any,
     ) -> str:
-        """Send a completion request with retry/fallback.
+        """Send a completion request through SubLLM by default.
 
         Args:
             user_message: The user message content.
             system_prompt: Optional system prompt prepended to messages.
             response_format: If "json", hint the model to return JSON.
-            **kwargs: Extra kwargs passed to litellm.acompletion.
+            **kwargs: Legacy LiteLLM arguments. SubLLM accepts only request_id;
+                provider/model parameters are centrally owned.
 
         Returns:
             The response content string.
         """
-        import litellm
-
         messages: list[dict[str, str]] = []
         if system_prompt:
             messages.append({"role": "system", "content": system_prompt})
@@ -75,6 +123,11 @@ class LLMProvider:
         budget = self._get_budget()
         if budget and budget.monthly_limit is not None:
             budget.check(model=models_to_try[0])
+
+        if not self._use_legacy_litellm():
+            return await self._complete_subllm(messages, **kwargs)
+
+        import litellm
 
         last_error: Exception | None = None
 
@@ -156,6 +209,17 @@ class LLMProvider:
         Raises:
             ImportError: If instructor is not installed.
         """
+        if not self._use_legacy_litellm():
+            raw = await self.complete(
+                user_message=user_message,
+                system_prompt=system_prompt,
+                response_format="json",
+                **kwargs,
+            )
+            payload = self._parse_json(raw)
+            validator = getattr(response_model, "model_validate", None)
+            return validator(payload) if validator else response_model(**payload)
+
         try:
             import instructor
         except ImportError:

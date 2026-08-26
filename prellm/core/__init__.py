@@ -43,8 +43,8 @@ __all__ = [
 @catch
 async def preprocess_and_execute(
     query: str,
-    small_llm: str = "ollama/qwen2.5:3b",
-    large_llm: str = "anthropic/claude-sonnet-4-20250514",
+    small_llm: str = "glm-5.3",
+    large_llm: str = "glm-5.3",
     strategy: str | DecompositionStrategy = "auto",
     user_context: str | dict[str, str] | None = None,
     config_path: str | Path | None = None,
@@ -94,8 +94,8 @@ async def preprocess_and_execute(
 
 def preprocess_and_execute_sync(
     query: str,
-    small_llm: str = "ollama/qwen2.5:3b",
-    large_llm: str = "anthropic/claude-sonnet-4-20250514",
+    small_llm: str = "glm-5.3",
+    large_llm: str = "glm-5.3",
     strategy: str | DecompositionStrategy = "classify",
     user_context: str | dict[str, str] | None = None,
     config_path: str | Path | None = None,

@@ -265,7 +265,7 @@ class DomainRule(BaseModel):
 
 class LLMProviderConfig(BaseModel):
     """Configuration for a single LLM provider (small or large)."""
-    model: str = "gpt-5.4-mini"
+    model: str = "glm-5.3"
     fallback: list[str] = Field(default_factory=list)
     max_retries: int = 3
     timeout: int = 30
@@ -313,10 +313,10 @@ class DecompositionPrompts(BaseModel):
 class PreLLMConfig(BaseModel):
     """Top-level config for preLLM v0.2 — fully YAML-driven."""
     small_model: LLMProviderConfig = Field(
-        default_factory=lambda: LLMProviderConfig(model="phi3:mini", max_tokens=512, temperature=0.0)
+        default_factory=lambda: LLMProviderConfig(model="glm-5.3", max_tokens=512, temperature=0.0)
     )
     large_model: LLMProviderConfig = Field(
-        default_factory=lambda: LLMProviderConfig(model="gpt-5.4-mini", max_tokens=2048)
+        default_factory=lambda: LLMProviderConfig(model="glm-5.3", max_tokens=2048)
     )
     domain_rules: list[DomainRule] = Field(default_factory=list)
     prompts: DecompositionPrompts = Field(default_factory=DecompositionPrompts)

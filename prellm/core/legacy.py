@@ -72,8 +72,8 @@ class PreLLM:
         else:
             self.config = PreLLMConfig()
 
-        self.small_llm = LLMProvider(self.config.small_model)
-        self.large_llm = LLMProvider(self.config.large_model)
+        self.small_llm = LLMProvider(self.config.small_model, function="preprocess")
+        self.large_llm = LLMProvider(self.config.large_model, function="execute")
         self.decomposer = QueryDecomposer(
             small_llm=self.small_llm,
             prompts=self.config.prompts,
@@ -201,13 +201,13 @@ class PreLLM:
         # Parse small_model
         small_raw = raw.get("small_model", {})
         small_model = LLMProviderConfig(**small_raw) if isinstance(small_raw, dict) and small_raw else LLMProviderConfig(
-            model="phi3:mini", max_tokens=512, temperature=0.0
+            model="glm-5.3", max_tokens=512, temperature=0.0
         )
 
         # Parse large_model
         large_raw = raw.get("large_model", {})
         large_model = LLMProviderConfig(**large_raw) if isinstance(large_raw, dict) and large_raw else LLMProviderConfig(
-            model="gpt-5.4-mini", max_tokens=2048
+            model="glm-5.3", max_tokens=2048
         )
 
         # Parse domain_rules
