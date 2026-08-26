@@ -29,7 +29,7 @@ from prellm.core import PreLLM
 class TestModelDefaults:
     def test_llm_provider_config_defaults(self):
         cfg = LLMProviderConfig()
-        assert cfg.model == "gpt-5.4-mini"
+        assert cfg.model == "glm-5.3"
         assert cfg.temperature == 0.0
         assert cfg.max_tokens == 2048
 
@@ -39,8 +39,8 @@ class TestModelDefaults:
         assert cfg.policy == Policy.STRICT
         assert cfg.max_retries == 3
         assert cfg.domain_rules == []
-        assert cfg.small_model.model == "phi3:mini"
-        assert cfg.large_model.model == "gpt-5.4-mini"
+        assert cfg.small_model.model == "glm-5.3"
+        assert cfg.large_model.model == "glm-5.3"
 
     def test_response_defaults(self):
         resp = PreLLMResponse(content="test")

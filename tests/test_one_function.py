@@ -36,7 +36,7 @@ class TestPreprocessAndExecute:
 
         assert isinstance(result, PreLLMResponse)
         assert result.content == "Here is the refactored code."
-        assert result.small_model_used == "ollama/qwen2.5:3b"
+        assert result.small_model_used == "glm-5.3"
 
     @pytest.mark.asyncio
     async def test_custom_models(self):

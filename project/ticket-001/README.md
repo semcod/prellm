@@ -13,8 +13,8 @@ Direct Z.AI `glm-5.3` is selected by the registered `prellm/preprocess` and
 
 ## Acceptance criteria
 
-- [ ] Production completion defaults to `subllm.complete()`.
-- [ ] Small and target execution calls use explicit route functions.
-- [ ] LiteLLM remains available only through an explicit legacy opt-in.
-- [ ] Missing or incompatible SubLLM fails closed.
-- [ ] Hermetic tests and the existing suite pass.
+- [x] Production completion defaults to `subllm.complete()`.
+- [x] Small and target execution calls use explicit route functions.
+- [x] LiteLLM remains available only through an explicit legacy opt-in.
+- [x] Missing or incompatible SubLLM fails closed.
+- [x] Hermetic tests and the existing suite pass.
