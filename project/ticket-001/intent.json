@@ -1,0 +1,21 @@
+{
+  "schema": "new-project.intent/v3",
+  "ticket": "ticket-001",
+  "summary": "Route PreLLM completions through public SubLLM",
+  "workstream": "llm-routing",
+  "classification": {"kind": "FEATURE", "priority": "P0", "origin": "founder"},
+  "allowedPaths": [
+    "pyproject.toml",
+    "prellm/llm_provider.py",
+    "prellm/models.py",
+    "prellm/core/execution.py",
+    "tests/conftest.py",
+    "tests/test_subllm_transport.py",
+    "project/ticket-001/**"
+  ],
+  "forbiddenPaths": [".env", "**/.env", "**/*credential*"],
+  "stacks": ["python", "prellm", "subllm", "zai"],
+  "dependsOn": ["subactor/subllm#13"],
+  "conflictsWith": [],
+  "integrationTicket": null
+}
